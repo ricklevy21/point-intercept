@@ -1,10 +1,22 @@
+//dependencies
 import React from 'react'
 import { Link } from 'react-router-dom'
+
+//assets
+import logo from "./p-i_logo.png"
 
 const Navbar = () => {
     return (
 <nav className="navbar navbar-expand-lg navbar-light bg-white">
-  <Link to="/" className="navbar-brand">point-intercept</Link>
+  <a class="navbar-brand">
+    <img
+    src={logo}
+    width="30"
+    height="30"
+    alt="logo"
+    loading="lazy"
+    />
+  </a>
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"></span>
   </button>

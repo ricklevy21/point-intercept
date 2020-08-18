@@ -29,6 +29,7 @@ function App() {
       <Route exact path="/">
         {<Home
         className='home'
+
         />}
       </Route>
       <Route exact path="/projects">

@@ -1,0 +1,35 @@
+{
+    "_id": "3b241101-e2bb-4255-8caf-4136c566a962",
+    "project": "HLC_Stormwater", //this may just be the colleciton name
+    "crew": {
+        "crew_1": "Rick",
+        "crew_2": "Chrissy",
+        "crew_3": "Becky"
+    },
+    "transect": "B0-12.5",
+    "date": 20200815,
+    "latitude": 39.123,
+    "longitude": -104.123,
+    "point": 0.25,
+    "ground_surface": "litter",
+    "soil_moisture_percentage": 16,
+    "soil_moisture_depth_cm": 10,
+    "shrub_density": 4,
+    "shrub_density_detail": {
+        "taxon_1": {
+            "taxon": "Prunus viginiana",
+            "stem_count": 3
+        },
+        "taxon_2": {
+            "taxon": "Rhamnus",
+            "stem_count": 1
+        }
+    },
+    "canopy_score": 48,
+    "canopy_detail": {
+        "taxon_1": "Populus deltoides",
+        "taxon_2": "Prunus viginiana"
+    },
+    "hit_1": "Bromus inermus",
+    "hit_2": "Achillea millefolium"
+}
