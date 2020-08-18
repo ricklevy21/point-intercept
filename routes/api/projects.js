@@ -1,11 +1,11 @@
 //dependencies
 const router = require("express").Router();
-const projectController = require("../../controllers/projectsController")
+const projectsController = require("../../controllers/projectsController")
 
 //Matches with "/api/projects"
 router.route("/")
-    .get(projectController.findAll)
-    .post(projectController.create)
+    .get(projectsController.findAll)
+    .post(projectsController.create)
 
 
 // //Matches with "/api/projects/:id"

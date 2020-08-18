@@ -1,20 +1,23 @@
+//dependencies
 const db = require("../models");
 
-//methods
-//not set up yet
+
+//CRUD methods for transect level data
+
+//Method to get all of the transects from the db
 module.exports = {
     findAll: function(req, res) {
         db.Transect
             .find({})
-            .then(function(projects) {
-                console.log(projects)
-                res.json(projects)
+            .then(function(transects) {
+                console.log(transects)
+                res.json(transects)
             })
             .catch(err => res.status(422).json(err));
     },
 
 
-//working on this
+//Method to add a transect, which also adds the transect ID to the specified project via projectID
     create: function(req, res) {
         const projectID = req.body.projectID
 
