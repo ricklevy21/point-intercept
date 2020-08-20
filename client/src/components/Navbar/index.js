@@ -8,7 +8,7 @@ import logo from "./p-i_logo.png"
 const Navbar = () => {
     return (
 <nav className="navbar navbar-expand-lg navbar-light bg-white">
-  <a class="navbar-brand">
+  <div className="navbar-brand">
     <img
     src={logo}
     width="30"
@@ -16,7 +16,7 @@ const Navbar = () => {
     alt="logo"
     loading="lazy"
     />
-  </a>
+  </div>
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"></span>
   </button>

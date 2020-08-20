@@ -11,7 +11,7 @@ const CreateNew = () => {
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-dark btn-lg btn-block">Create</button>
+            <button type="button" className="btn btn-dark btn-lg btn-block">Create Project</button>
         </>
     )
 }
