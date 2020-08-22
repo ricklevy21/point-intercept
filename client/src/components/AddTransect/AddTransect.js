@@ -1,45 +1,90 @@
 //dependencies
-import React from 'react'
+import { GPSbtn } from "./GPSbtn"
+import { Input, SubmitBtn } from "../../components/Form";
+import React, { useState } from "react";
+import API from "../../utils/API";
+
+
 
 
 const AddTransect = () => {
-    //code
+        //setting component's initial state
+    // const [projects, setProjects] = useState([])
+    const [transectFormObject, setTransectFormObject] = useState({
+        project: ""
+    })
+
+    //handles updating component state when use types into the input field
+    function handleInputChange(event){
+        const { name, value } = event.target;
+        setTransectFormObject({...transectFormObject, [name]: value})
+    };
+
+    //when the form is submitted, use API.addProject method to save the project data
+    //then navigate to the projects page and load all of the projects
+    function handleTransectFormSubmit(event) {
+        event.preventDefault()
+        console.log(transectFormObject.project)
+
+            API.addTransect({
+                transect: transectFormObject.transect,
+                latitude: transectFormObject.latitude,
+                longitude: transectFormObject.longitude,
+                date: transectFormObject.date,
+                crew: transectFormObject.crew
+            })
+                .then(() => setTransectFormObject({
+                    transect: "",
+                    latitude: "",
+                    longitude: "",
+                    date: "",
+                    crew: ""
+                }))
+                .catch(err => console.log(err))
+        
+    };
 
     return (
         <>
         <h3>Project Name</h3>
         <form>
             <div className="form-group">
-                <label for="transectName">Transect Name</label>
-                <input id="transectName" class="form-control" ></input>
+                <label>Transect Name</label>
+                <Input id="transectName" className="form-control" ></Input>
             </div>
+
+
+
             <div className="form-group">
                 <div className="row">
-                    <div className="col">
-                        <label for="latitude">Latitude</label>
-                        <input id="latitude" class="form-control" defaultValue="xxx" ></input>
+                    <div className="col-5">
+                        <Input id="latitude" className="form-control" placeholder="Latitude" ></Input>
                     </div>
-                    <div className="col">
-                        <label for="longitude">Longitude</label>
-                        <input id="longitude" class="form-control" defaultValue="-xxx" ></input>
+                    <div className="col-5">
+                        <Input id="longitude" className="form-control" placeholder="Longitude" ></Input>
+                    </div>
+                    <div className="col-2">
+                        <GPSbtn />
                     </div>
                 </div>
             </div>
+
+
+
+
             <div className="form-group">
-                <label for="date">Date</label>
-                <input id="date" class="form-control" type="date"></input>
+                <label>Date</label>
+                <Input id="date" className="form-control" type="date"></Input>
             </div>
             <div className="form-group">
-                <label for="crew">Crew</label>
-                    <input id="crew" class="form-control"></input>
-                    <button className="btn">
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
-  <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
-</svg>
-                    </button>
+                <label>Crew</label>
+                <Input id="crew" className="form-control"></Input>
+
             </div>
-            <button type="button" class="btn btn-dark btn-lg btn-block">Start</button>
+            <SubmitBtn
+            onClick={handleTransectFormSubmit}
+            
+            >Start</SubmitBtn>
         </form>
         </>
     )

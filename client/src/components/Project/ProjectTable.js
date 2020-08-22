@@ -1,13 +1,15 @@
-import React from 'react'
+import React from "react";
+import { ProjectListItem } from "./ProjectListItem"
 
-const ProjectTable = () => {
+const ProjectTable = (projects) => {
+
     return (
         <table className="table">
             <tbody>
                 <tr>
-                    <td>Project Name</td>
-                    <td><button className="btn btn-dark">Resume Project</button></td>
-                    <td><button className="btn btn-dark">View Project Data</button></td>
+                    <ProjectListItem
+                    projects={projects}
+                    />
                 </tr>
             </tbody>
         </table>

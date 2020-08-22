@@ -1,8 +1,29 @@
 //dependencies
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import API from "../utils/API";
 import ProjectTable from '../components/Project/ProjectTable'
 
 const Projects = () => {
+        //Setting component's initial state
+        const [projects, setProjects] = useState([])
+
+        //Load all of the projects and store them with setProjects
+        useEffect(() => {
+            loadProjects()
+        }, [])
+        
+        //Loads all projects and sets them to projects
+        function loadProjects(){
+            API.getProjects()
+                .then(res => {
+                    console.log(res.data)
+                    setProjects(res.data)
+                })
+                .catch(err => console.log(err))
+        }
+
+
+
     return (
         <>
         <div className="row">
@@ -12,7 +33,9 @@ const Projects = () => {
         </div>
         <div className="row">
             <div className="col s12">
-                <ProjectTable />
+                <ProjectTable
+                projects={projects}
+                />
             </div>
         </div>
         </>

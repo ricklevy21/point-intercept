@@ -1,17 +1,61 @@
-import React from 'react'
+import React, { useState } from "react";
+import API from "../../utils/API";
+import { Input, SubmitBtn } from "../../components/Form";
+
 
 const CreateNew = () => {
+    //setting component's initial state
+    // const [projects, setProjects] = useState([])
+    const [projectFormObject, setProjectFormObject] = useState({
+        project: ""
+    })
+
+    //handles updating component state when use types into the input field
+    function handleInputChange(event){
+        const { name, value } = event.target;
+        setProjectFormObject({...projectFormObject, [name]: value})
+    };
+
+    //when the form is submitted, use API.addProject method to save the project data
+    //then navigate to the projects page and load all of the projects
+    function handleProjectFormSubmit(event) {
+        event.preventDefault()
+        console.log(projectFormObject.project)
+
+            API.addProject({
+                project: projectFormObject.project
+            })
+                .then(() => setProjectFormObject({
+                    project: ""
+                }))
+                .then(window.location.href='/projects')
+                .catch(err => console.log(err))
+        
+    };
+
     return (
         <>
             <div className="row">
                 <div className="col">
                     <div className="form-group">
-                        <label for="project">Project Name</label>
-                        <input type="text" className="form-control" id="project" required></input>
+                        <label>Project Name</label>
+                        <Input
+                        onChange={handleInputChange}
+                        name="project"
+                        type="text"
+                        className="form-control"
+                        id="project"
+                        required
+                        value={projectFormObject.project}
+                        />
                     </div>
                 </div>
             </div>
-            <button type="button" className="btn btn-dark btn-lg btn-block">Create Project</button>
+            <SubmitBtn
+            type="button"
+            className="btn btn-dark btn-lg btn-block"
+            onClick={handleProjectFormSubmit}
+            >Create Project</SubmitBtn>
         </>
     )
 }
