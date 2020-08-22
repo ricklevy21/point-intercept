@@ -4,12 +4,9 @@ import { ResumeBtn, ViewDataBtn, ProjectName } from "../../components/ProjectsLi
 //GETTING projects.map is not a function error here
 
 export function ProjectListItem({ projects }) {
-    console.log(projects)
   return (
       <>
         {projects.map(project => {
-            console.log('inside map', project)
-            console.log(project._id)
             return(
                 <tr key={project._id}>
                     <td>

@@ -10,7 +10,11 @@ import API from "../../utils/API";
 const AddTransect = () => {
     //setting component's initial state
     const [transectFormObject, setTransectFormObject] = useState({
-        project: ""
+        transect: "",
+        latitude: "",
+        longitude: "",
+        date: "",
+        crew: "",
     })
 
     //handles updating component state when use types into the input field
@@ -23,7 +27,6 @@ const AddTransect = () => {
     //then navigate to the projects page and load all of the projects
     function handleTransectFormSubmit(event) {
         event.preventDefault()
-        console.log(transectFormObject.project)
 
             API.addTransect({
                 transect: transectFormObject.transect,
@@ -49,7 +52,7 @@ const AddTransect = () => {
         <form>
             <div className="form-group">
                 <label>Transect Name</label>
-                <Input id="transectName" className="form-control" onChange={handleInputChange}></Input>
+                <Input name="transect" id="transect" className="form-control" onChange={handleInputChange}></Input>
             </div>
 
 
@@ -57,13 +60,16 @@ const AddTransect = () => {
             <div className="form-group">
                 <div className="row">
                     <div className="col-5">
-                        <Input id="latitude" className="form-control" placeholder="Latitude" onChange={handleInputChange}></Input>
+                        <Input id="latitude" name="latitude" value={transectFormObject.latitude} className="form-control" placeholder="Latitude" onChange={handleInputChange}></Input>
                     </div>
                     <div className="col-5">
-                        <Input id="longitude" className="form-control" placeholder="Longitude" onChange={handleInputChange}></Input>
+                        <Input id="longitude" name="longitude" value={transectFormObject.longitude}  className="form-control" placeholder="Longitude" onChange={handleInputChange}></Input>
                     </div>
                     <div className="col-2">
-                        <GPSbtn />
+                        <GPSbtn
+                            setGPS={setTransectFormObject}
+                            stateGPS={transectFormObject}
+                        />
                     </div>
                 </div>
             </div>
@@ -73,11 +79,11 @@ const AddTransect = () => {
 
             <div className="form-group">
                 <label>Date</label>
-                <Input id="date" className="form-control" type="date" onChange={handleInputChange}></Input>
+                <Input id="date" name="date" className="form-control" type="date" onChange={handleInputChange}></Input>
             </div>
             <div className="form-group">
                 <label>Crew</label>
-                <Input id="crew" className="form-control" onChange={handleInputChange}></Input>
+                <Input id="crew" name="crew" className="form-control" onChange={handleInputChange}></Input>
 
             </div>
             <SubmitBtn

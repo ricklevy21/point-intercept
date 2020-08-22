@@ -16,7 +16,6 @@ const Projects = () => {
         function loadProjects(){
             API.getProjects()
                 .then(res => {
-                    console.log(`THis is a string: ${res.data}`)
                     setProjects(res.data)
                 })
                 .catch(err => console.log(err))

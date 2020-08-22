@@ -19,6 +19,7 @@ module.exports = {
 
 //Method to add a transect, which also adds the transect ID to the specified project via projectID
     create: function(req, res) {
+        console.log('inside of create')
         const projectID = req.body.projectID
 
         db.Transect
