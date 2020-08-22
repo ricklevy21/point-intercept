@@ -5,7 +5,7 @@ import ProjectTable from '../components/Project/ProjectTable'
 
 const Projects = () => {
         //Setting component's initial state
-        const [projects, setProjects] = useState([])
+        const [projects, setProjects] = useState()
 
         //Load all of the projects and store them with setProjects
         useEffect(() => {
@@ -16,7 +16,7 @@ const Projects = () => {
         function loadProjects(){
             API.getProjects()
                 .then(res => {
-                    console.log(res.data)
+                    console.log(`THis is a string: ${res.data}`)
                     setProjects(res.data)
                 })
                 .catch(err => console.log(err))
@@ -33,9 +33,12 @@ const Projects = () => {
         </div>
         <div className="row">
             <div className="col s12">
+                {projects ?
                 <ProjectTable
                 projects={projects}
-                />
+                /> 
+                : ""}
+
             </div>
         </div>
         </>

@@ -3,35 +3,35 @@ import { ResumeBtn, ViewDataBtn, ProjectName } from "../../components/ProjectsLi
 
 //GETTING projects.map is not a function error here
 
-export function ProjectListItem(projects) {
+export function ProjectListItem({ projects }) {
+    console.log(projects)
   return (
       <>
-      {/* purely for testing firther functionality until I get code below working */}
-        <ResumeBtn/>
-
-        {/* {projects.map(project => {
+        {projects.map(project => {
+            console.log('inside map', project)
+            console.log(project._id)
             return(
-                <>
+                <tr key={project._id}>
+                    <td>
+                        <ProjectName
+                           id={project._id}
+                           project={project.project}
+                         />
+                    </td>
                 <td>
-                    <ProjectName
-                        key={project._id}
+                    <ResumeBtn
+                        id={project._id}
                         project={project.project}
                     />
                 </td>
                 <td>
-                    <ResumeBtn
-                        key={project._id}
-                        project={projects.project}
-                    />
-                </td>
-                <td>
                     <ViewDataBtn
-                        key={project._id}
-                        project={projects.project}
+                        id={project._id}
+                        project={project.project}
                     />
                 </td>
-                </>
+                </tr>
             )
-        })} */}
+        })}
     </>
 )}

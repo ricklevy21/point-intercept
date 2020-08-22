@@ -8,8 +8,7 @@ import API from "../../utils/API";
 
 
 const AddTransect = () => {
-        //setting component's initial state
-    // const [projects, setProjects] = useState([])
+    //setting component's initial state
     const [transectFormObject, setTransectFormObject] = useState({
         project: ""
     })
@@ -20,7 +19,7 @@ const AddTransect = () => {
         setTransectFormObject({...transectFormObject, [name]: value})
     };
 
-    //when the form is submitted, use API.addProject method to save the project data
+    //when the form is submitted, use API.addTransect method to save the project data
     //then navigate to the projects page and load all of the projects
     function handleTransectFormSubmit(event) {
         event.preventDefault()
@@ -50,7 +49,7 @@ const AddTransect = () => {
         <form>
             <div className="form-group">
                 <label>Transect Name</label>
-                <Input id="transectName" className="form-control" ></Input>
+                <Input id="transectName" className="form-control" onChange={handleInputChange}></Input>
             </div>
 
 
@@ -58,10 +57,10 @@ const AddTransect = () => {
             <div className="form-group">
                 <div className="row">
                     <div className="col-5">
-                        <Input id="latitude" className="form-control" placeholder="Latitude" ></Input>
+                        <Input id="latitude" className="form-control" placeholder="Latitude" onChange={handleInputChange}></Input>
                     </div>
                     <div className="col-5">
-                        <Input id="longitude" className="form-control" placeholder="Longitude" ></Input>
+                        <Input id="longitude" className="form-control" placeholder="Longitude" onChange={handleInputChange}></Input>
                     </div>
                     <div className="col-2">
                         <GPSbtn />
@@ -74,11 +73,11 @@ const AddTransect = () => {
 
             <div className="form-group">
                 <label>Date</label>
-                <Input id="date" className="form-control" type="date"></Input>
+                <Input id="date" className="form-control" type="date" onChange={handleInputChange}></Input>
             </div>
             <div className="form-group">
                 <label>Crew</label>
-                <Input id="crew" className="form-control"></Input>
+                <Input id="crew" className="form-control" onChange={handleInputChange}></Input>
 
             </div>
             <SubmitBtn

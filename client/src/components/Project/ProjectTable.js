@@ -1,16 +1,14 @@
 import React from "react";
 import { ProjectListItem } from "./ProjectListItem"
 
-const ProjectTable = (projects) => {
+const ProjectTable = ({projects}) => {
 
     return (
         <table className="table">
             <tbody>
-                <tr>
-                    <ProjectListItem
+                   <ProjectListItem
                     projects={projects}
                     />
-                </tr>
             </tbody>
         </table>
     )

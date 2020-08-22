@@ -1,56 +1,144 @@
 //dependencies
-import React from 'react'
+import React, { useState } from "react";
+import API from "../../utils/API";
+import { Input, SubmitBtn } from "../../components/Form";
+import IncrementedPoint from "./IncrementedPoint"
+
 
 const RecordData = () => {
+    //setting component's initial state
+    const [pointFormObject, setPointFormObject] = useState({
+        project: ""
+    })
+
+    //handles updating component state when use types into the input field
+    function handleInputChange(event){
+        const { name, value } = event.target;
+        setPointFormObject({...pointFormObject, [name]: value})
+    };
+
+    //when the form is submitted, use API.addPoint method to save the project data
+    //then navigate to a new Point Data Record page, with point incremented by 0.25 ---------need to figure this out
+    function handlePointFormSubmitNext(event) {
+        event.preventDefault()
+        console.log(pointFormObject.project)
+
+            API.addPoint({
+                point: pointFormObject.point,
+                ground_surface: pointFormObject.groundSurface,
+                soil_moisture_percentage: pointFormObject.soilMoisture,
+                shrub_density: pointFormObject.shrubDensity,
+                canopy_score: pointFormObject.canopyScore,
+                hit_one: pointFormObject.firstHit,
+                hit_two: pointFormObject.secondHit
+            })
+                .then(() => setPointFormObject({
+                    point: "",
+                    goundSurface: "",
+                    soilMoisture: "",
+                    shrubDensity: "",
+                    canopyScore: "",
+                    firstHit: "",
+                    secondHit: ""
+                }))
+                .then(console.log("Submitted"))
+                .catch(err => console.log(err))
+        
+    };
+
+       //when the form is submitted, use API.addPoint method to save the project data
+    //then navigate to the projects page
+    function handlePointFormSubmitEnd(event) {
+        event.preventDefault()
+        console.log(pointFormObject.project)
+
+            API.addPoint({
+                point: pointFormObject.point,
+                ground_surface: pointFormObject.groundSurface,
+                soil_moisture_percentage: pointFormObject.soilMoisture,
+                shrub_density: pointFormObject.shrubDensity,
+                canopy_score: pointFormObject.canopyScore,
+                hit_one: pointFormObject.firstHit,
+                hit_two: pointFormObject.secondHit
+            })
+                .then(() => setPointFormObject({
+                    point: "",
+                    goundSurface: "",
+                    soilMoisture: "",
+                    shrubDensity: "",
+                    canopyScore: "",
+                    firstHit: "",
+                    secondHit: ""
+                }))
+                .then(window.location.href='/projects')
+                .catch(err => console.log(err))
+        
+    };
+
+
+
+
     return (
         <>
         <div className="row">
             <div className="col">
+                {/* this needs to be a component */}
                 <h5>Transect Name</h5>
             </div>
             <div className="col">
+                {/* this needs to be a component */}
                 <h5>Project Name</h5>
             </div>
         </div>
         <div className="row">
             <div className="col">
-                <h4>Point: XX.XX</h4>
+                <div className="form-inline">
+                        <IncrementedPoint/>
+                </div>
             </div>
         </div>
         <div className="row">
             <div className="col">
                 <div className="form-group">
-                    <label for="groundSurface">Ground Surface</label>
-                    <input type="text" className="form-control" id="groundSurface" defaultValue="NULL"></input>
+                    <label>Ground Surface</label>
+                    <Input type="text" className="form-control" id="groundSurface" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label for="soilMoisture">Soil Moisture</label>
-                    <input type="text" className="form-control" id="soilMoisture" defaultValue="NULL"></input>
+                    <label>Soil Moisture</label>
+                    <Input type="number" step="0.1" className="form-control" id="soilMoisture" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label for="shrubDensity">Shrub Density</label>
-                    <input type="text" className="form-control" id="shrubDensity" defaultValue="NULL"></input>
+                    <label>Shrub Density</label>
+                    <Input type="number" className="form-control" id="shrubDensity" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label for="canopyScore">Canopy Score</label>
-                    <input type="text" className="form-control" id="canopyScore" defaultValue="NULL"></input>
+                    <label>Canopy Score</label>
+                    <Input type="number" max="96" min="0" className="form-control" id="canopyScore" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label for="firstHit">First Hit</label>
-                    <input type="text" className="form-control" id="firstHit"></input>
+                    <label>First Hit</label>
+                    <Input type="text" className="form-control" id="firstHit" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label for="secondHit">Second Hit</label>
-                    <input type="text" className="form-control" id="secondHit" defaultValue="NULL"></input>
+                    <label>Second Hit</label>
+                    <Input type="text" className="form-control" id="secondHit" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
             </div>
         </div>
         <div className="row">
             <div className="col-4">
-                <button type="button" class="btn btn-dark btn-lg btn-block">End Transect</button>
+                <SubmitBtn
+                    onClick={handlePointFormSubmitEnd}
+                >
+                    End Transect
+                </SubmitBtn>
             </div>
             <div className="col-8">
-                <button type="button" class="btn btn-dark btn-lg btn-block">Next Point</button>
+                <SubmitBtn
+                    onClick={handlePointFormSubmitNext}
+                >
+                    Next Point
+                </SubmitBtn>
             </div>
         </div>
         </>

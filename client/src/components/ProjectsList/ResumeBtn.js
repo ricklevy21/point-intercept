@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 
-export function ResumeBtn(projects) {
+export function ResumeBtn(props) {
   return (
     <Link to={{
       pathname: "/resume",
       // Can i pass data to a sibling(?) component here???
-      data: projects._id
+      // data: props.id
     }}
       >
       <button
-      key={projects._id}
+      key={props.id}
       className="btn btn-dark"
       >
         Resume Project

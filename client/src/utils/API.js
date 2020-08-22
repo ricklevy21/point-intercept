@@ -18,5 +18,11 @@ export default {
     //method: POST
     addTransect: function(transectData) {
         return axios.post("/api/transects", transectData)
+    },
+
+    //Create a transect and add it to a project
+    //method: POST
+    addPoint: function(pointData) {
+        return axios.post("/api/points", pointData)
     }
 }
