@@ -8,7 +8,13 @@ import IncrementedPoint from "./IncrementedPoint"
 const RecordData = () => {
     //setting component's initial state
     const [pointFormObject, setPointFormObject] = useState({
-        project: ""
+        point: "",
+        goundSurface: "",
+        soilMoisture: "",
+        shrubDensity: "",
+        canopyScore: "",
+        firstHit: "",
+        secondHit: ""
     })
 
     //handles updating component state when use types into the input field
@@ -93,7 +99,9 @@ const RecordData = () => {
         <div className="row">
             <div className="col">
                 <div className="form-inline">
-                        <IncrementedPoint/>
+                        <IncrementedPoint
+                        name="point"
+                        />
                 </div>
             </div>
         </div>
@@ -101,27 +109,27 @@ const RecordData = () => {
             <div className="col">
                 <div className="form-group">
                     <label>Ground Surface</label>
-                    <Input type="text" className="form-control" id="groundSurface" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input type="text" name="goundSurface" className="form-control" id="groundSurface" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>Soil Moisture</label>
-                    <Input type="number" step="0.1" className="form-control" id="soilMoisture" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input type="number" name="soilMoisture" step="0.1" className="form-control" id="soilMoisture" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>Shrub Density</label>
-                    <Input type="number" className="form-control" id="shrubDensity" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input type="number" name="shrubDensity" className="form-control" id="shrubDensity" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>Canopy Score</label>
-                    <Input type="number" max="96" min="0" className="form-control" id="canopyScore" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>First Hit</label>
-                    <Input type="text" className="form-control" id="firstHit" onChange={handleInputChange}></Input>
+                    <Input type="text" name="firstHit" className="form-control" id="firstHit" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>Second Hit</label>
-                    <Input type="text" className="form-control" id="secondHit" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input type="text" name="secondHit" className="form-control" id="secondHit" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
             </div>
         </div>
