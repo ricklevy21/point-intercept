@@ -18,7 +18,8 @@ import NotFound from './pages/NotFound'
 import Navbar from './components/Navbar/index'
 
 
-
+//css
+import './App.css'
 
 function App() {
   return (

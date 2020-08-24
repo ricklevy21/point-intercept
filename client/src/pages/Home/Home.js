@@ -1,12 +1,13 @@
 //dependencies
 import React from 'react'
+import homeImage from './homeImage2.png'
+import './styles.css'
 
 
 const Home = () => {
     return (
         <>
-        <div>
-        </div>
+        <img id="homeImage" className="img-fluid" src={homeImage} alt="homeImage"/>
         </>
     )
 }
