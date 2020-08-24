@@ -4,6 +4,9 @@ import API from "../utils/API";
 import ProjectTable from '../components/Project/ProjectTable'
 
 const Projects = () => {
+
+
+
         //Setting component's initial state
         const [projects, setProjects] = useState()
 

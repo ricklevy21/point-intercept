@@ -27,7 +27,6 @@ const RecordData = () => {
     //then navigate to a new Point Data Record page, with point incremented by 0.25 ---------need to figure this out
     function handlePointFormSubmitNext(event) {
         event.preventDefault()
-        console.log(pointFormObject.project)
 
             API.addPoint({
                 point: pointFormObject.point,
@@ -47,7 +46,6 @@ const RecordData = () => {
                     firstHit: "",
                     secondHit: ""
                 }))
-                .then(console.log("Submitted"))
                 .catch(err => console.log(err))
         
     };
@@ -56,7 +54,6 @@ const RecordData = () => {
     //then navigate to the projects page
     function handlePointFormSubmitEnd(event) {
         event.preventDefault()
-        console.log(pointFormObject.project)
 
             API.addPoint({
                 point: pointFormObject.point,

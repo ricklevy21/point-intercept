@@ -20,7 +20,6 @@ const CreateNew = () => {
     //then navigate to the projects page and load all of the projects
     function handleProjectFormSubmit(event) {
         event.preventDefault()
-        console.log(projectFormObject.project)
 
             API.addProject({
                 project: projectFormObject.project

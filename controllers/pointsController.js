@@ -10,7 +10,6 @@ module.exports = {
         db.Point
             .find({})
             .then(function(points) {
-                console.log(points)
                 res.json(points)
             })
             .catch(err => res.status(422).json(err));

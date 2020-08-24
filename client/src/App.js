@@ -38,7 +38,7 @@ function App() {
       <Route exact path="/create">
         {<CreateProject />}
       </Route>
-      <Route exact path="/resume">
+      <Route exact path="/resume/:_id">
         {<ResumeProject />}
       </Route>
       <Route exact path="/record">

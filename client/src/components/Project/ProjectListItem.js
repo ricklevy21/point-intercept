@@ -4,6 +4,8 @@ import { ResumeBtn, ViewDataBtn, ProjectName } from "../../components/ProjectsLi
 //GETTING projects.map is not a function error here
 
 export function ProjectListItem({ projects }) {
+    //destructure projects
+
   return (
       <>
         {projects.map(project => {

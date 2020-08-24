@@ -1,20 +1,36 @@
 //dependencies
 import { GPSbtn } from "./GPSbtn"
 import { Input, SubmitBtn } from "../../components/Form";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
-
-
-
+import { useParams } from 'react-router-dom'
 
 const AddTransect = () => {
+
+    //get _id param so that it can be passed to the add transect page
+    const { _id } = useParams()
+
     //setting component's initial state
+    //hook for state where project title is displayed
+    const [project, setProject] =useState([])
+    //hook for state of transect info form
     const [transectFormObject, setTransectFormObject] = useState({
         transect: "",
         latitude: "",
         longitude: "",
         date: "",
         crew: "",
+    })
+
+    //display the project title once the component mounts
+    useEffect(() => {
+        //GET Method for pulling project name
+        API.getProjectByID()
+        .then(res => {
+            setProject(res.data)
+            console.log(res.data)
+        })
+        .catch(err => console.log(err))
     })
 
     //handles updating component state when use types into the input field
