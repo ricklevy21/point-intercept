@@ -31,4 +31,11 @@ module.exports = {
             })
             .catch(err => res.status(422).json(err));
     }
+    // ,
+    // findById: function(req, res) {
+    //     db.Transect
+    //         .findById(req._id)
+    //         .then(project => res.status(200).json(project))
+    //         .catch(err => res.status(404).json(err));
+    // }
 }

@@ -3,8 +3,9 @@ import { GPSbtn } from "./GPSbtn"
 import { Input, SubmitBtn } from "../../components/Form";
 import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import ResumeProjectName from './ResumeProjectName.js'
+
 
 const AddTransect = () => {
 
@@ -49,7 +50,7 @@ const AddTransect = () => {
                 longitude: transectFormObject.longitude,
                 date: transectFormObject.date,
                 crew: transectFormObject.crew,
-                projectID: _id
+                projectID: _id //this is the project that I am adding the transect to
             })
                 .then(() => setTransectFormObject({
                     transect: "",
@@ -105,10 +106,10 @@ const AddTransect = () => {
                 <Input id="crew" name="crew" className="form-control" onChange={handleInputChange}></Input>
 
             </div>
-            <SubmitBtn
-            onClick={handleTransectFormSubmit}
-            
-            >Start</SubmitBtn>
+                <SubmitBtn
+                    onClick={handleTransectFormSubmit}
+                    >Start
+                </SubmitBtn>
         </form>
         </>
     )

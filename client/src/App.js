@@ -42,7 +42,7 @@ function App() {
       <Route exact path="/resume/:_id">
         {<ResumeProject />}
       </Route>
-      <Route exact path="/record">
+      <Route exact path="/record/:_id">
         {<RecordPage />}
       </Route>
       <Route exact path="/data">

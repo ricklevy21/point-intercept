@@ -9,8 +9,7 @@ router.route("/")
 
 
 // //Matches with "/api/transects/:id"
-// router
-//     .route("/:id")
+// router.route("/:id")
 //     .get(transectController.findById)
 
 module.exports = router
