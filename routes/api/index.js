@@ -6,7 +6,6 @@ const pointRoutes = require("./points")
 
 //Project routes
 router.use("/api/projects", projectRoutes);
-router.use("/api/projects/:id",projectRoutes);
 router.use("/api/transects", transectRoutes);
 router.use("/api/points", pointRoutes);
 

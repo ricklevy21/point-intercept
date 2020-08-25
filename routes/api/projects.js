@@ -9,8 +9,7 @@ router.route("/")
 
 
 //Matches with "/api/projects/:id"
-router
-    .route("/:id")
+router.route("/:id")
     .get(projectsController.findById)
 
 module.exports = router

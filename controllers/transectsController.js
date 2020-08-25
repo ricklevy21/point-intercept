@@ -22,12 +22,12 @@ module.exports = {
 
         db.Transect
             .create(req.body)
-            .then(function(transects){
-                db.Project.findOneAndUpdate({_id:projectID}, { $push: { transects: transects._id } }, { new: true })
-                .then(function(projects){
-                    res.json(transects)
-                })
-                .catch(err => res.status(422).json(err));
+            .then(function(transects) {
+
+                return db.Project.findOneAndUpdate({_id:projectID}, { $push: { transects: transects._id } }, { new: true })
+            })
+            .then(function(projectObj) {
+                res.json(projectObj)
             })
             .catch(err => res.status(422).json(err));
     }

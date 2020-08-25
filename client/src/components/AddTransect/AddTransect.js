@@ -22,16 +22,15 @@ const AddTransect = () => {
         crew: "",
     })
 
-    //display the project title once the component mounts
+    //display the project title once the component mounts--------------------------!!!!!--not working route issues
     useEffect(() => {
         //GET Method for pulling project name
-        API.getProjectByID()
+        API.getProjectByID(_id)
         .then(res => {
             setProject(res.data)
-            console.log(res.data)
         })
         .catch(err => console.log(err))
-    })
+    }, [])
 
     //handles updating component state when use types into the input field
     function handleInputChange(event){
@@ -43,13 +42,13 @@ const AddTransect = () => {
     //then navigate to the projects page and load all of the projects
     function handleTransectFormSubmit(event) {
         event.preventDefault()
-
             API.addTransect({
                 transect: transectFormObject.transect,
                 latitude: transectFormObject.latitude,
                 longitude: transectFormObject.longitude,
                 date: transectFormObject.date,
-                crew: transectFormObject.crew
+                crew: transectFormObject.crew,
+                projectID: _id
             })
                 .then(() => setTransectFormObject({
                     transect: "",
