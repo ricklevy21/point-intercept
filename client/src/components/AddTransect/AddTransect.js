@@ -4,6 +4,7 @@ import { Input, SubmitBtn } from "../../components/Form";
 import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import { useParams } from 'react-router-dom'
+import ResumeProjectName from './ResumeProjectName.js'
 
 const AddTransect = () => {
 
@@ -22,7 +23,7 @@ const AddTransect = () => {
         crew: "",
     })
 
-    //display the project title once the component mounts--------------------------!!!!!--not working route issues
+    //display the project title once the component mounts
     useEffect(() => {
         //GET Method for pulling project name
         API.getProjectByID(_id)
@@ -63,7 +64,10 @@ const AddTransect = () => {
 
     return (
         <>
-        <h3>Project Name</h3>
+        <ResumeProjectName
+            id={project._id}
+            project={project.project}
+            />
         <form>
             <div className="form-group">
                 <label>Transect Name</label>
