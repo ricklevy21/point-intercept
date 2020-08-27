@@ -23,13 +23,14 @@ module.exports = {
         db.Transect
             .create(req.body)
             .then(function(transects) {
-
+                console.log(transects._id)
+                // res.json(transects._id)//trying this out to have the new ID returned
                 return db.Project.findOneAndUpdate({_id:projectID}, { $push: { transects: transects._id } }, { new: true })
             })
             .then(function(projectObj) {
                 res.json(projectObj)
             })
-            .catch(err => res.status(422).json(err));
+            .catch(err => res.status(400).json(err));
     }
     // ,
     // findById: function(req, res) {

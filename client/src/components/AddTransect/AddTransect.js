@@ -3,7 +3,7 @@ import { GPSbtn } from "./GPSbtn"
 import { Input, SubmitBtn } from "../../components/Form";
 import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
-import { useParams, Link } from 'react-router-dom'
+import {useHistory, useParams } from 'react-router-dom'
 import ResumeProjectName from './ResumeProjectName.js'
 
 
@@ -11,6 +11,8 @@ const AddTransect = () => {
 
     //get _id param so that it can be passed to the add transect page
     const { _id } = useParams()
+
+    const history = useHistory()
 
     //setting component's initial state
     //hook for state where project title is displayed
@@ -52,13 +54,14 @@ const AddTransect = () => {
                 crew: transectFormObject.crew,
                 projectID: _id //this is the project that I am adding the transect to
             })
-                .then(() => setTransectFormObject({
-                    transect: "",
-                    latitude: "",
-                    longitude: "",
-                    date: "",
-                    crew: ""
-                }))
+            .then(res => {
+                // destructure the response
+                const { transects } = res.data
+                //create variable transectID that is the last value from the res.data array (pop method)
+                const transectId = transects.pop()
+                //add the desired route that I want to naviagte to to the end of the history array, thus making it the current page
+                history.push(`/record/${transectId}`)
+            })
                 .catch(err => console.log(err))
         
     };
