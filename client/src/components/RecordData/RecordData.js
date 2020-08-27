@@ -4,10 +4,11 @@ import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
 import {useHistory, useParams } from 'react-router-dom'
 import RecordTransectName from "./RecordTransectName"
-import { HitInput } from "./HitInput"
-//import {NextPointBtn} from "./NextPointBtn"
+import Dropdown from "./Dropdown"
+import HitValues from "./HitValues"
 
-
+//get list of values for hit dropdown
+const hitValues = HitValues
 
 const RecordData = () => {
 
@@ -19,6 +20,8 @@ const RecordData = () => {
 
 
     //setting component's initial state
+    //hook for hit dropdown
+    const [hit, HitDropdown] = Dropdown("First Hit", "", hitValues)
     //hook for state where transect name is displayed
     const [transect, setTransect] =useState([])
     //hook for state of point data form
@@ -135,8 +138,8 @@ const RecordData = () => {
                     <Input value={pointFormObject.canopyScore} type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label>First Hit</label>
-                    <Input value={pointFormObject.firstHit} type="text" name="firstHit" className="form-control" id="firstHit" onChange={handleInputChange}></Input>
+                    <HitDropdown value={pointFormObject.firstHit} name="firstHit" onChange={handleInputChange}/>
+                    {/* <Input  type="text"  className="form-control" id="firstHit" ></Input> */}
                 </div>
                 <div className="form-group">
                     <label>Second Hit</label>
