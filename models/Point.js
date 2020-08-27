@@ -8,7 +8,7 @@ const PointSchema = new Schema({
         type: Number
         },
     ground_surface: {
-        type: String,
+        type: String
         },
     soil_moisture_percentage: {
         type: Number

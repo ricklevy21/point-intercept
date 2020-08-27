@@ -59,15 +59,6 @@ const RecordData = () => {
                 hit_two: pointFormObject.secondHit,
                 transectID: _id //this is the transect that I am adding the point to
             })
-                .then(() => setPointFormObject({
-                    point: "",
-                    goundSurface: "",
-                    soilMoisture: "",
-                    shrubDensity: "",
-                    canopyScore: "",
-                    firstHit: "",
-                    secondHit: ""
-                }))
                 .catch(err => console.log(err))
         
     };
@@ -126,7 +117,7 @@ const RecordData = () => {
             <div className="col">
                 <div className="form-group">
                     <label>Ground Surface</label>
-                    <Input type="text" name="goundSurface" className="form-control" id="groundSurface" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input type="text" name="groundSurface" className="form-control" id="groundSurface" defaultValue="NULL" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>Soil Moisture</label>
