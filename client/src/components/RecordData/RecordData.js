@@ -3,9 +3,16 @@ import React, { useState } from "react";
 import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
 import IncrementedPoint from "./IncrementedPoint"
+import { useParams } from 'react-router-dom'
+
 
 
 const RecordData = () => {
+
+    //get _id param (transectID) so that it can be accessed to for displaying data and for adding t
+    const { _id } = useParams()
+
+
     //setting component's initial state
     const [pointFormObject, setPointFormObject] = useState({
         point: "",
@@ -35,7 +42,8 @@ const RecordData = () => {
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 hit_one: pointFormObject.firstHit,
-                hit_two: pointFormObject.secondHit
+                hit_two: pointFormObject.secondHit,
+                transectID: _id //this is the transect that I am adding the point to
             })
                 .then(() => setPointFormObject({
                     point: "",
