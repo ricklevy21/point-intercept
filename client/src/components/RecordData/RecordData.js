@@ -4,11 +4,14 @@ import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
 import {useHistory, useParams } from 'react-router-dom'
 import RecordTransectName from "./RecordTransectName"
-import Dropdown from "./Dropdown"
-import HitValues from "./HitValues"
+// import Dropdown from "./Dropdown"
+// import HitValues from "./HitValues"
+import { HitInputSelect } from "./HitInputSelect"
+import { GroundInputSelect } from "./GroundInputSelect"
+
 
 //get list of values for hit dropdown
-const hitValues = HitValues
+// const hitValues = HitValues
 
 const RecordData = () => {
 
@@ -21,7 +24,7 @@ const RecordData = () => {
 
     //setting component's initial state
     //hook for hit dropdown
-    const [hit, HitDropdown] = Dropdown("First Hit", "", hitValues)
+    // const [hit, HitDropdown] = Dropdown("First Hit", "", hitValues)
     //hook for state where transect name is displayed
     const [transect, setTransect] =useState([])
     //hook for state of point data form
@@ -90,7 +93,8 @@ const RecordData = () => {
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 hit_one: pointFormObject.firstHit,
-                hit_two: pointFormObject.secondHit
+                hit_two: pointFormObject.secondHit,
+                transectID: _id //this is the transect that I am adding the point to
             })
                 .then(history.push('/projects'))
                 .catch(err => console.log(err))
@@ -123,7 +127,8 @@ const RecordData = () => {
             <div className="col">
                 <div className="form-group">
                     <label>Ground Surface</label>
-                    <Input value={pointFormObject.groundSurface} type="text" name="groundSurface" className="form-control" id="groundSurface" onChange={handleInputChange}></Input>
+                    <GroundInputSelect value={pointFormObject.groundSurface} type="text" name="groundSurface" className="form-control" id="groundSurface" onChange={handleInputChange}></GroundInputSelect>
+                    {/* <Input value={pointFormObject.groundSurface} type="text" name="groundSurface" className="form-control" id="groundSurface" onChange={handleInputChange}></Input> */}
                 </div>
                 <div className="form-group">
                     <label>Soil Moisture Percentage</label>
@@ -138,12 +143,15 @@ const RecordData = () => {
                     <Input value={pointFormObject.canopyScore} type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <HitDropdown value={pointFormObject.firstHit} name="firstHit" onChange={handleInputChange}/>
-                    {/* <Input  type="text"  className="form-control" id="firstHit" ></Input> */}
+                    <label>First Hit</label>
+                    <HitInputSelect value={pointFormObject.firstHit} name="firstHit" onChange={handleInputChange} type="text"  className="form-control" id="firstHit" ></HitInputSelect>
+                    {/* <HitDropdown value={pointFormObject.firstHit} name="firstHit" onChange={handleInputChange}/> */}
+                    {/* <Input value={pointFormObject.firstHit} name="firstHit" onChange={handleInputChange} type="text"  className="form-control" id="firstHit" ></Input> */}
                 </div>
                 <div className="form-group">
                     <label>Second Hit</label>
-                    <Input value={pointFormObject.secondHit} type="text" name="secondHit" className="form-control" id="secondHit" onChange={handleInputChange}></Input>
+                    <HitInputSelect value={pointFormObject.secondHit} type="text" name="secondHit" className="form-control" id="secondHit" onChange={handleInputChange}></HitInputSelect>
+                    {/* <Input value={pointFormObject.secondHit} type="text" name="secondHit" className="form-control" id="secondHit" onChange={handleInputChange}></Input> */}
                 </div>
             </div>
         </div>

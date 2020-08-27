@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+//COMPONENT NOT CURRENTLY BEING USED
+
 const Dropdown = (label, defualtState, options) => {
   const [state, setState] = useState(defualtState)
 
