@@ -8,7 +8,8 @@ const PointSchema = new Schema({
         type: Number
         },
     ground_surface: {
-        type: String
+        type: String,
+        default: null
         },
     soil_moisture_percentage: {
         type: Number
@@ -36,10 +37,12 @@ const PointSchema = new Schema({
         type: [String]
     },
     hit_one: {
-        type: String
+        type: String,
+        default: null
     },
     hit_two: {
-        type: String
+        type: String,
+        default: null
     }    
 });
 

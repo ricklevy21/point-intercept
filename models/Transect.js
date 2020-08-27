@@ -5,17 +5,16 @@ const Schema = mongoose.Schema
 
 const TransectSchema = new Schema({
     transect: {
-        type: String,
-        unique: true
+        type: String
         },
     date: {
-        type: Date,
+        type: Date
         },
     latitude: {
-        type: Number,
+        type: Number
     },
     longitude: {
-        type: Number,
+        type: Number
     },
     crew: [String],
     points: [

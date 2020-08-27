@@ -86,7 +86,8 @@ const RecordData = () => {
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 hit_one: pointFormObject.firstHit,
-                hit_two: pointFormObject.secondHit
+                hit_two: pointFormObject.secondHit,
+                transectID: _id //this is the transect that I am adding the point to
             })
                 .then(history.push('/projects'))
                 .catch(err => console.log(err))
