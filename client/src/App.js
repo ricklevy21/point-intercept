@@ -18,7 +18,8 @@ import NotFound from './pages/NotFound'
 import Navbar from './components/Navbar/index'
 
 
-
+//css
+import './App.css'
 
 function App() {
   return (
@@ -38,10 +39,10 @@ function App() {
       <Route exact path="/create">
         {<CreateProject />}
       </Route>
-      <Route exact path="/resume">
+      <Route exact path="/resume/:_id">
         {<ResumeProject />}
       </Route>
-      <Route exact path="/record">
+      <Route exact path="/record/:_id">
         {<RecordPage />}
       </Route>
       <Route exact path="/data">

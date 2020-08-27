@@ -1,19 +1,42 @@
 //dependencies
 import { GPSbtn } from "./GPSbtn"
 import { Input, SubmitBtn } from "../../components/Form";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
-
-
+import {useHistory, useParams } from 'react-router-dom'
+import ResumeProjectName from './ResumeProjectName.js'
 
 
 const AddTransect = () => {
+
+    //get _id param so that it can be passed to the add transect page
+    const { _id } = useParams()
+
+    const history = useHistory()
+
     //setting component's initial state
+    //hook for state where project title is displayed
+    const [project, setProject] =useState([])
+    //hook for state of transect info form
     const [transectFormObject, setTransectFormObject] = useState({
-        project: ""
+        transect: "",
+        latitude: "",
+        longitude: "",
+        date: "",
+        crew: "",
     })
 
-    //handles updating component state when use types into the input field
+    //display the project title once the component mounts
+    useEffect(() => {
+        //GET Method for pulling project name
+        API.getProjectByID(_id)
+        .then(res => {
+            setProject(res.data)
+        })
+        .catch(err => console.log(err))
+    }, [])
+
+    //handles updating component state when user types into the input field
     function handleInputChange(event){
         const { name, value } = event.target;
         setTransectFormObject({...transectFormObject, [name]: value})
@@ -23,33 +46,36 @@ const AddTransect = () => {
     //then navigate to the projects page and load all of the projects
     function handleTransectFormSubmit(event) {
         event.preventDefault()
-        console.log(transectFormObject.project)
-
             API.addTransect({
                 transect: transectFormObject.transect,
                 latitude: transectFormObject.latitude,
                 longitude: transectFormObject.longitude,
                 date: transectFormObject.date,
-                crew: transectFormObject.crew
+                crew: transectFormObject.crew,
+                projectID: _id //this is the project that I am adding the transect to
             })
-                .then(() => setTransectFormObject({
-                    transect: "",
-                    latitude: "",
-                    longitude: "",
-                    date: "",
-                    crew: ""
-                }))
+            .then(res => {
+                // destructure the response
+                const { transects } = res.data
+                //create variable transectID that is the last value from the res.data array (pop method)
+                const transectId = transects.pop()
+                //add the desired route that I want to naviagte to to the end of the history array, thus making it the current page
+                history.push(`/record/${transectId}`)
+            })
                 .catch(err => console.log(err))
         
     };
 
     return (
         <>
-        <h3>Project Name</h3>
+        <ResumeProjectName
+            id={project._id}
+            project={project.project}
+            />
         <form>
             <div className="form-group">
                 <label>Transect Name</label>
-                <Input id="transectName" className="form-control" onChange={handleInputChange}></Input>
+                <Input name="transect" id="transect" className="form-control" onChange={handleInputChange}></Input>
             </div>
 
 
@@ -57,13 +83,16 @@ const AddTransect = () => {
             <div className="form-group">
                 <div className="row">
                     <div className="col-5">
-                        <Input id="latitude" className="form-control" placeholder="Latitude" onChange={handleInputChange}></Input>
+                        <Input id="latitude" name="latitude" value={transectFormObject.latitude} className="form-control" placeholder="Latitude" onChange={handleInputChange}></Input>
                     </div>
                     <div className="col-5">
-                        <Input id="longitude" className="form-control" placeholder="Longitude" onChange={handleInputChange}></Input>
+                        <Input id="longitude" name="longitude" value={transectFormObject.longitude}  className="form-control" placeholder="Longitude" onChange={handleInputChange}></Input>
                     </div>
                     <div className="col-2">
-                        <GPSbtn />
+                        <GPSbtn
+                            setGPS={setTransectFormObject}
+                            stateGPS={transectFormObject}
+                        />
                     </div>
                 </div>
             </div>
@@ -73,17 +102,17 @@ const AddTransect = () => {
 
             <div className="form-group">
                 <label>Date</label>
-                <Input id="date" className="form-control" type="date" onChange={handleInputChange}></Input>
+                <Input id="date" name="date" className="form-control" type="date" onChange={handleInputChange}></Input>
             </div>
             <div className="form-group">
                 <label>Crew</label>
-                <Input id="crew" className="form-control" onChange={handleInputChange}></Input>
+                <Input id="crew" name="crew" className="form-control" onChange={handleInputChange}></Input>
 
             </div>
-            <SubmitBtn
-            onClick={handleTransectFormSubmit}
-            
-            >Start</SubmitBtn>
+                <SubmitBtn
+                    onClick={handleTransectFormSubmit}
+                    >Start
+                </SubmitBtn>
         </form>
         </>
     )

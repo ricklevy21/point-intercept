@@ -8,9 +8,8 @@ router.route("/")
     .post(projectsController.create)
 
 
-// //Matches with "/api/projects/:id"
-// router
-//     .route("/:id")
-//     .get(projectController.findById)
+//Matches with "/api/projects/:id"
+router.route("/:id")
+    .get(projectsController.findById)
 
 module.exports = router

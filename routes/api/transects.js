@@ -8,9 +8,8 @@ router.route("/")
     .post(transectsController.create)
 
 
-// //Matches with "/api/transects/:id"
-// router
-//     .route("/:id")
-//     .get(transectController.findById)
+//Matches with "/api/transects/:id"
+router.route("/:id")
+    .get(transectsController.findById)
 
 module.exports = router

@@ -4,6 +4,9 @@ import API from "../utils/API";
 import ProjectTable from '../components/Project/ProjectTable'
 
 const Projects = () => {
+
+
+
         //Setting component's initial state
         const [projects, setProjects] = useState()
 
@@ -16,7 +19,6 @@ const Projects = () => {
         function loadProjects(){
             API.getProjects()
                 .then(res => {
-                    console.log(`THis is a string: ${res.data}`)
                     setProjects(res.data)
                 })
                 .catch(err => console.log(err))

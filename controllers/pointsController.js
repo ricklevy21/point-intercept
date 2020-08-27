@@ -10,7 +10,6 @@ module.exports = {
         db.Point
             .find({})
             .then(function(points) {
-                console.log(points)
                 res.json(points)
             })
             .catch(err => res.status(422).json(err));
@@ -24,11 +23,10 @@ module.exports = {
         db.Point
             .create(req.body)
             .then(function(points){
-                db.Transect.findOneAndUpdate({_id:transectID}, { $push: { points: points._id } }, { new: true })
-                .then(function(transects){
-                    res.json(points)
-                })
-                .catch(err => res.status(422).json(err));
+                return db.Transect.findOneAndUpdate({_id:transectID}, { $push: { points: points._id } }, { new: true })
+            })
+            .then(function(transectObj){
+                    res.json(transectObj)
             })
             .catch(err => res.status(422).json(err));
     }

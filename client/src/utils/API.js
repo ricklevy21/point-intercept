@@ -14,10 +14,20 @@ export default {
         return axios.get("/api/projects", projectData)
     },
 
+    //Get one project by _id
+    //method: GET
+    getProjectByID: function(projectData){
+        return axios.get("/api/projects/" + projectData, projectData)
+    },
+
     //Create a transect and add it to a project
     //method: POST
     addTransect: function(transectData) {
         return axios.post("/api/transects", transectData)
+    },
+
+    getTransectById: function(transectData) {
+        return axios.get("/api/transects/" + transectData, transectData)
     },
 
     //Create a transect and add it to a project

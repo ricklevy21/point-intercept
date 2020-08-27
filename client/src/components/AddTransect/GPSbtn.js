@@ -1,12 +1,11 @@
 import React from "react";
 
-export function GPSbtn(props) {
+export function GPSbtn({setGPS, stateGPS}) {
     //functions to get current GPS coordinates
     function showLocation(position) {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        console.log(latitude);
-        console.log(longitude)
+        let latitudeGenerated = position.coords.latitude;
+        let longitudeGenerated = position.coords.longitude;
+        setGPS({...stateGPS, latitude: latitudeGenerated, longitude: longitudeGenerated})
      }
 
      function errorHandler(err) {

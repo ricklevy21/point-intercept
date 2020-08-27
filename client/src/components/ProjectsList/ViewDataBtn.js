@@ -1,5 +1,4 @@
 import React from "react";
-import { PromiseProvider } from "mongoose";
 
 export function ViewDataBtn(props) {
   return (
