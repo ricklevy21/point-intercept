@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
-import IncrementedPoint from "./IncrementedPoint"
 import { useParams } from 'react-router-dom'
 import RecordTransectName from "./RecordTransectName"
+import {NextPointBtn} from "./NextPointBtn"
 
 
 
@@ -59,6 +59,15 @@ const RecordData = () => {
                 hit_two: pointFormObject.secondHit,
                 transectID: _id //this is the transect that I am adding the point to
             })
+            .then(() => setPointFormObject({
+                point: "",
+                goundSurface: "",
+                soilMoisture: "",
+                shrubDensity: "",
+                canopyScore: "",
+                firstHit: "",
+                secondHit: ""
+            }))
                 .catch(err => console.log(err))
         
     };
@@ -94,6 +103,8 @@ const RecordData = () => {
 
 
 
+
+
     return (
         <>
         <div className="row">
@@ -107,8 +118,10 @@ const RecordData = () => {
         <div className="row">
             <div className="col">
                 <div className="form-inline">
-                        <IncrementedPoint
+                        <Input
                         name="point"
+                        value={pointFormObject.point}
+                        onChange={handleInputChange}
                         />
                 </div>
             </div>
@@ -150,11 +163,13 @@ const RecordData = () => {
                 </SubmitBtn>
             </div>
             <div className="col-8">
-                <SubmitBtn
+                <NextPointBtn
                     onClick={handlePointFormSubmitNext}
+                    setPoint={setPointFormObject}
+                    statePoint={pointFormObject}
                 >
                     Next Point
-                </SubmitBtn>
+                </NextPointBtn>
             </div>
         </div>
         </>

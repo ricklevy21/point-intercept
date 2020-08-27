@@ -36,7 +36,7 @@ const AddTransect = () => {
         .catch(err => console.log(err))
     }, [])
 
-    //handles updating component state when use types into the input field
+    //handles updating component state when user types into the input field
     function handleInputChange(event){
         const { name, value } = event.target;
         setTransectFormObject({...transectFormObject, [name]: value})
