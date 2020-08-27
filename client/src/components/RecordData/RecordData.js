@@ -1,9 +1,10 @@
 //dependencies
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
 import IncrementedPoint from "./IncrementedPoint"
 import { useParams } from 'react-router-dom'
+import RecordTransectName from "./RecordTransectName"
 
 
 
@@ -14,6 +15,9 @@ const RecordData = () => {
 
 
     //setting component's initial state
+    //hook for state where transect name is displayed
+    const [transect, setTransect] =useState([])
+    //hook for state of point data form
     const [pointFormObject, setPointFormObject] = useState({
         point: "",
         goundSurface: "",
@@ -23,6 +27,16 @@ const RecordData = () => {
         firstHit: "",
         secondHit: ""
     })
+
+    //display the transectName once the component mounts
+    useEffect(() => {
+        //GET Method for pulling transect name
+        API.getTransectById(_id)
+        .then(res => {
+            setTransect(res.data)
+        })
+        .catch(err => console.log(err))
+    }, [])
 
     //handles updating component state when use types into the input field
     function handleInputChange(event){
@@ -93,12 +107,10 @@ const RecordData = () => {
         <>
         <div className="row">
             <div className="col">
-                {/* this needs to be a component */}
-                <h5>Transect Name</h5>
-            </div>
-            <div className="col">
-                {/* this needs to be a component */}
-                <h5>Project Name</h5>
+                <RecordTransectName
+                    id={transect._id}
+                    transect={transect.transect}
+                />
             </div>
         </div>
         <div className="row">
