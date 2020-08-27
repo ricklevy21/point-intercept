@@ -5,9 +5,7 @@ const Schema = mongoose.Schema
 
 const TransectSchema = new Schema({
     transect: {
-        type: String,
-        unique: true
-        },
+        type: String        },
     date: {
         type: Date,
         },
