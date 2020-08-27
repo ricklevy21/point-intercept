@@ -4,9 +4,14 @@ import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
 import {useHistory, useParams } from 'react-router-dom'
 import RecordTransectName from "./RecordTransectName"
-//import {NextPointBtn} from "./NextPointBtn"
+// import Dropdown from "./Dropdown"
+// import HitValues from "./HitValues"
+import { HitInputSelect } from "./HitInputSelect"
+import { GroundInputSelect } from "./GroundInputSelect"
 
 
+//get list of values for hit dropdown
+// const hitValues = HitValues
 
 const RecordData = () => {
 
@@ -18,6 +23,8 @@ const RecordData = () => {
 
 
     //setting component's initial state
+    //hook for hit dropdown
+    // const [hit, HitDropdown] = Dropdown("First Hit", "", hitValues)
     //hook for state where transect name is displayed
     const [transect, setTransect] =useState([])
     //hook for state of point data form
@@ -120,7 +127,8 @@ const RecordData = () => {
             <div className="col">
                 <div className="form-group">
                     <label>Ground Surface</label>
-                    <Input value={pointFormObject.groundSurface} type="text" name="groundSurface" className="form-control" id="groundSurface" onChange={handleInputChange}></Input>
+                    <GroundInputSelect value={pointFormObject.groundSurface} type="text" name="groundSurface" className="form-control" id="groundSurface" onChange={handleInputChange}></GroundInputSelect>
+                    {/* <Input value={pointFormObject.groundSurface} type="text" name="groundSurface" className="form-control" id="groundSurface" onChange={handleInputChange}></Input> */}
                 </div>
                 <div className="form-group">
                     <label>Soil Moisture Percentage</label>
@@ -136,11 +144,14 @@ const RecordData = () => {
                 </div>
                 <div className="form-group">
                     <label>First Hit</label>
-                    <Input value={pointFormObject.firstHit} type="text" name="firstHit" className="form-control" id="firstHit" onChange={handleInputChange}></Input>
+                    <HitInputSelect value={pointFormObject.firstHit} name="firstHit" onChange={handleInputChange} type="text"  className="form-control" id="firstHit" ></HitInputSelect>
+                    {/* <HitDropdown value={pointFormObject.firstHit} name="firstHit" onChange={handleInputChange}/> */}
+                    {/* <Input value={pointFormObject.firstHit} name="firstHit" onChange={handleInputChange} type="text"  className="form-control" id="firstHit" ></Input> */}
                 </div>
                 <div className="form-group">
                     <label>Second Hit</label>
-                    <Input value={pointFormObject.secondHit} type="text" name="secondHit" className="form-control" id="secondHit" onChange={handleInputChange}></Input>
+                    <HitInputSelect value={pointFormObject.secondHit} type="text" name="secondHit" className="form-control" id="secondHit" onChange={handleInputChange}></HitInputSelect>
+                    {/* <Input value={pointFormObject.secondHit} type="text" name="secondHit" className="form-control" id="secondHit" onChange={handleInputChange}></Input> */}
                 </div>
             </div>
         </div>
