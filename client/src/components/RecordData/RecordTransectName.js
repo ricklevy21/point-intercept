@@ -3,7 +3,7 @@ import React from "react";
 function RecordTransectName(props) {
   return (
     <h3>
-      {props.transect}
+      Transect: {props.transect}
     </h3>
   );
 }

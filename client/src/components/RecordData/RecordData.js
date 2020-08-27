@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
-import { useParams } from 'react-router-dom'
+import {useHistory, useParams } from 'react-router-dom'
 import RecordTransectName from "./RecordTransectName"
-import {NextPointBtn} from "./NextPointBtn"
+//import {NextPointBtn} from "./NextPointBtn"
 
 
 
@@ -13,6 +13,9 @@ const RecordData = () => {
     //get _id param (transectID) so that it can be accessed to for displaying data and for adding t
     const { _id } = useParams()
 
+    const history = useHistory()
+
+
 
     //setting component's initial state
     //hook for state where transect name is displayed
@@ -20,7 +23,7 @@ const RecordData = () => {
     //hook for state of point data form
     const [pointFormObject, setPointFormObject] = useState({
         point: "",
-        goundSurface: "",
+        groundSurface: "",
         soilMoisture: "",
         shrubDensity: "",
         canopyScore: "",
@@ -48,7 +51,6 @@ const RecordData = () => {
     //then navigate to a new Point Data Record page, with point incremented by 0.25 ---------need to figure this out
     function handlePointFormSubmitNext(event) {
         event.preventDefault()
-
             API.addPoint({
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
@@ -61,7 +63,7 @@ const RecordData = () => {
             })
             .then(() => setPointFormObject({
                 point: "",
-                goundSurface: "",
+                groundSurface: "",
                 soilMoisture: "",
                 shrubDensity: "",
                 canopyScore: "",
@@ -86,16 +88,7 @@ const RecordData = () => {
                 hit_one: pointFormObject.firstHit,
                 hit_two: pointFormObject.secondHit
             })
-                .then(() => setPointFormObject({
-                    point: "",
-                    goundSurface: "",
-                    soilMoisture: "",
-                    shrubDensity: "",
-                    canopyScore: "",
-                    firstHit: "",
-                    secondHit: ""
-                }))
-                .then(window.location.href='/projects')
+                .then(history.push('/projects'))
                 .catch(err => console.log(err))
         
     };
@@ -118,11 +111,7 @@ const RecordData = () => {
         <div className="row">
             <div className="col">
                 <div className="form-inline">
-                        <Input
-                        name="point"
-                        value={pointFormObject.point}
-                        onChange={handleInputChange}
-                        />
+                <Input value={pointFormObject.point} type="number" step="0.25" min="0" name="point" className="form-control" id="point" onChange={handleInputChange}></Input>
                 </div>
             </div>
         </div>
@@ -130,27 +119,27 @@ const RecordData = () => {
             <div className="col">
                 <div className="form-group">
                     <label>Ground Surface</label>
-                    <Input type="text" name="groundSurface" className="form-control" id="groundSurface" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input value={pointFormObject.groundSurface} type="text" name="groundSurface" className="form-control" id="groundSurface" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label>Soil Moisture</label>
-                    <Input type="number" name="soilMoisture" step="0.1" className="form-control" id="soilMoisture" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <label>Soil Moisture Percentage</label>
+                    <Input value={pointFormObject.soilMoisture} type="number" name="soilMoisture" step="0.1" className="form-control" id="soilMoisture" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>Shrub Density</label>
-                    <Input type="number" name="shrubDensity" className="form-control" id="shrubDensity" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input value={pointFormObject.shrubDensity} type="number" name="shrubDensity" className="form-control" id="shrubDensity" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label>Canopy Score</label>
-                    <Input type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <label>Canopy Score (value from densiometer, not %)</label>
+                    <Input value={pointFormObject.canopyScore} type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>First Hit</label>
-                    <Input type="text" name="firstHit" className="form-control" id="firstHit" onChange={handleInputChange}></Input>
+                    <Input value={pointFormObject.firstHit} type="text" name="firstHit" className="form-control" id="firstHit" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
                     <label>Second Hit</label>
-                    <Input type="text" name="secondHit" className="form-control" id="secondHit" defaultValue="NULL" onChange={handleInputChange}></Input>
+                    <Input value={pointFormObject.secondHit} type="text" name="secondHit" className="form-control" id="secondHit" onChange={handleInputChange}></Input>
                 </div>
             </div>
         </div>
@@ -163,13 +152,11 @@ const RecordData = () => {
                 </SubmitBtn>
             </div>
             <div className="col-8">
-                <NextPointBtn
+                <SubmitBtn
                     onClick={handlePointFormSubmitNext}
-                    setPoint={setPointFormObject}
-                    statePoint={pointFormObject}
                 >
                     Next Point
-                </NextPointBtn>
+                </SubmitBtn>
             </div>
         </div>
         </>

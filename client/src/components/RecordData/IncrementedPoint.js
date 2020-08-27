@@ -1,7 +1,7 @@
 //dependencies
 import React from 'react'
 
-///dont think I will need this component
+// COMPONENT NOT CURRENTLY IN USE
 
 const IncrementedPoint = () => {
 
