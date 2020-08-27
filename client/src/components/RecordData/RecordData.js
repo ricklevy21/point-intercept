@@ -4,6 +4,7 @@ import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
 import {useHistory, useParams } from 'react-router-dom'
 import RecordTransectName from "./RecordTransectName"
+import { HitInput } from "./HitInput"
 //import {NextPointBtn} from "./NextPointBtn"
 
 
