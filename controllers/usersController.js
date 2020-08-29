@@ -2,7 +2,6 @@
 const db = require("../models");
 const bcrypt = require('bcryptjs')
 
-
 module.exports = {
 
 //method to register / create a new user
@@ -23,6 +22,7 @@ create: function(req, res) {
                         if(err) throw err;
                         //set pw to hashed
                         req.body.password = hash;
+                        //submit the user registrant data to the database
                         db.User
                             .create(req.body)
                             .then(function(users){

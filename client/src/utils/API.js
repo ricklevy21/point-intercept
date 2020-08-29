@@ -40,6 +40,11 @@ export default {
     //method: POST
     registerUser: function(regData) {
         return axios.post("/api/register", regData)
+    },
+
+    //handle login
+    loginUser: function(loginData) {
+        return axios.post("/api/login", loginData)
     }
     
 }

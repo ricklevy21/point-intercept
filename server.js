@@ -2,10 +2,14 @@
 const express = require("express");
 const routes = require("./routes/api")
 const mongoose = require("mongoose")
-
+const passport = require('passport')
+const session = require('express-session')
 
 // new express app
 const app = express();
+
+//passport config
+require('./config/passport')(passport)
 
 // define PORT
 const PORT = process.env.PORT || 5000;
@@ -19,6 +23,17 @@ if (process.env.NODE_ENV === "production") {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//express session
+// app.use(express.session({ secret: 'keyboard cat' }));
+
+//passport middleware
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 // Add routes, both API and view
 app.use(routes);
