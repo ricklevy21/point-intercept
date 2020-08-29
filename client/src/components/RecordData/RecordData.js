@@ -7,7 +7,7 @@ import RecordTransectName from "./RecordTransectName"
 import { HitInputSelect } from "./HitInputSelect"
 import { GroundInputSelect } from "./GroundInputSelect"
 import PointInput from "./PointInput"
-import HitList from "./HitList"
+
 
 
 
@@ -24,11 +24,10 @@ const RecordData = () => {
 
 
     //setting component's initial state
-    //hook for initializing hit list
-    const [firstHitState, setFirstHit] =useState([])
-    const [secondHitState, setSecondHit] =useState([])
-    //hook for hit dropdown
-    // const [hit, HitDropdown] = Dropdown("First Hit", "", hitValues)
+    //hook for initializing hit list (combo box for hit1 and hit2)
+    // const [firstHitState, setFirstHit] =useState()
+    // const [secondHitState, setSecondHit] =useState()
+
     //hook for state where transect name is displayed
     const [transect, setTransect] =useState([])
     //hook for state of point data form
@@ -44,10 +43,9 @@ const RecordData = () => {
 
 
 
-    //display the transectName once the component mounts
+    //use the species list for the dropdowns and display the transectName on the page once the component mounts 
     useEffect(() => {
-        setFirstHit(HitList)
-        setSecondHit(HitList)
+ 
         //GET Method for pulling transect name
         API.getTransectById(_id)
         .then(res => {
@@ -56,43 +54,48 @@ const RecordData = () => {
         .catch(err => console.log(err))
     }, [])
 
-    //handles updating component state when use types into the input field
+    //handles updating component state when user types into the input field
     function handleInputChange(event){
+        console.log("inside handleinput", event.target.name, event.target.value)
         const { name, value } = event.target;
         setPointFormObject({...pointFormObject, [name]: value})
-        if (name === "firstHit" || name === "secondHit"){
-            filterHits(value, name)
-        }
+        // if (name === "firstHit" || name === "secondHit"){
+        //     filterHits(value, name)
+        // }
     };
 
     //funciton to filter the hit options
-    function filterHits(searchTerm, name){
-        //display all species in the list if there is nothing typed in
-        if (!searchTerm){
-            setFirstHit(firstHitState)
-            setSecondHit(secondHitState)
-        // if there is a search term typed in, apply the filter
-        }else {
-            if (name === "firstHit"){
-                //apply filter to firstHit hook
-                const searchInput = searchTerm.toLowerCase()
-                const filtered1 = HitList.filter(HitListResult => HitListResult.value.toLowerCase().startsWith(searchInput))
-                setFirstHit(filtered1)
-            }
-            else {
-                const searchInput = searchTerm.toLowerCase()
-                const filtered2 = HitList.filter(HitListResult => HitListResult.value.toLowerCase().startsWith(searchInput))
-                setSecondHit(filtered2)
-            }
+    // function filterHits(searchTerm, name){
+    //     console.log('inside of filterHits', searchTerm, name)
+    //     //display all species in the list if there is nothing typed in
+    //     if (!searchTerm){
+    //         setFirstHit(firstHitState)
+    //         setSecondHit(secondHitState)
+    //     // if there is a search term typed in, apply the filter
+    //     }else {
+    //         if (name === "firstHit"){
+    //             //apply filter to firstHit hook
+    //             const searchInput = searchTerm.toLowerCase()
+    //             const filtered1 = HitList.filter(HitListResult => HitListResult.value.toLowerCase().startsWith(searchInput))
+    //             console.log(filtered1.value)
+    //             setFirstHit(filtered1.value)
+    //         }
+    //         else {
+    //             const searchInput = searchTerm.toLowerCase()
+    //             const filtered2 = HitList.filter(HitListResult => HitListResult.value.toLowerCase().startsWith(searchInput))
+    //             console.log(filtered2.value)
+    //             setSecondHit(filtered2.value)
+    //         }
 
-        }
+    //     }
 
-    }
+    // }
 
     //when the form is submitted, use API.addPoint method to save the project data
-    //then navigate to a new Point Data Record page, with point incremented by 0.25 ---------need to figure this out
+    //then navigate to a new Point Data Record page, with point incremented by 0.25
     function handlePointFormSubmitNext(event) {
-        event.preventDefault()
+        event.preventDefault(pointFormObject.firstHit)
+        console.log(pointFormObject)
             API.addPoint({
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
@@ -132,8 +135,8 @@ const RecordData = () => {
                 soil_moisture_percentage: pointFormObject.soilMoisture,
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
-                hit_one: pointFormObject.firstHit,//need to figure out what to put here so the values are submitted
-                hit_two: pointFormObject.secondHit,//need to figure out what to put here so the values are submitted
+                hit_one: pointFormObject.firstHit,
+                hit_two: pointFormObject.secondHit,
                 transectID: _id //this is the transect that I am adding the point to
             })
                 .then(history.push('/projects'))
@@ -193,7 +196,6 @@ const RecordData = () => {
                     className="form-control"
                     id="firstHit"
                     onChange={handleInputChange}
-                    filteredOptions={firstHitState}
                     ></HitInputSelect>
                 </div>
                 <div className="form-group">
@@ -204,7 +206,6 @@ const RecordData = () => {
                     className="form-control"
                     id="secondHit"
                     onChange={handleInputChange}
-                    filteredOptions={secondHitState}
                     ></HitInputSelect>
                 </div>
             </div>
