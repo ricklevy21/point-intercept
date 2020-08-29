@@ -11,7 +11,8 @@ const RegisterUser = () => {
     //hook for state of registration info form
     const [registrationFormObject, setRegistrationFormObject] = useState({
         email: "",
-        password: ""
+        password: "",
+        confirmPassword: ""
     })
 
     //handles updating component state when user types into the input field
@@ -24,13 +25,24 @@ const RegisterUser = () => {
     //then navigate to the login page
     function handleRegistrationFormSubmit(event) {
         event.preventDefault()
-
+        if(!registrationFormObject.email){
+            alert("please provide an email address")
+        }
+        else if (registrationFormObject.password != registrationFormObject.confirmPassword){
+            alert("your passwords do not match")
+        }
+        else if (!registrationFormObject.password){
+            alert("please create and confirm a password")
+        }
+        else{
             API.registerUser({
                 email: registrationFormObject.email,
                 password: registrationFormObject.password,
             })
                 .then(history.push('/login'))
                 .catch(err => console.log(err))
+        }
+
         
     };
 
@@ -40,7 +52,7 @@ const RegisterUser = () => {
         <>
         <h3>user registration</h3>
         <div className="form-group">
-            <label>email/username</label>
+            <label>email</label>
             <Input
             type="email"
             placeholder="enter email"
@@ -54,7 +66,13 @@ const RegisterUser = () => {
             placeholder ="create password"
             name="password"
             onChange={handleInputChange}
-
+            />
+            <label>confrim password</label>
+            <Input
+            type="password"
+            placeholder ="confirm password"
+            name="confirmPassword"
+            onChange={handleInputChange}
             />
             <SubmitBtn
              onClick={handleRegistrationFormSubmit}
