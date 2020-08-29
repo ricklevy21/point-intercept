@@ -28,7 +28,7 @@ const RegisterUser = () => {
         if(!registrationFormObject.email){
             alert("please provide an email address")
         }
-        else if (registrationFormObject.password != registrationFormObject.confirmPassword){
+        else if (registrationFormObject.password !== registrationFormObject.confirmPassword){
             alert("your passwords do not match")
         }
         else if (!registrationFormObject.password){
@@ -39,7 +39,14 @@ const RegisterUser = () => {
                 email: registrationFormObject.email,
                 password: registrationFormObject.password,
             })
-                .then(history.push('/login'))
+                .then(res => {
+                    if (res.data === "this user already exists"){
+                        alert(res.data)
+                        (history.push('/register'))
+                    }else {
+                        (history.push('/login'))
+                    }
+                })                
                 .catch(err => console.log(err))
         }
 
@@ -67,7 +74,7 @@ const RegisterUser = () => {
             name="password"
             onChange={handleInputChange}
             />
-            <label>confrim password</label>
+            <label>confirm password</label>
             <Input
             type="password"
             placeholder ="confirm password"
@@ -78,7 +85,7 @@ const RegisterUser = () => {
              onClick={handleRegistrationFormSubmit}
 
             >
-                Register
+                register
             </SubmitBtn>
 
         </div>
