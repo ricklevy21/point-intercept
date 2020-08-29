@@ -14,15 +14,22 @@ create: function(req, res) {
         .then(user => {
             if(user) {
                 //User already exists
-                console.log("user already exists")
                 res.json("this user already exists")
             }else{
-                db.User
-                    .create(req.body)
-                    .then(function(users){
-                        res.json(users)
-                    })
-                    .catch(err => res.status(422).json(err));
+                console.log(req.body.password)
+                //HASH PASSWORD
+                bcrypt.genSalt(10, (err, salt) => 
+                    bcrypt.hash(req.body.password, salt, (err, hash) => {
+                        if(err) throw err;
+                        //set pw to hashed
+                        req.body.password = hash;
+                        db.User
+                            .create(req.body)
+                            .then(function(users){
+                                res.json(users)
+                            })
+                            .catch(err => res.status(422).json(err));
+                }))
             }
         })
     }
