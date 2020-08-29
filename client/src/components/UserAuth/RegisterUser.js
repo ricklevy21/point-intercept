@@ -1,15 +1,38 @@
 //dependencies
 import { Input, SubmitBtn } from "../Form";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import {useHistory } from 'react-router-dom'
+import API from "../../utils/API";
 
 
 const RegisterUser = () => {
+    const history = useHistory()
 
     //hook for state of registration info form
-    const [transectFormObject, setTransectFormObject] = useState({
+    const [registrationFormObject, setRegistrationFormObject] = useState({
         email: "",
         password: ""
     })
+
+    //handles updating component state when user types into the input field
+    function handleInputChange(event){
+        const { name, value } = event.target;
+        setRegistrationFormObject({...registrationFormObject, [name]: value})
+    };
+
+    //when the form is submitted, use API.registerUser method to save the user data
+    //then navigate to the login page
+    function handleRegistrationFormSubmit(event) {
+        event.preventDefault()
+
+            API.registerUser({
+                email: registrationFormObject.email,
+                password: registrationFormObject.password,
+            })
+                .then(history.push('/login'))
+                .catch(err => console.log(err))
+        
+    };
 
 
 
@@ -21,13 +44,21 @@ const RegisterUser = () => {
             <Input
             type="email"
             placeholder="enter email"
+            name="email"
+            onChange={handleInputChange}
+
             />
             <label>password</label>
             <Input
             type="password"
             placeholder ="create password"
+            name="password"
+            onChange={handleInputChange}
+
             />
             <SubmitBtn
+             onClick={handleRegistrationFormSubmit}
+
             >
                 Register
             </SubmitBtn>
