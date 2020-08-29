@@ -34,5 +34,12 @@ export default {
     //method: POST
     addPoint: function(pointData) {
         return axios.post("/api/points", pointData)
+    },
+    
+    //create a new user
+    //method: POST
+    registerUser: function(regData) {
+        return axios.post("/api/register", regData)
     }
+    
 }

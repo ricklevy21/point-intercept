@@ -3,6 +3,7 @@ const express = require("express");
 const routes = require("./routes/api")
 const mongoose = require("mongoose")
 
+
 // new express app
 const app = express();
 
@@ -17,6 +18,7 @@ if (process.env.NODE_ENV === "production") {
 // configure middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 // Add routes, both API and view
 app.use(routes);

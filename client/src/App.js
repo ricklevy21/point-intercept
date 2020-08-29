@@ -13,6 +13,8 @@ import ResumeProject from './pages/ResumeProject'
 import RecordPage from './pages/RecordPage'
 import ViewData from './pages/ViewData'
 import NotFound from './pages/NotFound'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 //components
 import Navbar from './components/Navbar/index'
@@ -47,6 +49,12 @@ function App() {
       </Route>
       <Route exact path="/data">
         {<ViewData />}
+      </Route>
+      <Route exact path="/login">
+        {<Login />}
+      </Route>
+      <Route exact path="/register">
+        {<Register />}
       </Route>
       <Route path="/*">
         {<NotFound />}
