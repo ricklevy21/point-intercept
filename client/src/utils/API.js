@@ -34,5 +34,11 @@ export default {
     //method: POST
     addPoint: function(pointData) {
         return axios.post("/api/points", pointData)
+    },
+
+    //Get all transects and all of their point data for a project (by project ID)
+    //method: GET
+    getProjectData: function(projectDataAll) {
+        return axios.get("/api/data/" + projectDataAll, projectDataAll)
     }
 }
