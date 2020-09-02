@@ -31,7 +31,6 @@ const GetData = () => {
     useEffect(() => {
         API.getProjectData(_id)
             .then(res => {
-                setData(res.data.transects)
                 // console.log(res.data.transects)
                 let csvData = []
                 let transects = res.data.transects
@@ -53,6 +52,7 @@ const GetData = () => {
                     }
                 })
                 console.log(csvData)
+                setData(csvData)
             })
             .catch(err => console.log(err))
     }, [])
