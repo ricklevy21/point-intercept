@@ -49,9 +49,10 @@ const GetData = () => {
                         arr.push(transect.points[j].hit_two)
                         arr.push(transect.points[j].shrub_density)
                         arr.push(transect.points[j].canopy_score)
-                        console.log(arr)
+                        csvData.push(arr)
                     }
                 })
+                console.log(csvData)
             })
             .catch(err => console.log(err))
     }, [])
