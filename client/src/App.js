@@ -45,7 +45,7 @@ function App() {
       <Route exact path="/record/:_id">
         {<RecordPage />}
       </Route>
-      <Route exact path="/data">
+      <Route exact path="/data/:_id">
         {<ViewData />}
       </Route>
       <Route path="/*">
