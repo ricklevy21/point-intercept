@@ -40,5 +40,11 @@ export default {
     //method: GET
     getProjectData: function(projectDataAll) {
         return axios.get("/api/data/" + projectDataAll, projectDataAll)
+    },
+    
+    //create a new user
+    //method: POST
+    registerUser: function(regData) {
+        return axios.post("/api/register", regData)
     }
 }
