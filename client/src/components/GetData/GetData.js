@@ -3,6 +3,8 @@ import API from "../../utils/API";
 import { useParams } from 'react-router-dom'
 import ResumeProjectName from '../AddTransect/ResumeProjectName'
 import { CSVLink } from "react-csv";
+import moment from 'moment-timezone'
+
 
 
 const GetData = () => {
@@ -31,14 +33,15 @@ const GetData = () => {
     useEffect(() => {
         API.getProjectData(_id)
             .then(res => {
-                // console.log(res.data.transects)
                 let csvData = []
+                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "shrubDensity", "canopyScore"])
                 let transects = res.data.transects
                 transects.forEach(function(transect) {
                     for (var j = 0; j < transect.points.length; j++){
                         var arr = []
                         arr.push(transect.transect)
-                        arr.push(transect.date)
+                        // arr.push(moment(transect.date).format('YYYY-MM-DD'))
+                        arr.push(moment(transect.date).tz('UTC').format('YYYY-MM-DD'))
                         arr.push(transect.latitude)
                         arr.push(transect.longitude)
                         arr.push(transect.points[j].point)
@@ -51,8 +54,8 @@ const GetData = () => {
                         csvData.push(arr)
                     }
                 })
-                console.log(csvData)
                 setData(csvData)
+                console.log(csvData)
             })
             .catch(err => console.log(err))
     }, [])
@@ -67,7 +70,13 @@ const GetData = () => {
             />
 
 
-            <CSVLink data={data}>Download me</CSVLink>
+            <CSVLink
+            data={data}
+            className="btn btn-lg btn-dark btn-block"
+            filename={`${project.project}_point-intercept_data.csv`}
+            >
+                download csv
+            </CSVLink>
         </>
     )
 
