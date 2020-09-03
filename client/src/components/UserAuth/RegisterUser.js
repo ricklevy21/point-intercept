@@ -10,9 +10,10 @@ const RegisterUser = () => {
 
     //hook for state of registration info form
     const [registrationFormObject, setRegistrationFormObject] = useState({
-        username: "",
+        name: "",
+        email: "",
         password: "",
-        confirmPassword: ""
+        password2: ""
     })
 
     //handles updating component state when user types into the input field
@@ -28,7 +29,7 @@ const RegisterUser = () => {
         if(!registrationFormObject.username){
             alert("please provide a username")
         }
-        else if (registrationFormObject.password !== registrationFormObject.confirmPassword){
+        else if (registrationFormObject.password !== registrationFormObject.password2){
             alert("your passwords do not match")
         }
         else if (!registrationFormObject.password){
@@ -36,8 +37,11 @@ const RegisterUser = () => {
         }
         else{
             API.registerUser({
-                username: registrationFormObject.username,
+                name: registrationFormObject.name,
+                email: registrationFormObject.email,
                 password: registrationFormObject.password,
+                password2: registrationFormObject.password2
+
             })
                 .then(res => {
                     if (res.data === "this username already exists"){
@@ -59,14 +63,22 @@ const RegisterUser = () => {
         <>
         <h3>user registration</h3>
         <div className="form-group">
-            <label>username</label>
+            <label>name</label>
             <Input
-            type="username"
-            placeholder="create username"
-            name="username"
+            type="text"
+            placeholder="enter name"
+            name="name"
             onChange={handleInputChange}
-
             />
+
+            <label>email</label>
+            <Input
+            type="email"
+            placeholder="enter email"
+            name="email"
+            onChange={handleInputChange}
+            />
+
             <label>password</label>
             <Input
             type="password"
@@ -74,13 +86,15 @@ const RegisterUser = () => {
             name="password"
             onChange={handleInputChange}
             />
+
             <label>confirm password</label>
             <Input
             type="password"
             placeholder ="confirm password"
-            name="confirmPassword"
+            name="password2"
             onChange={handleInputChange}
             />
+
             <SubmitBtn
              onClick={handleRegistrationFormSubmit}
 
