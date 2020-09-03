@@ -3,7 +3,7 @@ const express = require("express");
 const routes = require("./routes/api")
 const mongoose = require("mongoose")
 const path = require('path');
-const session = require('express-session')
+
 
 // configure dotenv
 require('dotenv').config();
@@ -23,19 +23,6 @@ const PORT = process.env.PORT || 5000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//sessions
-app.use(
-    session({
-    secret: 'schmaltzy-dog',
-    resave: false,
-    saveUninitialized: false
-    })
-  )
-
-app.use( (req, res, next) => {
-console.log('req.session', req.session);
-return next();
-});
 
 // Add routes, both API and view
 app.use(routes);
