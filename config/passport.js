@@ -1,5 +1,6 @@
 //dependencies
-const LocalStrategy = require('passport-local').Strategy
+const passport = require('passport')
+, LocalStrategy = require('passport-local').Strategy
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
@@ -7,6 +8,7 @@ const bcrypt = require('bcryptjs')
 const db = require ("../models")
 
 module.exports = function(passport) {
+    //strategy for logging in a user
     passport.use(
         new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
             //match user
@@ -16,14 +18,14 @@ module.exports = function(passport) {
                     return done(null, false, { message: 'this email is not registered' })
                 }
                 //match password
-                bcrypt.compare(password, user.password, (err, isMatch) => {
+          bcrypt.compare(password, user.password, (err, isMatch) => {
                     if(err) throw err;
                     if(isMatch) {
                         return done(null, user)
                     }else {
                         return done(null, false, { message: 'password incorrect' })
                     }
-                })
+                })      
             })
             .catch(err => console.log(err))
         })
