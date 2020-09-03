@@ -14,15 +14,27 @@ const UserSchema = new Schema({
     }                                
 });
 
-// //method to gen a salt and hash the pw
-// usersSchema.methods.generateHash = function(password) {
-//     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-// }
+UserSchema.methods = {
+    checkPassword: function (inputPassword) {
+    return bcrypt.compareSync(inputPassword, this.password)
+  },
+  hashPassword: plainTextPassword => {
+    return bcrypt.hashSync(plainTextPassword, 10)
+    }
+  }
 
-// //method to compare the password
-// usersSchema.methods.validPassword = function(password, encrypted) {
-//     return bcrypt.compareSync(password, encrypted);
-// }
+// Define pre-hooks for the save method
+UserSchema.pre('save', function (next) {
+    if (!this.password) {
+      console.log('models/user.js =======NO PASSWORD PROVIDED=======')
+      next()
+    } else {
+      console.log('models/user.js hashPassword in pre save');
+      this.password = this.hashPassword(this.password)
+      next()
+    }
+  })
+
 
 const User = mongoose.model("User", UserSchema);
 

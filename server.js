@@ -2,7 +2,9 @@
 const express = require("express");
 const routes = require("./routes/api")
 const mongoose = require("mongoose")
-var path = require('path');
+const path = require('path');
+const session = require('express-session')
+
 // configure dotenv
 require('dotenv').config();
 
@@ -12,14 +14,28 @@ const app = express();
 // define PORT
 const PORT = process.env.PORT || 5000;
 
-// serve static assets in production
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static("client/build"));
-}
+// // serve static assets in production
+// if (process.env.NODE_ENV === "production") {
+//     app.use(express.static("client/build"));
+// }
 
 // configure middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+//sessions
+app.use(
+    session({
+    secret: 'schmaltzy-dog',
+    resave: false,
+    saveUninitialized: false
+    })
+  )
+
+app.use( (req, res, next) => {
+console.log('req.session', req.session);
+return next();
+});
 
 // Add routes, both API and view
 app.use(routes);
