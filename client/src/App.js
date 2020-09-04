@@ -15,6 +15,8 @@ import ViewData from './pages/ViewData'
 import NotFound from './pages/NotFound'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import About from './pages/About'
+
 
 //components
 import Navbar from './components/Navbar/index'
@@ -55,6 +57,9 @@ function App() {
       </Route>
       <Route exact path="/register">
         {<Register />}
+      </Route>
+      <Route exact path="/about">
+        {<About />}
       </Route>
       <Route path="/*">
         {<NotFound />}
