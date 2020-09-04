@@ -26,12 +26,23 @@ const LoginForm = () => {
         history.push('/register')
     }
 
-    //when the form is submitted, use API.loginUser method to authenticate
+    //when the login form is submitted, use API.loginUser method to authenticate
     function handleLoginFormSubmit(event){
         event.preventDefault()
         API.loginUser({
             email: loginFormObject.email,
             password: loginFormObject.password,
+        })
+        .then(res => {
+            //if the email and password match a record in the database, send to the home page
+            if(res.data){
+                history.push(`/`)
+            }
+            //if the email and password do not match a record in the database, send an alert and keep on login page
+            else{
+                alert("login failed")
+                history.push(`/login`)
+            }
         })
         .catch(err => console.log(err))
     }

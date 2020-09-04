@@ -1,6 +1,5 @@
 //dependencies
 const db = require("../models");
-const bcrypt = require('bcryptjs')
 
 module.exports = {
 
@@ -24,5 +23,27 @@ create: function(req, res) {
                     .catch(err => res.status(422).json(err));
             }
         })
+    },
+
+//method to login a user. checks if the username and passord submitted match a record in the database
+login: function(req, res) {
+    console.log(req.body)
+    //check the database
+    db.User
+        .findOne({
+            email: req.body.email,
+            password: req.body.password
+        })
+        .then(function(loginInfo) {
+            if(loginInfo){
+                console.log("success")
+                res.json(true)
+            }
+            else{
+                console.log("login failed")
+                res.json(false)
+            }
+        })
+        .catch(err => res.status(422).json(err));
     }
 }

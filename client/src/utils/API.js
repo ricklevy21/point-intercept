@@ -46,5 +46,11 @@ export default {
     //method: POST
     registerUser: function(regData) {
         return axios.post("/api/register", regData)
+    },
+
+    //login the user
+    //method: GET
+    loginUser: function(loginInfo){
+        return axios.post("/api/login", loginInfo)
     }
 }
