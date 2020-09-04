@@ -5,7 +5,6 @@ module.exports = {
 
 //method to register / create a new user
 create: function(req, res) {
-    console.log(req.body)
     //make sure the user doesnt already exsit
     db.User
         .findOne({email: req.body.email})
