@@ -29,7 +29,7 @@ const GetData = () => {
             .catch(err => console.log(err))
     }, [])
 
-    //run the function that calls tha API and creates the formatted data
+    //run the function that calls tha API and creates the formatted data for csv download
     useEffect(() => {
         API.getProjectData(_id)
             .then(res => {
@@ -55,7 +55,55 @@ const GetData = () => {
                     }
                 })
                 setData(csvData)
-                console.log(csvData)
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    //run the function that calls the API and formats the data for data visualization
+    useEffect(() => {
+        API.getProjectData(_id)
+            .then(res => {
+                const dataVisArr = []
+                let transects = res.data.transects
+                transects.forEach(function(transect) {
+                    let newObj={}
+                    newObj['transectName'] = transect.transect
+                    //get values for soil moisture
+                    let soilMoistureVals = []
+                    for (var j = 0; j < transect.points.length; j++) {
+                        if(transect.points[j].soil_moisture_percentage){
+                            soilMoistureVals.push(transect.points[j].soil_moisture_percentage)
+                        }
+                    }
+                    //get values for canopy cover
+                    let canopyVals = []
+                    for (var j = 0; j < transect.points.length; j++) {
+                        if(transect.points[j].canopy_score){
+                            canopyVals.push(transect.points[j].canopy_score)
+                        }
+                    }
+                    //get values for shrub density
+                    let shrubVals = []
+                    for (var j = 0; j < transect.points.length; j++) {
+                        if(transect.points[j].shrub_density){
+                            shrubVals.push(transect.points[j].shrub_density)
+                        }
+                    }
+                    //calculate mean soil moisture
+                    let sumMoistureVals = soilMoistureVals.reduce((a,b) => a += b)
+                    let meanSoilMoistureVals = sumMoistureVals/soilMoistureVals.length
+                    //calculate mean canipy score
+                    let sumCanopyVals = canopyVals.reduce((a,b) => a += b)
+                    let meanCanopyVals = sumCanopyVals/canopyVals.length
+                    //calculate mean shrub density
+                    let sumShrubVals = shrubVals.reduce((a,b) => a += b)
+                    let meanShrubVals = sumShrubVals/shrubVals.length
+                    newObj['meanSoilMoisture'] = meanSoilMoistureVals
+                    newObj['meanCanopyScore'] = meanCanopyVals
+                    newObj['meanShrubDensity'] = meanShrubVals
+                    dataVisArr.push(newObj)
+                })
+                console.log(dataVisArr)
             })
             .catch(err => console.log(err))
     }, [])
