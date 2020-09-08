@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import { useParams } from 'react-router-dom'
 import ResumeProjectName from '../AddTransect/ResumeProjectName'
-import { CSVLink } from "react-csv";
+import { CSVLink } from "react-csv"
+import MeanValuesChart from './MeanValuesChart'
 import moment from 'moment-timezone'
 
 
@@ -17,6 +18,8 @@ const GetData = () => {
     const [project, setProject] =useState([])
     //hook for state of data to be downloaded as csv
     const [data, setData] = useState([])
+    //hook for state of data for the charts
+    const [chartData, setChartData] = useState([])
 
 
     //display the project title once the component mounts
@@ -67,7 +70,7 @@ const GetData = () => {
                 let transects = res.data.transects
                 transects.forEach(function(transect) {
                     let newObj={}
-                    newObj['transectName'] = transect.transect
+                    newObj['name'] = transect.transect
                     //get values for soil moisture
                     let soilMoistureVals = []
                     for (var j = 0; j < transect.points.length; j++) {
@@ -77,16 +80,16 @@ const GetData = () => {
                     }
                     //get values for canopy cover
                     let canopyVals = []
-                    for (var j = 0; j < transect.points.length; j++) {
-                        if(transect.points[j].canopy_score){
-                            canopyVals.push(transect.points[j].canopy_score)
+                    for (var i = 0; i < transect.points.length; i++) {
+                        if(transect.points[i].canopy_score){
+                            canopyVals.push(transect.points[i].canopy_score)
                         }
                     }
                     //get values for shrub density
                     let shrubVals = []
-                    for (var j = 0; j < transect.points.length; j++) {
-                        if(transect.points[j].shrub_density){
-                            shrubVals.push(transect.points[j].shrub_density)
+                    for (var k = 0; k < transect.points.length; k++) {
+                        if(transect.points[k].shrub_density){
+                            shrubVals.push(transect.points[k].shrub_density)
                         }
                     }
                     //calculate mean soil moisture
@@ -98,12 +101,14 @@ const GetData = () => {
                     //calculate mean shrub density
                     let sumShrubVals = shrubVals.reduce((a,b) => a += b)
                     let meanShrubVals = sumShrubVals/shrubVals.length
+                    //add the mean vaues to the object
                     newObj['meanSoilMoisture'] = meanSoilMoistureVals
                     newObj['meanCanopyScore'] = meanCanopyVals
                     newObj['meanShrubDensity'] = meanShrubVals
                     dataVisArr.push(newObj)
                 })
                 console.log(dataVisArr)
+                setChartData(dataVisArr)
             })
             .catch(err => console.log(err))
     }, [])
@@ -117,6 +122,9 @@ const GetData = () => {
                 project={project.project}
             />
 
+            <MeanValuesChart
+                chartData={chartData}
+            />
 
             <CSVLink
             data={data}
