@@ -70,7 +70,7 @@ const GetData = () => {
                 let transects = res.data.transects
                 transects.forEach(function(transect) {
                     let newObj={}
-                    newObj['name'] = transect.transect
+                    newObj['transectName'] = transect.transect
                     //get values for soil moisture
                     let soilMoistureVals = []
                     for (var j = 0; j < transect.points.length; j++) {
@@ -92,17 +92,39 @@ const GetData = () => {
                             shrubVals.push(transect.points[k].shrub_density)
                         }
                     }
+
                     //calculate mean soil moisture
-                    let sumMoistureVals = soilMoistureVals.reduce((a,b) => a += b)
-                    let meanSoilMoistureVals = sumMoistureVals/soilMoistureVals.length
-                    //calculate mean canipy score
-                    let sumCanopyVals = canopyVals.reduce((a,b) => a += b)
-                    let meanCanopyVals = sumCanopyVals/canopyVals.length
+                    let sumMoistureVals
+                    let meanSoilMoistureVals
+                    if (soilMoistureVals.length > 0){
+                        sumMoistureVals = soilMoistureVals.reduce((a,b) => a += b)
+                        meanSoilMoistureVals = sumMoistureVals/soilMoistureVals.length
+                    }else {
+                        meanSoilMoistureVals = null
+                    }
+            
+                    //calculate mean canopy score
+                    let sumCanopyVals
+                    let meanCanopyVals
+                    if (canopyVals.length > 0){
+                        sumCanopyVals = canopyVals.reduce((a,b) => a += b)
+                        meanCanopyVals = sumCanopyVals/canopyVals.length
+                    }else {
+                        meanCanopyVals = null
+                    }
+
                     //calculate mean shrub density
-                    let sumShrubVals = shrubVals.reduce((a,b) => a += b)
-                    let meanShrubVals = sumShrubVals/shrubVals.length
+                    let sumShrubVals
+                    let meanShrubVals
+                    if (shrubVals.length > 0){
+                        sumShrubVals = shrubVals.reduce((a,b) => a += b)
+                        meanShrubVals = sumShrubVals/shrubVals.length  
+                    } else {
+                        meanShrubVals = null
+                    }
+
                     //add the mean vaues to the object
-                    newObj['meanSoilMoisture'] = meanSoilMoistureVals
+                    newObj['meanSoilMoisturePercentage'] = meanSoilMoistureVals
                     newObj['meanCanopyScore'] = meanCanopyVals
                     newObj['meanShrubDensity'] = meanShrubVals
                     dataVisArr.push(newObj)
