@@ -20,6 +20,8 @@ const GetData = () => {
     const [data, setData] = useState([])
     //hook for state of data for the charts
     const [chartData, setChartData] = useState([])
+    //hook for state of taxa chart data
+    const [taxaChart, setTaxaChart] = useState([])
 
 
     //display the project title once the component mounts
@@ -62,7 +64,7 @@ const GetData = () => {
             .catch(err => console.log(err))
     }, [])
 
-    //run the function that calls the API and formats the data for data visualization
+    //run the function that calls the API and formats the mean value data for charts
     useEffect(() => {
         API.getProjectData(_id)
             .then(res => {
@@ -129,12 +131,54 @@ const GetData = () => {
                     newObj['meanShrubDensity'] = meanShrubVals
                     dataVisArr.push(newObj)
                 })
-                console.log(dataVisArr)
                 setChartData(dataVisArr)
             })
             .catch(err => console.log(err))
     }, [])
 
+    //run the function that calls the API and formats the data for the taxa chart
+    useEffect(() => {
+        API.getProjectData(_id)
+            .then(res => {
+                const projectTaxaFirstHits = []
+                const projectTaxaSecondHits = []
+                let transects = res.data.transects
+                transects.forEach(function(transect) {
+                    for (var i = 0; i < transect.points.length; i++) {
+                        if(transect.points[i].hit_one){
+                            projectTaxaFirstHits.push(transect.points[i].hit_one)
+                        }
+                    }
+                    for (var i = 0; i < transect.points.length; i++) {
+                        if(transect.points[i].hit_two){
+                            projectTaxaSecondHits.push(transect.points[i].hit_two)
+                        }
+                    }
+                })
+                console.log(projectTaxaFirstHits)
+                console.log(projectTaxaSecondHits)
+                taxonCounter(projectTaxaFirstHits)
+                taxonCounter(projectTaxaSecondHits)
+
+            })
+    },[])
+
+    //function to count the instances of a taxon found within a project (count occurrences of a string within an array)
+    const taxonCounter = function (array) {
+        "use strict";
+        const result = {};
+        if (array instanceof Array) { // Check if input is array.
+            array.forEach(function (v, i) {
+                if (!result[v]) { // Initial object property creation.
+                    result[v] = [i]; // Create an array for that property.
+                } else { // Same occurrences found.
+                    result[v].push(i); // Fill the array.
+                }
+            });
+        }
+        console.log(result)
+        return result;
+    };
 
 
     return (
