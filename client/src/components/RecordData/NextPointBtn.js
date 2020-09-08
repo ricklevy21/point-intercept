@@ -1,18 +1,20 @@
 import React from "react";
 
 
-// COMPONENT NOT CURRENTLY IN USE
+// COMPONENT NOT FULLY FUNCTIONAL
 
-export function NextPointBtn({ setPoint, statePoint }) {
-    //function to increment point value and set
-    function incrementPoint(){
-        let point = 0
-        let nextPoint = point + 0.25
-        console.log(nextPoint)
-        setPoint({ ...statePoint, point})
-    };
+export function NextPointBtn(props) {
+  
+  //function to increase point value by 0.25 and the update state??
+  function incrementPoint(){
+    let nextPoint = parseFloat(props.statePoint.point) + 0.25
+    props.setPoint({...props.statePoint, point: nextPoint})
+    console.log(nextPoint)
+  };
+    
   return (
     <button
+    {...props}
     id="nextPoint"
     style={{ float: "right", marginBottom: 10 }}
     className="btn btn-lg btn-dark btn-block"

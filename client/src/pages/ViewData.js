@@ -1,13 +1,12 @@
 //dependencies
 import React from 'react'
+import GetData from '../components/GetData/GetData'
 
 const ViewData = () => {
     return (
-        <div className="row">
-            <div className="col s12">
-                This is my View Data page.
-            </div>
-        </div>
+        <>
+        <GetData />
+        </>
     )
 }
 

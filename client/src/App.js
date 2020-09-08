@@ -13,6 +13,10 @@ import ResumeProject from './pages/ResumeProject'
 import RecordPage from './pages/RecordPage'
 import ViewData from './pages/ViewData'
 import NotFound from './pages/NotFound'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import About from './pages/About'
+
 
 //components
 import Navbar from './components/Navbar/index'
@@ -45,8 +49,17 @@ function App() {
       <Route exact path="/record/:_id">
         {<RecordPage />}
       </Route>
-      <Route exact path="/data">
+      <Route exact path="/data/:_id">
         {<ViewData />}
+      </Route>
+      <Route exact path="/login">
+        {<Login />}
+      </Route>
+      <Route exact path="/register">
+        {<Register />}
+      </Route>
+      <Route exact path="/about">
+        {<About />}
       </Route>
       <Route path="/*">
         {<NotFound />}

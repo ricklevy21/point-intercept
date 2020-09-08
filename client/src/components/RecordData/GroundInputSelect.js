@@ -3,7 +3,7 @@ import React from "react";
 export function GroundInputSelect(props) {
   return (
     <div className="form-group">
-      <select className="form-control" {...props} select>
+      <select className="form-control" {...props} >
         <option value=""></option>
         <option value="rock">rock</option>
         <option value="bare soil">bare soil</option>
