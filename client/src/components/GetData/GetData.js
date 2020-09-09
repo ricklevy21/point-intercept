@@ -233,6 +233,7 @@ const GetData = () => {
             >
                 download csv
             </CSVLink>
+            <br/>
         </>
     )
 
