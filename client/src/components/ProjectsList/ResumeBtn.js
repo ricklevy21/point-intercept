@@ -9,7 +9,7 @@ export function ResumeBtn(props) {
       key={props.id}
       className="btn btn-dark"
       >
-        Resume Project
+        resume project
       </button>
     </Link>
   );

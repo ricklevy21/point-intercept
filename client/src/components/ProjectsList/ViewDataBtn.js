@@ -8,7 +8,7 @@ export function ViewDataBtn(props) {
     <button
     key={props.id}
     className="btn btn-dark">
-     Get Data
+     get data
     </button>
     </Link>
   );

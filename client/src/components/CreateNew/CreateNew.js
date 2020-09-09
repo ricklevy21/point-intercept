@@ -37,7 +37,7 @@ const CreateNew = () => {
             <div className="row">
                 <div className="col">
                     <div className="form-group">
-                        <label>Project Name</label>
+                        <label>project name</label>
                         <Input
                         onChange={handleInputChange}
                         name="project"
@@ -54,7 +54,7 @@ const CreateNew = () => {
             type="button"
             className="btn btn-dark btn-lg btn-block"
             onClick={handleProjectFormSubmit}
-            >Create Project</SubmitBtn>
+            >create project</SubmitBtn>
         </>
     )
 }

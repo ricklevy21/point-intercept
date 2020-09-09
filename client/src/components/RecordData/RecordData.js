@@ -163,7 +163,7 @@ const RecordData = () => {
             <div className="col-2">
                 <div className="input-group mb-2">
                     <div className="input-group-prepend">
-                        <div className="input-group-text">Point</div>
+                        <div className="input-group-text">point</div>
                     </div>
                     <PointInput value={pointFormObject.point} type="number" step="0.25" min="0" name="point" id="point" onChange={handleInputChange}></PointInput>
 
@@ -173,23 +173,23 @@ const RecordData = () => {
         <div className="row">
             <div className="col">
                 <div className="form-group">
-                    <label>Ground Surface</label>
+                    <label>ground surface</label>
                     <GroundInputSelect value={pointFormObject.groundSurface} type="text" name="groundSurface" className="form-control" id="groundSurface" onChange={handleInputChange}></GroundInputSelect>
                 </div>
                 <div className="form-group">
-                    <label>Soil Moisture Percentage</label>
+                    <label>soil moisture percentage</label>
                     <Input value={pointFormObject.soilMoisture} type="number" name="soilMoisture" step="0.1" className="form-control" id="soilMoisture" min="0" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label>Shrub Density</label>
+                    <label>shrub density</label>
                     <Input value={pointFormObject.shrubDensity} type="number" name="shrubDensity" className="form-control" id="shrubDensity" min="0" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label>Canopy Score (value from densiometer, not %)</label>
+                    <label>canopy score (value from densiometer, not %)</label>
                     <Input value={pointFormObject.canopyScore} type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" onChange={handleInputChange}></Input>
                 </div>
                 <div className="form-group">
-                    <label>First Hit</label>
+                    <label>first hit</label>
                     <HitInputSelect
                     value={pointFormObject.firstHit}
                     name="firstHit"
@@ -199,7 +199,7 @@ const RecordData = () => {
                     ></HitInputSelect>
                 </div>
                 <div className="form-group">
-                    <label>Second Hit</label>
+                    <label>second hit</label>
                     <HitInputSelect
                     value={pointFormObject.secondHit}
                     name="secondHit"
@@ -215,14 +215,14 @@ const RecordData = () => {
                 <SubmitBtn
                     onClick={handlePointFormSubmitEnd}
                 >
-                    End Transect
+                    end transect
                 </SubmitBtn>
             </div>
             <div className="col-8">
                 <SubmitBtn
                     onClick={handlePointFormSubmitNext}
                 >
-                    Next Point
+                    next point
                 </SubmitBtn>
             </div>
         </div>

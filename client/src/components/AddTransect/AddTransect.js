@@ -74,7 +74,7 @@ const AddTransect = () => {
             />
         <form>
             <div className="form-group">
-                <label>Transect Name</label>
+                <label>transect name</label>
                 <Input name="transect" id="transect" className="form-control" onChange={handleInputChange}></Input>
             </div>
 
@@ -83,10 +83,10 @@ const AddTransect = () => {
             <div className="form-group">
                 <div className="row">
                     <div className="col-5">
-                        <Input id="latitude" name="latitude" value={transectFormObject.latitude} className="form-control" placeholder="Latitude" onChange={handleInputChange}></Input>
+                        <Input id="latitude" name="latitude" value={transectFormObject.latitude} className="form-control" placeholder="latitude" onChange={handleInputChange}></Input>
                     </div>
                     <div className="col-5">
-                        <Input id="longitude" name="longitude" value={transectFormObject.longitude}  className="form-control" placeholder="Longitude" onChange={handleInputChange}></Input>
+                        <Input id="longitude" name="longitude" value={transectFormObject.longitude}  className="form-control" placeholder="longitude" onChange={handleInputChange}></Input>
                     </div>
                     <div className="col-2">
                         <GPSbtn
@@ -101,17 +101,17 @@ const AddTransect = () => {
 
 
             <div className="form-group">
-                <label>Date</label>
+                <label>date</label>
                 <Input id="date" name="date" className="form-control" type="date" onChange={handleInputChange}></Input>
             </div>
             <div className="form-group">
-                <label>Crew</label>
+                <label>crew</label>
                 <Input id="crew" name="crew" className="form-control" onChange={handleInputChange}></Input>
 
             </div>
                 <SubmitBtn
                     onClick={handleTransectFormSubmit}
-                    >Start
+                    >start
                 </SubmitBtn>
         </form>
         </>
