@@ -6,7 +6,7 @@ const About = () => {
     return (
         <>
         <p>
-            <i><strong>point-intercept</strong></i> is a field-to-database application designed to use the line-point-intercept method for measuring ecological characteristics of a habitat.
+            <i><strong>point-intercept</strong></i> is a field-to-database application deisnged to use the line-point-intercept method for measuring ecological characteristics of a habitat.
             <br/>
             <br/>
             The Line-Point-Intercept method is commonly used to rapidly and accurately quantify vegetation and ground cover (<a href="https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/stelprdb5172121.pdf">Herrick et al 2005</a>). A field ecologist lays a measuring tape, or “transect”, at the site of interest and walks the line while stopping at incremented “points” to record data. Typically, a characterization of the soil surface is made and the species of plant intercepting a pin flag are recorded. Additional data can be incorporated depending on the researchers’ question, for example tree canopy cover, soil moisture, or shrub density.
