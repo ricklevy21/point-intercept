@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom'
 import ResumeProjectName from '../AddTransect/ResumeProjectName'
 import { CSVLink } from "react-csv"
 import MeanValuesChart from './MeanValuesChart'
+import TopCanopyChart from './TopCanopyChart'
+import LowerCanopyChart from './LowerCanopyChart'
 import moment from 'moment-timezone'
 
 
@@ -20,9 +22,10 @@ const GetData = () => {
     const [data, setData] = useState([])
     //hook for state of data for the charts
     const [chartData, setChartData] = useState([])
-    //hook for state of taxa chart data
-    const [taxaChart, setTaxaChart] = useState([])
-
+    //hook for state of top canopy taxa chart data
+    const [topCanopy, setTopCanopy] = useState([])
+    //hook for state of lower canopy taxa chart data
+    const [lowerCanopy, setLowerCanopy] = useState([])
 
     //display the project title once the component mounts
     useEffect(() => {
@@ -149,22 +152,28 @@ const GetData = () => {
                             projectTaxaFirstHits.push(transect.points[i].hit_one)
                         }
                     }
-                    for (var i = 0; i < transect.points.length; i++) {
-                        if(transect.points[i].hit_two){
-                            projectTaxaSecondHits.push(transect.points[i].hit_two)
+                    for (var g = 0; g < transect.points.length; g++) {
+                        if(transect.points[g].hit_two){
+                            projectTaxaSecondHits.push(transect.points[g].hit_two)
                         }
                     }
                 })
-                console.log(projectTaxaFirstHits)
-                console.log(projectTaxaSecondHits)
-                taxonCounter(projectTaxaFirstHits)
-                taxonCounter(projectTaxaSecondHits)
-
+                const firstHits = hitOneCounter(projectTaxaFirstHits)
+                const secondHits = hitTwoCounter(projectTaxaSecondHits)
+                firstHits.sort((b, a) => {
+                    return a.firstHits - b.firstHits
+                })
+                secondHits.sort((b, a) => {
+                    return a.secondHits - b.secondHits
+                })
+                setTopCanopy(firstHits)
+                setLowerCanopy(secondHits)
             })
+            .catch(err => console.log(err))
     },[])
 
-    //function to count the instances of a taxon found within a project (count occurrences of a string within an array)
-    const taxonCounter = function (array) {
+    //function to count the instances of a taxon (first hit) found within a project (count occurrences of a string within an array)
+    const hitOneCounter = function (array) {
         "use strict";
         const result = {};
         if (array instanceof Array) { // Check if input is array.
@@ -176,8 +185,25 @@ const GetData = () => {
                 }
             });
         }
-        console.log(result)
-        return result;
+        const hitOneObject = Object.keys(result).map(e => ({taxon: e, firstHits: result[e].length}))
+        return hitOneObject
+    };
+
+    //function to count the instances of a taxon (second hit) found within a project (count occurrences of a string within an array)
+    const hitTwoCounter = function (array) {
+        "use strict";
+        const result = {};
+        if (array instanceof Array) { // Check if input is array.
+            array.forEach(function (v, i) {
+                if (!result[v]) { // Initial object property creation.
+                    result[v] = [i]; // Create an array for that property.
+                } else { // Same occurrences found.
+                    result[v].push(i); // Fill the array.
+                }
+            });
+        }
+        const hitTwoObject = Object.keys(result).map(e => ({taxon: e, secondHits: result[e].length}))
+        return hitTwoObject
     };
 
 
@@ -190,6 +216,14 @@ const GetData = () => {
 
             <MeanValuesChart
                 chartData={chartData}
+            />
+
+            <TopCanopyChart
+                topCanopy={topCanopy}
+            />
+
+            <LowerCanopyChart
+                lowerCanopy={lowerCanopy}
             />
 
             <CSVLink
