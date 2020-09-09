@@ -14,6 +14,15 @@ const About = () => {
             <br/>
             <br/>
             A complete dataset for a project can be downloaded as a CSV file.
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            developed by <a href = "https://www.botanicgardens.org/team/profile/rick-levy">Rick Levy / Database Associate / Research & Conservation / Denver Botanic Gardens</a>
         </p>
         </>
     )
