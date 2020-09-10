@@ -6,7 +6,7 @@ const PointInput = (props) => {
 
     return (
       <>
-          <input className="form-control" {...props} />
+        <input className="form-control" {...props} />
       </>
       );
 }

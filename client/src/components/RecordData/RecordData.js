@@ -160,7 +160,7 @@ const RecordData = () => {
             </div>
         </div>
         <div className="row">
-            <div className="col-2">
+            <div className="col-auto">
                 <div className="input-group mb-2">
                     <div className="input-group-prepend">
                         <div className="input-group-text">point</div>
