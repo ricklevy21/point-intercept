@@ -27,7 +27,7 @@ const RecordData = () => {
         firstHit: "",
     })
 
-    //second hits
+    //second hits//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //hook for state of second hits values (array of names)
     const [secondHits, setSecondHits] = useState([])
     //hook for state of second hits input field
@@ -35,21 +35,33 @@ const RecordData = () => {
 
     //function to add the value in the input field to the to the list of second hit values
     const handleSecondHitSumbit = () => {
-        setSecondHits(secondHits => secondHits.concat(secondHitInput))
-        console.log("inside handleSecondHitSubmit")
+        if (secondHitInput.length > 0) {
+            setSecondHits(secondHits => [...secondHits, secondHitInput])
+            //setSecondHits(secondHits => secondHits.concat(secondHitInput))
+            console.log("inside handleSecondHitSubmit")
+            setSecondHitInput("")
+        }
     }
-
+    
     //function to update the secondHitInput as user types
-    const updateSecondHitInput = ({ target }) => {
-        setSecondHitInput(target.value)
+    function updateSecondHitInput({ target }) {
+        setSecondHitInput(target.value);
     }
 
-    //function to prevent refresh when value add to second hits
-    const secondHitSubmitHandler = e => {
+    //have enter key submit value
+    const keyPressed = ({ key }) => {
+        if (key === "Enter") {
+            handleSecondHitSumbit()
+        }
+      }
+
+    
+    const submitSecondHitHandler = e => {
+        // Prevent form submission on Enter key
         e.preventDefault()
-    }
+      }
 
-    //
+    //component ----maybe should save in abother file, but gotta figure out props
     const Search = ({ secondHitInput }) => <li>{secondHitInput}</li>
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +110,9 @@ const RecordData = () => {
                 shrubDensity: "",
                 canopyScore: "",
                 firstHit: "",
-            })})
+            })
+                setSecondHits([])
+            })
                 .catch(err => console.log(err))
         
     };
@@ -188,11 +202,13 @@ const RecordData = () => {
                             />
                         ))}
                     </ul>
-                    <form onSubmit={secondHitSubmitHandler} className="form-inline">
+                    <form className="form-inline" onSubmit={submitSecondHitHandler}>
                         <input
                             className="form-control"
                             type="text"
                             onChange={updateSecondHitInput}
+                            onKeyPress={keyPressed}
+                            value={secondHitInput}
                         />
                         <button
                             className="btn btn-dark btn-sm"
