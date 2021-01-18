@@ -198,7 +198,7 @@ const RecordData = () => {
                         ))}
                     </ul>
                     <form className="form-inline" onSubmit={submitSecondHitHandler}>
-                        <input
+                        <HitInputSelect
                             className="form-control"
                             type="text"
                             onChange={updateSecondHitInput}
