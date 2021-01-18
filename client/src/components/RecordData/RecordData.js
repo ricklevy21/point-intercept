@@ -103,6 +103,48 @@ const RecordData = () => {
     const SearchCanopy = ({ canopyTaxaInput }) => <li>{canopyTaxaInput}</li>
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //SHRUB DENSITY//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //hook for state of shrub density values (array of objects (taxon and count))
+    const [shrubDensityArr, setShrubDensityArr] = useState([])
+    //hook for state of shrub taxa input field
+    const [shrubTaxaInput, setShrubTaxaInput] = useState("")
+    //hook for state of shrub count input field
+    const [shrubCountInput, setShrubCountInput] = useState("")
+
+    //function to add the values in the input fields to the to the array of shrub objects
+    const handleShrubSumbit = () => {
+        if (shrubTaxaInput.length > 0 && shrubCountInput.length > 0) {
+            console.log("inside handleShrubSumbit", shrubTaxaInput, shrubCountInput)
+            setShrubDensityArr([...shrubDensityArr, {
+                id: shrubDensityArr.length,
+                shrubTaxon:shrubTaxaInput,
+                shrubCount:shrubCountInput
+            }])
+            setShrubTaxaInput("")
+            setShrubCountInput("")
+        }
+    }
+    
+    //function to update the shrubTaxaInput as user types
+    function updateShrubTaxaInput({ target }) {
+        setShrubTaxaInput(target.value);
+    }
+    //function to update the shrubCountInput as user types
+    function updateShrubCountInput({ target }) {
+        setShrubCountInput(target.value);
+    }
+    
+    const submitShrubDensityArrHandler = e => {
+        // Prevent form submission on Enter key
+        e.preventDefault()
+      }
+
+    // //component ----maybe should save in another file, but gotta figure out props
+    // const SearchShrubTaxa = ({ shrubTaxaInput }) => <li>{shrubTaxaInput}</li>
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //use the species list for the dropdowns and display the transectName on the page once the component mounts 
     useEffect(() => {
  
@@ -131,6 +173,7 @@ const RecordData = () => {
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
+                shrub_density_detail: shrubDensityArr,
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 canopy_taxa: canopyTaxa,
@@ -152,6 +195,7 @@ const RecordData = () => {
             })
                 setSecondHits([])
                 setCanopyTaxa([])
+                setShrubDensityArr([])
             })
                 .catch(err => console.log(err))
         
@@ -209,6 +253,37 @@ const RecordData = () => {
                 <div className="form-group">
                     <label>soil moisture percentage</label>
                     <Input value={pointFormObject.soilMoisture} type="number" name="soilMoisture" step="0.1" className="form-control" id="soilMoisture" min="0" onChange={handleInputChange}></Input>
+                </div>
+                <div className="form-group">
+                    <label>shrub density</label>
+                    <ul>
+                        {shrubDensityArr.map(shrubDensityArrItem => (
+                            <li key={shrubDensityArrItem.id}>{shrubDensityArrItem.shrubTaxon}{" : "}{shrubDensityArrItem.shrubCount}</li>
+                        ))}
+                    </ul>
+                    <form className="form-inline" onSubmit={submitShrubDensityArrHandler}>
+                        <HitInputSelect
+                            className="form-control"
+                            type="text"
+                            onChange={updateShrubTaxaInput}
+                            value={shrubTaxaInput}
+                        />
+                        <input
+                            className="form-control"
+                            type="number"
+                            min="0"
+                            max="50"
+                            onChange={updateShrubCountInput}
+                            value={shrubCountInput}
+                        />
+                        <button
+                            className="btn btn-dark btn-sm"
+                            type="button"
+                            onClick={handleShrubSumbit}
+                        >
+                            +
+                        </button>
+                    </form>
                 </div>
                 <div className="form-group">
                     <label>shrub density</label>
