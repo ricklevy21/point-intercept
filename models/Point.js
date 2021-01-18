@@ -41,9 +41,9 @@ const PointSchema = new Schema({
         default: null
     },
     hit_two: {
-        type: String,
+        type: [String],
         default: null
-    }    
+    }
 });
 
 const Point = mongoose.model("Point", PointSchema);

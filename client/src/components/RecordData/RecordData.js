@@ -95,8 +95,8 @@ const RecordData = () => {
                 soil_moisture_percentage: pointFormObject.soilMoisture,
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
-                hit_one: pointFormObject.firstHit,//need to figure out what to put here so the values are submitted
-                //hit_two: pointFormObject.secondHit,//need to figure out what to put here so the values are submitted
+                hit_one: pointFormObject.firstHit,
+                hit_two: secondHits,
                 transectID: _id //this is the transect that I am adding the point to
             })
             .then(() => 
@@ -130,18 +130,13 @@ const RecordData = () => {
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 hit_one: pointFormObject.firstHit,
-                //hit_two: pointFormObject.secondHit,
+                hit_two: secondHits,
                 transectID: _id //this is the transect that I am adding the point to
             })
                 .then(history.push('/projects'))
                 .catch(err => console.log(err))
         
     };
-
-
-
-
-
 
     return (
         <>
