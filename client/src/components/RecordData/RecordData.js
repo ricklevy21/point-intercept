@@ -27,7 +27,7 @@ const RecordData = () => {
         firstHit: "",
     })
 
-    //second hits//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //SECOND HITS//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //hook for state of second hits values (array of names)
     const [secondHits, setSecondHits] = useState([])
     //hook for state of second hits input field
@@ -65,6 +65,44 @@ const RecordData = () => {
     const Search = ({ secondHitInput }) => <li>{secondHitInput}</li>
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //CANOPY TAXA//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //hook for state of canopy taxa values (array of names)
+    const [canopyTaxa, setCanopyTaxa] = useState([])
+    //hook for state of canopy taxa input field
+    const [canopyTaxaInput, setCanopyTaxaInput] = useState("")
+
+    //function to add the value in the input field to the to the list of canoipy taxa values
+    const handleCanopyTaxaSumbit = () => {
+        if (canopyTaxaInput.length > 0) {
+            setCanopyTaxa(canopyTaxa => [...canopyTaxa, canopyTaxaInput])
+            //setCanopyTaxa(canopyTaxa => canopyTaxa.concat(canopyTaxaInput))
+            console.log("inside handleCanopyTaxaSumbit")
+            setCanopyTaxaInput("")
+        }
+    }
+    
+    //function to update the canopyTaxaInput as user types
+    function updateCanopyTaxaInput({ target }) {
+        setCanopyTaxaInput(target.value);
+    }
+
+    //have enter key submit value
+    const keyPressedCanopy = ({ key }) => {
+        if (key === "Enter") {
+            handleCanopyTaxaSumbit()
+        }
+      }
+    
+    const submitCanopyTaxaHandler = e => {
+        // Prevent form submission on Enter key
+        e.preventDefault()
+      }
+
+    //component ----maybe should save in another file, but gotta figure out props
+    const SearchCanopy = ({ canopyTaxaInput }) => <li>{canopyTaxaInput}</li>
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     //use the species list for the dropdowns and display the transectName on the page once the component mounts 
     useEffect(() => {
  
@@ -95,6 +133,7 @@ const RecordData = () => {
                 soil_moisture_percentage: pointFormObject.soilMoisture,
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
+                canopy_taxa: canopyTaxa,
                 hit_one: pointFormObject.firstHit,
                 hit_two: secondHits,
                 transectID: _id //this is the transect that I am adding the point to
@@ -112,6 +151,7 @@ const RecordData = () => {
                 firstHit: "",
             })
                 setSecondHits([])
+                setCanopyTaxa([])
             })
                 .catch(err => console.log(err))
         
@@ -129,6 +169,7 @@ const RecordData = () => {
                 soil_moisture_percentage: pointFormObject.soilMoisture,
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
+                canopy_taxa: canopyTaxa,
                 hit_one: pointFormObject.firstHit,
                 hit_two: secondHits,
                 transectID: _id //this is the transect that I am adding the point to
@@ -176,6 +217,33 @@ const RecordData = () => {
                 <div className="form-group">
                     <label>canopy score (value from densiometer, not %)</label>
                     <Input value={pointFormObject.canopyScore} type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" onChange={handleInputChange}></Input>
+                </div>
+                <div className="form-group">
+                    <label>canopy taxa</label>
+                    <ul>
+                        {canopyTaxa.map((canopyTaxaInput, i) => (
+                            <SearchCanopy
+                            canopyTaxaInput={canopyTaxaInput}
+                                key={canopyTaxaInput + i}
+                            />
+                        ))}
+                    </ul>
+                    <form className="form-inline" onSubmit={submitCanopyTaxaHandler}>
+                        <HitInputSelect
+                            className="form-control"
+                            type="text"
+                            onChange={updateCanopyTaxaInput}
+                            onKeyPress={keyPressedCanopy}
+                            value={canopyTaxaInput}
+                        />
+                        <button
+                            className="btn btn-dark btn-sm"
+                            type="button"
+                            onClick={handleCanopyTaxaSumbit}
+                        >
+                            +
+                        </button>
+                    </form>
                 </div>
                 <div className="form-group">
                     <label>first hit</label>
