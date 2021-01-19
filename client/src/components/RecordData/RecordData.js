@@ -167,13 +167,22 @@ const RecordData = () => {
     //then navigate to a new Point Data Record page, with point incremented by 0.25
     function handlePointFormSubmitNext(event) {
         event.preventDefault(pointFormObject.firstHit)
-        console.log(pointFormObject)
-        console.log(secondHits)
             API.addPoint({
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
-                shrub_density_detail: shrubDensityArr,
+                shrub_density_detail:
+                    [
+                        {
+                            taxon: "TEST",
+                            stem_count: 111
+                        },
+                        {
+                            taxon: "TEST2",
+                            stem_count: 222
+                        }
+                
+                    ],
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 canopy_taxa: canopyTaxa,
