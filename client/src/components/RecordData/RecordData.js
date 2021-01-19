@@ -171,11 +171,7 @@ const RecordData = () => {
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
-                shrub_density_detail:
-                        {
-                            taxon: shrubDensityArr.forEach(shrub => JSON.stringify(shrub.shrubTaxon)),
-                            stem_count: shrubDensityArr.forEach(shrub => JSON.stringify(shrub.shrubCount))
-                        },
+                shrub_density_detail: JSON.stringify(shrubDensityArr),
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 canopy_taxa: canopyTaxa,

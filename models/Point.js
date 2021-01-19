@@ -20,18 +20,9 @@ const PointSchema = new Schema({
     shrub_density: {
         type: Number
     },
-    shrub_density_detail: [
-        {
-            taxon: {
-                type: String,
-                default: null
-            },
-            stem_count: {
-                type: Number,
-                default: null
-            }
-        }
-    ],
+    shrub_density_detail: {
+        type: [String]
+    },
     canopy_score: {
         type: Number
     },
