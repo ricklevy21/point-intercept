@@ -38,7 +38,6 @@ const RecordData = () => {
         if (secondHitInput.length > 0) {
             setSecondHits(secondHits => [...secondHits, secondHitInput])
             //setSecondHits(secondHits => secondHits.concat(secondHitInput))
-            console.log("inside handleSecondHitSubmit")
             setSecondHitInput("")
         }
     }
@@ -111,11 +110,12 @@ const RecordData = () => {
     const [shrubTaxaInput, setShrubTaxaInput] = useState("")
     //hook for state of shrub count input field
     const [shrubCountInput, setShrubCountInput] = useState("")
+    //hook for total shrub density stem count
+    const [totalStemCount, setTotalStemCount] = useState(0)
 
     //function to add the values in the input fields to the to the array of shrub objects
     const handleShrubSumbit = () => {
         if (shrubTaxaInput.length > 0 && shrubCountInput.length > 0) {
-            console.log("inside handleShrubSumbit", shrubTaxaInput, shrubCountInput)
             setShrubDensityArr([...shrubDensityArr, {
                 id: shrubDensityArr.length,
                 shrubTaxon:shrubTaxaInput,
@@ -139,9 +139,13 @@ const RecordData = () => {
         // Prevent form submission on Enter key
         e.preventDefault()
       }
-
-    // //component ----maybe should save in another file, but gotta figure out props
-    // const SearchShrubTaxa = ({ shrubTaxaInput }) => <li>{shrubTaxaInput}</li>
+    
+    // //function to calculate the total stem count
+    // function calcStemCount() {
+    //     console.log(shrubDensityArr.reduce((accumulator, current) => parseInt(accumulator) + parseInt(current.shrubCount), 0))
+    //     setTotalStemCount(prevtotalStemCount => prevtotalStemCount+totalStemCount)
+    //     console.log(totalStemCount)
+    // }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -172,7 +176,7 @@ const RecordData = () => {
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
                 shrub_density_detail: JSON.stringify(shrubDensityArr),
-                shrub_density: pointFormObject.shrubDensity,
+                shrub_density: totalStemCount,
                 canopy_score: pointFormObject.canopyScore,
                 canopy_taxa: canopyTaxa,
                 hit_one: pointFormObject.firstHit,
@@ -194,6 +198,7 @@ const RecordData = () => {
                 setSecondHits([])
                 setCanopyTaxa([])
                 setShrubDensityArr([])
+                setTotalStemCount(0)
             })
                 .catch(err => console.log(err))
         
@@ -209,6 +214,7 @@ const RecordData = () => {
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
+                shrub_density_detail: JSON.stringify(shrubDensityArr),
                 shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 canopy_taxa: canopyTaxa,
