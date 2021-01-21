@@ -42,10 +42,14 @@ const GetData = () => {
         API.getProjectData(_id)
             .then(res => {
                 let csvData = []
-                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "shrubDensity", "canopyScore"])
+                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "canopyScore", "canopyTaxa", "shrubDetails", "totalShrubStemCount"])
                 let transects = res.data.transects
                 transects.forEach(function(transect) {
                     for (var j = 0; j < transect.points.length; j++){
+                        var shrubArr = transect.points[j].shrub_density_detail[0]
+                        var shrubObj = JSON.parse(shrubArr)
+                        var totalShrubStemCount = Object.values(shrubObj).reduce((t, n) => parseInt(t) + parseInt(n.shrubCount), 0)
+                        console.log(totalShrubStemCount)
                         var arr = []
                         arr.push(transect.transect)
                         // arr.push(moment(transect.date).format('YYYY-MM-DD'))
@@ -57,8 +61,10 @@ const GetData = () => {
                         arr.push(transect.points[j].soil_moisture_percentage)
                         arr.push(transect.points[j].hit_one)
                         arr.push(transect.points[j].hit_two)
-                        arr.push(transect.points[j].shrub_density)
                         arr.push(transect.points[j].canopy_score)
+                        arr.push(transect.points[j].canopy_taxa)
+                        arr.push(transect.points[j].shrub_density_detail.toString().replaceAll(',', ' '))
+                        arr.push(totalShrubStemCount)
                         csvData.push(arr)
                     }
                 })

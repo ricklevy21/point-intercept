@@ -139,13 +139,6 @@ const RecordData = () => {
         // Prevent form submission on Enter key
         e.preventDefault()
       }
-    
-    // //function to calculate the total stem count
-    // function calcStemCount() {
-    //     console.log(shrubDensityArr.reduce((accumulator, current) => parseInt(accumulator) + parseInt(current.shrubCount), 0))
-    //     setTotalStemCount(prevtotalStemCount => prevtotalStemCount+totalStemCount)
-    //     console.log(totalStemCount)
-    // }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -176,7 +169,6 @@ const RecordData = () => {
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
                 shrub_density_detail: JSON.stringify(shrubDensityArr),
-                shrub_density: totalStemCount,
                 canopy_score: pointFormObject.canopyScore,
                 canopy_taxa: canopyTaxa,
                 hit_one: pointFormObject.firstHit,
@@ -191,7 +183,6 @@ const RecordData = () => {
                 point: newPoint,
                 groundSurface: "",
                 soilMoisture: "",
-                shrubDensity: "",
                 canopyScore: "",
                 firstHit: "",
             })
@@ -215,7 +206,6 @@ const RecordData = () => {
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
                 shrub_density_detail: JSON.stringify(shrubDensityArr),
-                shrub_density: pointFormObject.shrubDensity,
                 canopy_score: pointFormObject.canopyScore,
                 canopy_taxa: canopyTaxa,
                 hit_one: pointFormObject.firstHit,
@@ -289,10 +279,11 @@ const RecordData = () => {
                         </button>
                     </form>
                 </div>
-                <div className="form-group">
+                {/* removed total shrub stem count */}
+                {/* <div className="form-group">
                     <label>shrub density</label>
                     <Input value={pointFormObject.shrubDensity} type="number" name="shrubDensity" className="form-control" id="shrubDensity" min="0" onChange={handleInputChange}></Input>
-                </div>
+                </div> */}
                 <div className="form-group">
                     <label>canopy score (value from densiometer, not %)</label>
                     <Input value={pointFormObject.canopyScore} type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" onChange={handleInputChange}></Input>
