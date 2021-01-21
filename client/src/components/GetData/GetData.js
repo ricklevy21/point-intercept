@@ -46,10 +46,11 @@ const GetData = () => {
                 let transects = res.data.transects
                 transects.forEach(function(transect) {
                     for (var j = 0; j < transect.points.length; j++){
+                        //calculate total shrub stem count per point
                         var shrubArr = transect.points[j].shrub_density_detail[0]
                         var shrubObj = JSON.parse(shrubArr)
                         var totalShrubStemCount = Object.values(shrubObj).reduce((t, n) => parseInt(t) + parseInt(n.shrubCount), 0)
-                        console.log(totalShrubStemCount)
+                        //create an array and add data to it for the csv
                         var arr = []
                         arr.push(transect.transect)
                         // arr.push(moment(transect.date).format('YYYY-MM-DD'))
@@ -159,8 +160,12 @@ const GetData = () => {
                         }
                     }
                     for (var g = 0; g < transect.points.length; g++) {
-                        if(transect.points[g].hit_two){
-                            projectTaxaSecondHits.push(transect.points[g].hit_two)
+                        if(transect.points[g].hit_two.length > 0){
+                            console.log(transect.points[g].hit_two)
+                            for (var h = 0; h < transect.points[g].hit_two.length; h++){
+                                console.log(transect.points[g].hit_two[h])
+                                projectTaxaSecondHits.push(transect.points[g].hit_two[h])
+                            }
                         }
                     }
                 })
