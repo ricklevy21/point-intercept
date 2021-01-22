@@ -7,6 +7,7 @@ export function GroundInputSelect(props) {
         <option value=""></option>
         <option value="rock">rock</option>
         <option value="bare soil">bare soil</option>
+        <option value="litter">litter</option>
         <option value="water">water</option>
         <option value="downed woody debris">downed woody debris</option>
         <option value="road/trail">road/trail</option>

@@ -20,16 +20,9 @@ const PointSchema = new Schema({
     shrub_density: {
         type: Number
     },
-    shrub_density_detail: [
-        {
-            taxon: {
-                type: String
-            },
-            stem_count: {
-                type: Number
-            }
-        }
-    ],
+    shrub_density_detail: {
+        type: [String]
+    },
     canopy_score: {
         type: Number
     },
@@ -41,9 +34,9 @@ const PointSchema = new Schema({
         default: null
     },
     hit_two: {
-        type: String,
+        type: [String],
         default: null
-    }    
+    }
 });
 
 const Point = mongoose.model("Point", PointSchema);

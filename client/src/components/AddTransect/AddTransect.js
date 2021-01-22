@@ -22,6 +22,7 @@ const AddTransect = () => {
         transect: "",
         latitude: "",
         longitude: "",
+        elevation: "",
         date: "",
         crew: "",
     })
@@ -50,6 +51,7 @@ const AddTransect = () => {
                 transect: transectFormObject.transect,
                 latitude: transectFormObject.latitude,
                 longitude: transectFormObject.longitude,
+                elevation: transectFormObject.elevation,
                 date: transectFormObject.date,
                 crew: transectFormObject.crew,
                 projectID: _id //this is the project that I am adding the transect to
@@ -99,7 +101,10 @@ const AddTransect = () => {
 
 
 
-
+            <div className="form-group">
+                <label>elevation (m)</label>
+                <Input id="elevation" name="elevation" className="form-control" type="number" min="0" onChange={handleInputChange}></Input>
+            </div>
             <div className="form-group">
                 <label>date</label>
                 <Input id="date" name="date" className="form-control" type="date" onChange={handleInputChange}></Input>

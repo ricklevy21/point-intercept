@@ -17,6 +17,9 @@ const TransectSchema = new Schema({
     longitude: {
         type: Number
     },
+    elevation: {
+        type: Number
+    },
     crew: [String],
     points: [
     {

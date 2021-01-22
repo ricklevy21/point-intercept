@@ -30,7 +30,7 @@ export default {
         return axios.get("/api/transects/" + transectData, transectData)
     },
 
-    //Create a transect and add it to a project
+    //Create a point and add it to a transect
     //method: POST
     addPoint: function(pointData) {
         return axios.post("/api/points", pointData)
