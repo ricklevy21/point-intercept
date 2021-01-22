@@ -42,7 +42,7 @@ const GetData = () => {
         API.getProjectData(_id)
             .then(res => {
                 let csvData = []
-                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "canopyScore", "canopyTaxa", "shrubDetails", "totalShrubStemCount"])
+                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "elevationInMeters", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "canopyScore", "canopyTaxa", "shrubDetails", "totalShrubStemCount"])
                 let transects = res.data.transects
                 transects.forEach(function(transect) {
                     for (var j = 0; j < transect.points.length; j++){
@@ -57,6 +57,7 @@ const GetData = () => {
                         arr.push(moment(transect.date).tz('UTC').format('YYYY-MM-DD'))
                         arr.push(transect.latitude)
                         arr.push(transect.longitude)
+                        arr.push(transect.elevation)
                         arr.push(transect.points[j].point)
                         arr.push(transect.points[j].ground_surface)
                         arr.push(transect.points[j].soil_moisture_percentage)
