@@ -7,12 +7,7 @@ import RecordTransectName from "./RecordTransectName"
 import { HitInputSelect } from "./HitInputSelect"
 import { GroundInputSelect } from "./GroundInputSelect"
 import PointInput from "./PointInput"
-
-
-
-
-//get list of values for hit dropdown
-// const hitValues = HitValues
+import { WoodyInputSelect } from "./WoodyInputSelect"
 
 const RecordData = () => {
 
@@ -20,13 +15,6 @@ const RecordData = () => {
     const { _id } = useParams()
 
     const history = useHistory()
-
-
-
-    //setting component's initial state
-    //hook for initializing hit list (combo box for hit1 and hit2)
-    // const [firstHitState, setFirstHit] =useState()
-    // const [secondHitState, setSecondHit] =useState()
 
     //hook for state where transect name is displayed
     const [transect, setTransect] =useState([])
@@ -38,10 +26,122 @@ const RecordData = () => {
         shrubDensity: "",
         canopyScore: "",
         firstHit: "",
-        secondHit: ""
     })
 
+    //SECOND HITS//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //hook for state of second hits values (array of names)
+    const [secondHits, setSecondHits] = useState([])
+    //hook for state of second hits input field
+    const [secondHitInput, setSecondHitInput] = useState("")
 
+    //function to add the value in the input field to the to the list of second hit values
+    const handleSecondHitSumbit = () => {
+        if (secondHitInput.length > 0) {
+            setSecondHits(secondHits => [...secondHits, secondHitInput])
+            //setSecondHits(secondHits => secondHits.concat(secondHitInput))
+            setSecondHitInput("")
+        }
+    }
+    
+    //function to update the secondHitInput as user types
+    function updateSecondHitInput({ target }) {
+        setSecondHitInput(target.value);
+    }
+
+    //have enter key submit value
+    const keyPressed = ({ key }) => {
+        if (key === "Enter") {
+            handleSecondHitSumbit()
+        }
+      }
+
+    
+    const submitSecondHitHandler = e => {
+        // Prevent form submission on Enter key
+        e.preventDefault()
+      }
+
+    //component ----maybe should save in abother file, but gotta figure out props
+    const Search = ({ secondHitInput }) => <li>{secondHitInput}</li>
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //CANOPY TAXA//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //hook for state of canopy taxa values (array of names)
+    const [canopyTaxa, setCanopyTaxa] = useState([])
+    //hook for state of canopy taxa input field
+    const [canopyTaxaInput, setCanopyTaxaInput] = useState("")
+
+    //function to add the value in the input field to the to the list of canoipy taxa values
+    const handleCanopyTaxaSumbit = () => {
+        if (canopyTaxaInput.length > 0) {
+            setCanopyTaxa(canopyTaxa => [...canopyTaxa, canopyTaxaInput])
+            //setCanopyTaxa(canopyTaxa => canopyTaxa.concat(canopyTaxaInput))
+            console.log("inside handleCanopyTaxaSumbit")
+            setCanopyTaxaInput("")
+        }
+    }
+    
+    //function to update the canopyTaxaInput as user types
+    function updateCanopyTaxaInput({ target }) {
+        setCanopyTaxaInput(target.value);
+    }
+
+    //have enter key submit value
+    const keyPressedCanopy = ({ key }) => {
+        if (key === "Enter") {
+            handleCanopyTaxaSumbit()
+        }
+      }
+    
+    const submitCanopyTaxaHandler = e => {
+        // Prevent form submission on Enter key
+        e.preventDefault()
+      }
+
+    //component ----maybe should save in another file, but gotta figure out props
+    const SearchCanopy = ({ canopyTaxaInput }) => <li>{canopyTaxaInput}</li>
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //SHRUB DENSITY//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //hook for state of shrub density values (array of objects (taxon and count))
+    const [shrubDensityArr, setShrubDensityArr] = useState([])
+    //hook for state of shrub taxa input field
+    const [shrubTaxaInput, setShrubTaxaInput] = useState("")
+    //hook for state of shrub count input field
+    const [shrubCountInput, setShrubCountInput] = useState("")
+    //hook for total shrub density stem count
+    const [totalStemCount, setTotalStemCount] = useState(0)
+
+    //function to add the values in the input fields to the to the array of shrub objects
+    const handleShrubSumbit = () => {
+        if (shrubTaxaInput.length > 0 && shrubCountInput.length > 0) {
+            setShrubDensityArr([...shrubDensityArr, {
+                id: shrubDensityArr.length,
+                shrubTaxon:shrubTaxaInput,
+                shrubCount:shrubCountInput
+            }])
+            setShrubTaxaInput("")
+            setShrubCountInput("")
+        }
+    }
+    
+    //function to update the shrubTaxaInput as user types
+    function updateShrubTaxaInput({ target }) {
+        setShrubTaxaInput(target.value);
+    }
+    //function to update the shrubCountInput as user types
+    function updateShrubCountInput({ target }) {
+        setShrubCountInput(target.value);
+    }
+    
+    const submitShrubDensityArrHandler = e => {
+        // Prevent form submission on Enter key
+        e.preventDefault()
+      }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //use the species list for the dropdowns and display the transectName on the page once the component mounts 
     useEffect(() => {
@@ -59,51 +159,21 @@ const RecordData = () => {
         console.log("inside handleinput", event.target.name, event.target.value)
         const { name, value } = event.target;
         setPointFormObject({...pointFormObject, [name]: value})
-        // if (name === "firstHit" || name === "secondHit"){
-        //     filterHits(value, name)
-        // }
     };
-
-    //funciton to filter the hit options
-    // function filterHits(searchTerm, name){
-    //     console.log('inside of filterHits', searchTerm, name)
-    //     //display all species in the list if there is nothing typed in
-    //     if (!searchTerm){
-    //         setFirstHit(firstHitState)
-    //         setSecondHit(secondHitState)
-    //     // if there is a search term typed in, apply the filter
-    //     }else {
-    //         if (name === "firstHit"){
-    //             //apply filter to firstHit hook
-    //             const searchInput = searchTerm.toLowerCase()
-    //             const filtered1 = HitList.filter(HitListResult => HitListResult.value.toLowerCase().startsWith(searchInput))
-    //             console.log(filtered1.value)
-    //             setFirstHit(filtered1.value)
-    //         }
-    //         else {
-    //             const searchInput = searchTerm.toLowerCase()
-    //             const filtered2 = HitList.filter(HitListResult => HitListResult.value.toLowerCase().startsWith(searchInput))
-    //             console.log(filtered2.value)
-    //             setSecondHit(filtered2.value)
-    //         }
-
-    //     }
-
-    // }
 
     //when the form is submitted, use API.addPoint method to save the project data
     //then navigate to a new Point Data Record page, with point incremented by 0.25
     function handlePointFormSubmitNext(event) {
         event.preventDefault(pointFormObject.firstHit)
-        console.log(pointFormObject)
             API.addPoint({
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
-                shrub_density: pointFormObject.shrubDensity,
+                shrub_density_detail: JSON.stringify(shrubDensityArr),
                 canopy_score: pointFormObject.canopyScore,
-                hit_one: pointFormObject.firstHit,//need to figure out what to put here so the values are submitted
-                hit_two: pointFormObject.secondHit,//need to figure out what to put here so the values are submitted
+                canopy_taxa: canopyTaxa,
+                hit_one: pointFormObject.firstHit,
+                hit_two: secondHits,
                 transectID: _id //this is the transect that I am adding the point to
             })
             .then(() => 
@@ -114,17 +184,20 @@ const RecordData = () => {
                 point: newPoint,
                 groundSurface: "",
                 soilMoisture: "",
-                shrubDensity: "",
                 canopyScore: "",
                 firstHit: "",
-                secondHit: ""
-            })})
+            })
+                setSecondHits([])
+                setCanopyTaxa([])
+                setShrubDensityArr([])
+                setTotalStemCount(0)
+            })
                 .catch(err => console.log(err))
         
     };
 
 
-       //when the form is submitted, use API.addPoint method to save the project data
+    //when the form is submitted, use API.addPoint method to save the project data
     //then navigate to the projects page
     function handlePointFormSubmitEnd(event) {
         event.preventDefault()
@@ -133,21 +206,17 @@ const RecordData = () => {
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
                 soil_moisture_percentage: pointFormObject.soilMoisture,
-                shrub_density: pointFormObject.shrubDensity,
+                shrub_density_detail: JSON.stringify(shrubDensityArr),
                 canopy_score: pointFormObject.canopyScore,
+                canopy_taxa: canopyTaxa,
                 hit_one: pointFormObject.firstHit,
-                hit_two: pointFormObject.secondHit,
+                hit_two: secondHits,
                 transectID: _id //this is the transect that I am adding the point to
             })
                 .then(history.push('/projects'))
                 .catch(err => console.log(err))
         
     };
-
-
-
-
-
 
     return (
         <>
@@ -182,11 +251,70 @@ const RecordData = () => {
                 </div>
                 <div className="form-group">
                     <label>shrub density</label>
-                    <Input value={pointFormObject.shrubDensity} type="number" name="shrubDensity" className="form-control" id="shrubDensity" min="0" onChange={handleInputChange}></Input>
+                    <ul>
+                        {shrubDensityArr.map(shrubDensityArrItem => (
+                            <li key={shrubDensityArrItem.id}>{shrubDensityArrItem.shrubTaxon}{" : "}{shrubDensityArrItem.shrubCount}</li>
+                        ))}
+                    </ul>
+                    <form className="form-inline" onSubmit={submitShrubDensityArrHandler}>
+                        <WoodyInputSelect
+                            className="form-control"
+                            type="text"
+                            onChange={updateShrubTaxaInput}
+                            value={shrubTaxaInput}
+                        />
+                        <input
+                            className="form-control"
+                            type="number"
+                            min="0"
+                            max="50"
+                            onChange={updateShrubCountInput}
+                            value={shrubCountInput}
+                        />
+                        <button
+                            className="btn btn-dark btn-sm"
+                            type="button"
+                            onClick={handleShrubSumbit}
+                        >
+                            +
+                        </button>
+                    </form>
                 </div>
+                {/* removed total shrub stem count */}
+                {/* <div className="form-group">
+                    <label>shrub density</label>
+                    <Input value={pointFormObject.shrubDensity} type="number" name="shrubDensity" className="form-control" id="shrubDensity" min="0" onChange={handleInputChange}></Input>
+                </div> */}
                 <div className="form-group">
                     <label>canopy score (value from densiometer, not %)</label>
                     <Input value={pointFormObject.canopyScore} type="number" name="canopyScore" max="96" min="0" className="form-control" id="canopyScore" onChange={handleInputChange}></Input>
+                </div>
+                <div className="form-group">
+                    <label>canopy taxa</label>
+                    <ul>
+                        {canopyTaxa.map((canopyTaxaInput, i) => (
+                            <SearchCanopy
+                            canopyTaxaInput={canopyTaxaInput}
+                                key={canopyTaxaInput + i}
+                            />
+                        ))}
+                    </ul>
+                    <form className="form-inline" onSubmit={submitCanopyTaxaHandler}>
+                        <WoodyInputSelect
+                            className="form-control"
+                            type="text"
+                            onChange={updateCanopyTaxaInput}
+                            onKeyPress={keyPressedCanopy}
+                            value={canopyTaxaInput}
+                        />
+                        <button
+                            className="btn btn-dark btn-sm"
+                            type="button"
+                            onClick={handleCanopyTaxaSumbit}
+                        >
+                            +
+                        </button>
+                    </form>
                 </div>
                 <div className="form-group">
                     <label>first hit</label>
@@ -199,14 +327,31 @@ const RecordData = () => {
                     ></HitInputSelect>
                 </div>
                 <div className="form-group">
-                    <label>second hit</label>
-                    <HitInputSelect
-                    value={pointFormObject.secondHit}
-                    name="secondHit"
-                    className="form-control"
-                    id="secondHit"
-                    onChange={handleInputChange}
-                    ></HitInputSelect>
+                    <label>second hit(s)</label>
+                    <ul>
+                        {secondHits.map((secondHitInput, i) => (
+                            <Search
+                                secondHitInput={secondHitInput}
+                                key={secondHitInput + i}
+                            />
+                        ))}
+                    </ul>
+                    <form className="form-inline" onSubmit={submitSecondHitHandler}>
+                        <HitInputSelect
+                            className="form-control"
+                            type="text"
+                            onChange={updateSecondHitInput}
+                            onKeyPress={keyPressed}
+                            value={secondHitInput}
+                        />
+                        <button
+                            className="btn btn-dark btn-sm"
+                            type="button"
+                            onClick={handleSecondHitSumbit}
+                        >
+                            +
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
