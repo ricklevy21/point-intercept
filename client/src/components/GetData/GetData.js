@@ -101,8 +101,14 @@ const GetData = () => {
                     //get values for shrub density
                     let shrubVals = []
                     for (var k = 0; k < transect.points.length; k++) {
-                        if(transect.points[k].shrub_density){
-                            shrubVals.push(transect.points[k].shrub_density)
+                        // console.log(transect.points[k].shrub_density_detail)
+                        var shrubArr = transect.points[k].shrub_density_detail[0]
+                        var shrubObj = JSON.parse(shrubArr)
+                        var totalShrubStemCount = Object.values(shrubObj).reduce((t, n) => parseInt(t) + parseInt(n.shrubCount), 0)
+                        //console.log(totalShrubStemCount)
+                        if(transect.points[k].shrub_density_detail.length > 0){
+                            shrubVals.push(totalShrubStemCount)
+                            //console.log(shrubVals)
                         }
                     }
 
@@ -162,9 +168,7 @@ const GetData = () => {
                     }
                     for (var g = 0; g < transect.points.length; g++) {
                         if(transect.points[g].hit_two.length > 0){
-                            console.log(transect.points[g].hit_two)
                             for (var h = 0; h < transect.points[g].hit_two.length; h++){
-                                console.log(transect.points[g].hit_two[h])
                                 projectTaxaSecondHits.push(transect.points[g].hit_two[h])
                             }
                         }
