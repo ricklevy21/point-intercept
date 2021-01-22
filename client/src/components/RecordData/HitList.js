@@ -4436,6 +4436,6 @@ const HitList = [
     {id:4434,value:"Zuckia"},
     {id:4435,value:"Zuckia brandegeei"},
     {id:4436,value:"Zygophyllum"},
-    {id:4437,value:"Zygophyllum fabago"},
+    {id:4437,value:"Zygophyllum fabago"}
 ]
 export default HitList

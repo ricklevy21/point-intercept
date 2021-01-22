@@ -7,6 +7,7 @@ import RecordTransectName from "./RecordTransectName"
 import { HitInputSelect } from "./HitInputSelect"
 import { GroundInputSelect } from "./GroundInputSelect"
 import PointInput from "./PointInput"
+import { WoodyInputSelect } from "./WoodyInputSelect"
 
 const RecordData = () => {
 
@@ -256,7 +257,7 @@ const RecordData = () => {
                         ))}
                     </ul>
                     <form className="form-inline" onSubmit={submitShrubDensityArrHandler}>
-                        <HitInputSelect
+                        <WoodyInputSelect
                             className="form-control"
                             type="text"
                             onChange={updateShrubTaxaInput}
@@ -299,7 +300,7 @@ const RecordData = () => {
                         ))}
                     </ul>
                     <form className="form-inline" onSubmit={submitCanopyTaxaHandler}>
-                        <HitInputSelect
+                        <WoodyInputSelect
                             className="form-control"
                             type="text"
                             onChange={updateCanopyTaxaInput}
