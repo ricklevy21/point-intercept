@@ -16,6 +16,7 @@ import NotFound from './pages/NotFound'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import About from './pages/About'
+import AdditionalSpeciesPage from './pages/AdditionalSpecies'
 
 
 //components
@@ -48,6 +49,9 @@ function App() {
       </Route>
       <Route exact path="/record/:_id">
         {<RecordPage />}
+      </Route>
+      <Route exact path="/additional/:_id">
+        {<AdditionalSpeciesPage />}
       </Route>
       <Route exact path="/data/:_id">
         {<ViewData />}

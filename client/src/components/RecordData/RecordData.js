@@ -112,7 +112,7 @@ const RecordData = () => {
     //hook for state of shrub count input field
     const [shrubCountInput, setShrubCountInput] = useState("")
     //hook for total shrub density stem count
-    const [totalStemCount, setTotalStemCount] = useState(0)
+    //const [totalStemCount, setTotalStemCount] = useState(0)
 
     //function to add the values in the input fields to the to the array of shrub objects
     const handleShrubSumbit = () => {
@@ -145,7 +145,6 @@ const RecordData = () => {
 
     //use the species list for the dropdowns and display the transectName on the page once the component mounts 
     useEffect(() => {
- 
         //GET Method for pulling transect name
         API.getTransectById(_id)
         .then(res => {
@@ -190,7 +189,7 @@ const RecordData = () => {
                 setSecondHits([])
                 setCanopyTaxa([])
                 setShrubDensityArr([])
-                setTotalStemCount(0)
+                //setTotalStemCount(0)
             })
                 .catch(err => console.log(err))
         
@@ -213,7 +212,11 @@ const RecordData = () => {
                 hit_two: secondHits,
                 transectID: _id //this is the transect that I am adding the point to
             })
-                .then(history.push('/projects'))
+            .then(res => {
+                //add the desired route that I want to naviagte to to the end of the history array, thus making it the current page
+                //send user to the page to add additional species for the transect (transect level data)
+                history.push(`/additional/${_id}`)
+            })
                 .catch(err => console.log(err))
         
     };
