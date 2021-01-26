@@ -37,11 +37,11 @@ module.exports = {
     },
     //Method to find a transect by ID and update by adding additionalSpecies [String] data
     findOneAndUpdate: function(req, res) {
-        const transectID = req.params.id
+        const transectID = req.body.transectID
         console.log("inside findOneandUpdate",transectID)
-        console.log(req.body)
+        console.log(req.body.additionalSpecies)
         db.Transect
-            .findByIdAndUpdate(transectID, {additionalSpecies: req.body})
+            .findByIdAndUpdate(transectID, {additionalSpecies: req.body.additionalSpecies})
             .then(function(transects){
                 res.json(transects)
             })
