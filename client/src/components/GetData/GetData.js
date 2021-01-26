@@ -42,7 +42,7 @@ const GetData = () => {
         API.getProjectData(_id)
             .then(res => {
                 let csvData = []
-                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "elevationInMeters", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "canopyScore", "canopyTaxa", "shrubDetails", "totalShrubStemCount"])
+                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "elevationInMeters", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "canopyScore", "canopyTaxa", "shrubDetails", "totalShrubStemCount", "additionalTaxaOutsideTransect"])
                 let transects = res.data.transects
                 transects.forEach(function(transect) {
                     for (var j = 0; j < transect.points.length; j++){
@@ -65,8 +65,9 @@ const GetData = () => {
                         arr.push(transect.points[j].hit_two)
                         arr.push(transect.points[j].canopy_score)
                         arr.push(transect.points[j].canopy_taxa)
-                        arr.push(transect.points[j].shrub_density_detail.toString().replaceAll(',', ' '))
+                        arr.push(transect.points[j].shrub_density_detail.toString().replaceAll(',', '-'))
                         arr.push(totalShrubStemCount)
+                        arr.push(transect.additionalSpecies)
                         csvData.push(arr)
                     }
                 })
