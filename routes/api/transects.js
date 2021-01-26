@@ -11,5 +11,6 @@ router.route("/")
 //Matches with "/api/transects/:id"
 router.route("/:id")
     .get(transectsController.findById)
+    .put(transectsController.findOneAndUpdate)
 
 module.exports = router

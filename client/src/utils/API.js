@@ -26,8 +26,16 @@ export default {
         return axios.post("/api/transects", transectData)
     },
 
+    //Get a transect by the transect's ID
+    //method: GET
     getTransectById: function(transectData) {
         return axios.get("/api/transects/" + transectData, transectData)
+    },
+
+    //Find a transect based on ID and update
+    //method: PUT
+    updateTransectById: function(transectData) {
+        return axios.put("/api/transects/" + transectData, transectData)
     },
 
     //Create a point and add it to a transect
