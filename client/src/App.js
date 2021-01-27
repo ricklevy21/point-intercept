@@ -17,6 +17,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import About from './pages/About'
 import AdditionalSpeciesPage from './pages/AdditionalSpecies'
+import Edit from './pages/Edit'
 
 
 //components
@@ -46,6 +47,9 @@ function App() {
       </Route>
       <Route exact path="/resume/:_id">
         {<ResumeProject />}
+      </Route>
+      <Route exact path="/edit/:_id">
+        {<Edit />}
       </Route>
       <Route exact path="/record/:_id">
         {<RecordPage />}
