@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import {useHistory, useParams } from 'react-router-dom'
 import API from "../../utils/API";
 import ResumeProjectName from "../AddTransect/ResumeProjectName"
+import Table from './Table'
 
 const EditProjectData = () => {
 
@@ -32,6 +33,7 @@ const EditProjectData = () => {
                 id={project._id}
                 project={project.project}
             />
+            <Table/>
         </>
     )
 }
