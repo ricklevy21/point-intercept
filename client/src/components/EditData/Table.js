@@ -114,6 +114,11 @@ const Table = (props) => {
             data={props.data}
             title={props.project}
             icons={tableIcons}
+            options={{
+                rowStyle: {
+                    fontSize: 12
+                }
+            }}
         />
       </div>
       )
