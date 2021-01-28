@@ -6,7 +6,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import { Button } from "@material-ui/core";
 
 const Table = (props) => {
-
+    console.log(props)
     return (
         <div style={{ maxWidth: '100%' }}>
         <MaterialTable
@@ -28,8 +28,8 @@ const Table = (props) => {
             { title: 'hit_two', field: 'hit_two'}
 
           ]}
-        //   data={}
-          title={props.project}
+            data={props.data}
+            title={props.project}
         />
       </div>
       )
