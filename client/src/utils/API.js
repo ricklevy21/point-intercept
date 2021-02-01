@@ -60,5 +60,11 @@ export default {
     //method: GET
     loginUser: function(loginInfo){
         return axios.post("/api/login", loginInfo)
+    },
+
+    //edit a point's data
+    //method: PATCH
+    updateProjectData: function(newData){
+        return axios.patch("/api/edit/" +newData.point_id, newData)
     }
 }

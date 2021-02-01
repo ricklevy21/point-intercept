@@ -27,6 +27,7 @@ const EditProjectData = () => {
         .catch(err => console.log(err))
     }, [])
 
+    //create the empty array for table data to be stored in
     const tableDataArr = []
 
     //format the project's data to display in the table
@@ -35,9 +36,8 @@ const EditProjectData = () => {
         API.getProjectData(_id)
         .then(res => {
             let tableTransects = res.data.transects
-            //const tableDataArr = []
             class TableData {
-                constructor(transect, date, latitude, longitude, elevation, crew, additionalSpecies, point, ground_surface, soil_moisture_percentage, shrub_density_detail, canopy_score, canopy_taxa, hit_one, hit_two){
+                constructor(transect, date, latitude, longitude, elevation, crew, additionalSpecies, point, ground_surface, soil_moisture_percentage, shrub_density_detail, canopy_score, canopy_taxa, hit_one, hit_two, point_id){
                     this.transect = transect;
                     this.date = date;
                     this.latitude = latitude;
@@ -53,6 +53,7 @@ const EditProjectData = () => {
                     this.canopy_taxa = canopy_taxa;
                     this.hit_one = hit_one;
                     this.hit_two = hit_two;
+                    this.point_id = point_id;
                 }
             }
             tableTransects.forEach(tableTransect => {
@@ -72,7 +73,8 @@ const EditProjectData = () => {
                         tableTransect.points[j].canopy_score,
                         tableTransect.points[j].canopy_taxa,
                         tableTransect.points[j].hit_one,
-                        tableTransect.points[j].hit_two
+                        tableTransect.points[j].hit_two,
+                        tableTransect.points[j]._id
                         ))
                 }
             })
@@ -81,7 +83,14 @@ const EditProjectData = () => {
         })
         .catch(err => console.log(err))
     }, [])
+
+    //function to handle update of data
+    const handleRowUpdate = (newData, oldData, resolve) => {
+        console.log("inside handle",data)
+        //API.updateProjectData()
+    }
     
+    handleRowUpdate()
 
     return (
         <>

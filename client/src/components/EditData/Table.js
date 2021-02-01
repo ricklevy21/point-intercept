@@ -41,7 +41,7 @@ const tableIcons = {
   };
 
 const Table = (props) => {
-    console.log(props)
+    //console.log(props)
     return (
         <div style={{ maxWidth: '100%' }}>
         <MaterialTable
