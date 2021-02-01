@@ -83,14 +83,7 @@ const EditProjectData = () => {
         })
         .catch(err => console.log(err))
     }, [])
-
-    //function to handle update of data
-    const handleRowUpdate = (newData, oldData, resolve) => {
-        console.log("inside handle",data)
-        //API.updateProjectData()
-    }
     
-    handleRowUpdate()
 
     return (
         <>
@@ -98,6 +91,22 @@ const EditProjectData = () => {
                 id={project._id}
                 project={project.project}
                 data={data}
+                editable={{
+                    onRowUpdate: (newData, oldData) =>
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                          console.log("butts")
+                          const dataUpdate = [...data];
+                          const index = oldData.tableData.id;
+                          dataUpdate[index] = newData;
+                          setData([...dataUpdate]);
+            
+                          resolve();
+                        }, 1000)
+                      })
+
+                  }}
+            
             />
         </>
     )

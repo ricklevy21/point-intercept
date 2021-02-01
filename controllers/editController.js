@@ -8,7 +8,13 @@ module.exports ={
         console.log("inside findOneandUpdate", req.body)
         //console.log("inside findOneandUpdate", pointID)
         // db.Point
-        //     .findByIdAndUpdate(pointID, )
+        //     .findByIdAndUpdate(pointID, {
+        //         ground_surface: req.body.ground_surface
+        //     })
+        //     .then(function(points){
+        //         res.json(points)
+        //     })
+        //     .catch(err => res.status(422).json(err));
     }
 
 }
