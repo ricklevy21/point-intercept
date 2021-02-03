@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import API from "../../utils/API";
 import Table from './Table'
 import MaterialTable from 'material-table'
+import {SubmitBtn} from '../Form/SubmitBtn'
 
 
 const EditProjectData = () => {
@@ -17,6 +18,8 @@ const EditProjectData = () => {
     const [project, setProject] =useState([])
     //hook for table data
     const [data, setData] = useState([]);
+    //hook for updatedData
+    const [updatedData, setUpdatedData] = useState([]);
 
 
     //display the project title once the component mounts
@@ -39,7 +42,7 @@ const EditProjectData = () => {
         .then(res => {
             let tableTransects = res.data.transects
             class TableData {
-                constructor(transect, date, latitude, longitude, elevation, crew, additionalSpecies, point, ground_surface, soil_moisture_percentage, shrub_density_detail, canopy_score, canopy_taxa, hit_one, hit_two, point_id){
+                constructor(transect, date, latitude, longitude, elevation, crew, additionalSpecies, point, ground_surface, soil_moisture_percentage, shrub_density_detail, canopy_score, canopy_taxa, hit_one, hit_two, point_id, transect_id, project_id){
                     this.transect = transect;
                     this.date = date;
                     this.latitude = latitude;
@@ -56,6 +59,9 @@ const EditProjectData = () => {
                     this.hit_one = hit_one;
                     this.hit_two = hit_two;
                     this.point_id = point_id;
+                    this.transect_id = transect_id;
+                    this.project_id = project_id;
+
                 }
             }
             tableTransects.forEach(tableTransect => {
@@ -76,7 +82,9 @@ const EditProjectData = () => {
                         tableTransect.points[j].canopy_taxa,
                         tableTransect.points[j].hit_one,
                         tableTransect.points[j].hit_two,
-                        tableTransect.points[j]._id
+                        tableTransect.points[j]._id,
+                        tableTransect._id,
+                        _id
                         ))
                 }
             })
@@ -85,6 +93,23 @@ const EditProjectData = () => {
         })
         .catch(err => console.log(err))
     }, [])
+
+
+
+    //function to send the updates to the database via API
+        //when the form is submitted, use API.addPoint method to save the project data
+        //then navigate to the projects page
+        function handleUpdateSubmit(event) {
+            event.preventDefault(updatedData)
+                console.log(updatedData)
+                API.updateProjectData({
+                    updatedData: updatedData
+                })
+                .then(res => {
+                })
+                    .catch(err => console.log(err))
+        
+    };
     
 
     return (
@@ -97,19 +122,27 @@ const EditProjectData = () => {
                     onRowUpdate: (newData, oldData) =>
                     new Promise((resolve, reject) => {
                         setTimeout(() => {
-                          console.log("butts")
-                          const dataUpdate = [...data];
-                          const index = oldData.tableData.id;
-                          dataUpdate[index] = newData;
-                          setData([...dataUpdate]);
-            
-                          resolve();
+                            const dataUpdate = [...data];
+                            const index = oldData.tableData.id;
+                            dataUpdate[index] = newData;
+                            setData([...dataUpdate]);
+                            setUpdatedData(dataUpdate)
+                            //console.log(dataUpdate)
+                            resolve();
                         }, 1000)
                       })
 
                   }}
             
             />
+            <br></br>
+            <div>
+                <SubmitBtn
+                    onClick={handleUpdateSubmit}
+                >
+                    submit changes to database
+                </SubmitBtn>
+            </div>
         </>
     )
 }

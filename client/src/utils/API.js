@@ -64,7 +64,7 @@ export default {
 
     //edit a point's data
     //method: PATCH
-    updateProjectData: function(newData){
-        return axios.patch("/api/edit/" +newData.point_id, newData)
+    updateProjectData: function(updatedData){
+        return axios.patch("/api/edit/" +updatedData.point_id, updatedData)
     }
 }

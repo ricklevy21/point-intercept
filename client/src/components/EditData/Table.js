@@ -49,7 +49,8 @@ const Table = (props) => {
             {
                 title: 'date',
                 field: 'date',
-                // render: rowData => moment(rowData.validated_at).format('MM/DD/YYYY')
+                //render: rowData => moment(rowData.validated_at).format('MM/DD/YYYY')
+
             },
             {
                 title: 'transect',
@@ -60,37 +61,37 @@ const Table = (props) => {
                 field: 'point'
             },
             {
-                title: 'hit_one',
+                title: '1st hit',
                 field: 'hit_one'
             },
             {
-                title: 'hit_two',
+                title: '2nd hit(s)',
                 field: 'hit_two',
                 // render: rowData => rowData.hit_two ? rowData.hit_two.join(', '): 'nooo'
             },
             {
-                title: 'ground_surface',
+                title: 'ground surface',
                 field: 'ground_surface'
             },
             {
-                title: 'soil_moisture_percentage',
+                title: 'soil moisture %',
                 field: 'soil_moisture_percentage'
             },
             {
-                title: 'canopy_score',
+                title: 'canopy score',
                 field: 'canopy_score'
             },
             {
-                title: 'canopy_taxa',
+                title: 'canopy taxa',
                 field: 'canopy_taxa',
                 // render: rowData => rowData.canopy_taxa ? rowData.canopy_taxa.join(', '): 'nooo'
             },
             {
-                title: 'shrub_density_detail',
+                title: 'shrub detail',
                 field: 'shrub_density_detail'
             },
             {
-                title: 'additionalSpecies',
+                title: 'addtional taxa',
                 field: 'additionalSpecies',
                 // render: rowData => rowData.additionalSpecies ? rowData.additionalSpecies.join(', '): 'nooo'
             },
@@ -120,7 +121,7 @@ const Table = (props) => {
                     fontSize: 12
                 }
             }}
-        />
+            />
       </div>
       )
 

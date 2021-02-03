@@ -6,6 +6,7 @@ module.exports ={
     findOneAndUpdate: function(req, res) {
         //const pointID = req.body.point_id
         console.log("inside findOneandUpdate", req.body)
+        console.log("inside findOneandUpdate", req.body.updatedData)
         //console.log("inside findOneandUpdate", pointID)
         // db.Point
         //     .findByIdAndUpdate(pointID, {
