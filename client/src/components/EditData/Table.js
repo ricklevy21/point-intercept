@@ -49,7 +49,7 @@ const Table = (props) => {
             {
                 title: 'date',
                 field: 'date',
-                render: rowData => moment(rowData.validated_at).format('MM/DD/YYYY')
+                // render: rowData => moment(rowData.validated_at).format('MM/DD/YYYY')
             },
             {
                 title: 'transect',
@@ -66,7 +66,7 @@ const Table = (props) => {
             {
                 title: 'hit_two',
                 field: 'hit_two',
-                render: rowData => rowData.hit_two ? rowData.hit_two.join(', '): 'nooo'
+                // render: rowData => rowData.hit_two ? rowData.hit_two.join(', '): 'nooo'
             },
             {
                 title: 'ground_surface',
@@ -83,7 +83,7 @@ const Table = (props) => {
             {
                 title: 'canopy_taxa',
                 field: 'canopy_taxa',
-                render: rowData => rowData.canopy_taxa ? rowData.canopy_taxa.join(', '): 'nooo'
+                // render: rowData => rowData.canopy_taxa ? rowData.canopy_taxa.join(', '): 'nooo'
             },
             {
                 title: 'shrub_density_detail',
@@ -92,7 +92,7 @@ const Table = (props) => {
             {
                 title: 'additionalSpecies',
                 field: 'additionalSpecies',
-                render: rowData => rowData.additionalSpecies ? rowData.additionalSpecies.join(', '): 'nooo'
+                // render: rowData => rowData.additionalSpecies ? rowData.additionalSpecies.join(', '): 'nooo'
             },
             {
                 title: 'latitude',

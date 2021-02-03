@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom'
 import API from "../../utils/API";
 import Table from './Table'
+import MaterialTable from 'material-table'
+
 
 const EditProjectData = () => {
 
