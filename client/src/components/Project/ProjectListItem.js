@@ -1,7 +1,6 @@
 import React from "react";
 import { ResumeBtn, ViewDataBtn, ProjectName, EditDataBtn } from "../../components/ProjectsList";
 
-//GETTING projects.map is not a function error here
 
 export function ProjectListItem({ projects }) {
     //destructure projects

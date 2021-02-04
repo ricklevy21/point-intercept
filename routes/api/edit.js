@@ -4,7 +4,7 @@ const editController = require("../../controllers/editController")
 
 
 //Matches with "/api/edit/:id"
-router.route("/:id")
-    .patch(editController.findOneAndUpdate)
+router.route("/")
+    .put(editController.update)
 
 module.exports = router
