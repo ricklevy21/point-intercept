@@ -35,6 +35,7 @@ const GetData = () => {
                 setProject(res.data)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //run the function that calls tha API and creates the formatted data for csv download
@@ -74,6 +75,7 @@ const GetData = () => {
                 setData(csvData)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //run the function that calls the API and formats the mean value data for charts
@@ -152,6 +154,7 @@ const GetData = () => {
                 setChartData(dataVisArr)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //run the function that calls the API and formats the data for the taxa chart
@@ -187,6 +190,7 @@ const GetData = () => {
                 setLowerCanopy(secondHits)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     //function to count the instances of a taxon (first hit) found within a project (count occurrences of a string within an array)

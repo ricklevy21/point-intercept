@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom'
 import API from "../../utils/API";
 import Table from './Table'
-import MaterialTable from 'material-table'
 import {SubmitBtn} from '../Form/SubmitBtn'
 
 
@@ -30,6 +29,7 @@ const EditProjectData = () => {
             setProject(res.data)
         })
         .catch(err => console.log(err))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //create the empty array for table data to be stored in
@@ -92,6 +92,7 @@ const EditProjectData = () => {
             setData(tableDataArr)
         })
         .catch(err => console.log(err))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

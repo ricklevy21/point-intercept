@@ -35,6 +35,7 @@ const AddTransect = () => {
             setProject(res.data)
         })
         .catch(err => console.log(err))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //handles updating component state when user types into the input field

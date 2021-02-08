@@ -24,6 +24,7 @@ const AdditionalSpecies = () => {
                 setTransect(res.data)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
         
         //hook for state of second hits values (array of names)
