@@ -77,7 +77,6 @@ const RecordData = () => {
         if (canopyTaxaInput.length > 0) {
             setCanopyTaxa(canopyTaxa => [...canopyTaxa, canopyTaxaInput])
             //setCanopyTaxa(canopyTaxa => canopyTaxa.concat(canopyTaxaInput))
-            console.log("inside handleCanopyTaxaSumbit")
             setCanopyTaxaInput("")
         }
     }
@@ -156,7 +155,6 @@ const RecordData = () => {
 
     //handles updating component state when user types into the input field
     function handleInputChange(event){
-        console.log("inside handleinput", event.target.name, event.target.value)
         const { name, value } = event.target;
         setPointFormObject({...pointFormObject, [name]: value})
     };

@@ -5,12 +5,15 @@ import API from "../../utils/API";
 import Table from './Table'
 import {SubmitBtn} from '../Form/SubmitBtn'
 
+//for alert
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const EditProjectData = () => {
 
     //get _id param (transectID) so that it can be accessed to for displaying data and for adding transect name
     const { _id } = useParams()
-
 
     //setting component's initial state
     //hook for state where project title is displayed
@@ -101,20 +104,37 @@ const EditProjectData = () => {
         //when the form is submitted, use API.addPoint method to save the project data
         //then navigate to the projects page
         function handleUpdateSubmit(event) {
+            //send alert
+            //send data
             event.preventDefault(updatedData)
-                console.log(updatedData)
+            if (updatedData.length > 0) {
+                setOpen(true)
+            }
                 API.updateProjectData({
                     updatedData: updatedData
                 })
                 .then(res => {
                 })
-                    .catch(err => console.log(err))
+                .catch(err => console.log(err))
         
     };
+
+
+    //success alert when data submitted
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+      };
     
 
     return (
         <>
+            <h6>WARNING! Only use this feature with a stable internet connection. Changes are not complete until the "submit changes to database" button is clicked. There is no "undo" option, so proceed with caution. It is recommended to download a project's data from the "get data" page prior to making edits.</h6>
             <Table
                 id={project._id}
                 project={project.project}
@@ -143,6 +163,25 @@ const EditProjectData = () => {
                 >
                     submit changes to database
                 </SubmitBtn>
+            </div>
+            <div>
+                <Snackbar
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                    }}
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                    message="data submitted. refresh page to see all reflected changes"
+                    action={
+                    <React.Fragment>
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                        <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </React.Fragment>
+                    }
+                />
             </div>
         </>
     )
