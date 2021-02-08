@@ -3,7 +3,7 @@ const router = require("express").Router();
 const editController = require("../../controllers/editController")
 
 
-//Matches with "/api/edit/:id"
+//Matches with "/api/edit"
 router.route("/")
     .put(editController.update)
 
