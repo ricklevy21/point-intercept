@@ -15,10 +15,11 @@ const LogoutButton = () => {
   }
 
   return (
+    isAuthenticated &&(
     <button className=" btn btn-link" onClick={() => logout({ returnTo: window.location.origin })}>
       log out
     </button>
-  );
+  ));
 };
 
 export default LogoutButton;

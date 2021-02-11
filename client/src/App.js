@@ -31,7 +31,12 @@ function App() {
   const { isLoading } = useAuth0();
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <div className="spinner-grow" role="status"     style={{
+      position: 'absolute', left: '50%', top: '50%',
+      transform: 'translate(-50%, -50%)'
+  }}> 
+    <span className="sr-only">loading...</span>
+  </div>
   }
 
   return (
