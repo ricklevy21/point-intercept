@@ -195,7 +195,7 @@ const GetData = () => {
 
     //function to count the instances of a taxon (first hit) found within a project (count occurrences of a string within an array)
     const hitOneCounter = function (array) {
-        "use strict";
+        //"use strict";
         const result = {};
         if (array instanceof Array) { // Check if input is array.
             array.forEach(function (v, i) {
@@ -212,7 +212,7 @@ const GetData = () => {
 
     //function to count the instances of a taxon (second hit) found within a project (count occurrences of a string within an array)
     const hitTwoCounter = function (array) {
-        "use strict";
+        //"use strict";
         const result = {};
         if (array instanceof Array) { // Check if input is array.
             array.forEach(function (v, i) {

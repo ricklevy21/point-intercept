@@ -13,6 +13,7 @@
   },
   "license": "",
   "dependencies": {
+    "@auth0/auth0-react": "^1.2.0",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "axios": "^0.19.2",
