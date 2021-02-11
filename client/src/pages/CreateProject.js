@@ -1,5 +1,7 @@
 //dependencies
 import React from 'react'
+import { withAuthenticationRequired } from "@auth0/auth0-react";
+
 
 //components
 import CreateNew from '../components/CreateNew/CreateNew'
@@ -15,4 +17,4 @@ const CreateProject = () => {
     )
 }
 
-export default CreateProject
+export default withAuthenticationRequired(CreateProject)

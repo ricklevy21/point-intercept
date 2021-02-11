@@ -1,6 +1,8 @@
 //dependencies
 import React from 'react'
 import { Link } from 'react-router-dom'
+import LoginButton from '../UserAuth/LoginButton'
+import LogoutButton from '../UserAuth/LogoutButton'
 
 //assets
 import logo from "./p-i_logo.png"
@@ -32,10 +34,13 @@ const Navbar = () => {
         <Link to="/create" className="nav-link" >create project</Link>
       </li>
       <li className="nav-item">
-        <Link to="/login" className="nav-link" >sign in</Link>
+        <Link to="/about" className="nav-link" >about</Link>
       </li>
       <li className="nav-item">
-        <Link to="/about" className="nav-link" >about</Link>
+        <LoginButton />
+      </li>
+      <li className="nav-item">
+        <LogoutButton />
       </li>
     </ul>
   </div>

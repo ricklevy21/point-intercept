@@ -1,5 +1,6 @@
 //dependencies
 import React from 'react'
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 //components
 import AdditionalSpecies from '../components/AdditionalSpecies/AdditionalSpecies'
@@ -14,4 +15,4 @@ const AdditionalSpeciesPage = () => {
     )
 }
 
-export default AdditionalSpeciesPage
+export default withAuthenticationRequired(AdditionalSpeciesPage)
