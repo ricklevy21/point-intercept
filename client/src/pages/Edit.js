@@ -1,6 +1,7 @@
 //dependencies
 import React from 'react'
 import EditProjectData from '../components/EditData/EditData'
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 
 const Edit = () => {
@@ -15,4 +16,4 @@ const Edit = () => {
     )
 }
 
-export default Edit
+export default withAuthenticationRequired(Edit)

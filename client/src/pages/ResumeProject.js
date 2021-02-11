@@ -1,6 +1,8 @@
 //dependencies
 import React from 'react'
 import AddTransect from '../components/AddTransect/AddTransect'
+import { withAuthenticationRequired } from "@auth0/auth0-react";
+
 
 const ResumeProject = () => {
     return (
@@ -10,4 +12,4 @@ const ResumeProject = () => {
     )
 }
 
-export default ResumeProject
+export default withAuthenticationRequired(ResumeProject)

@@ -1,5 +1,7 @@
 //dependencies
 import React from 'react'
+import { withAuthenticationRequired } from "@auth0/auth0-react";
+
 
 //components
 import RecordData from '../components/RecordData/RecordData'
@@ -12,4 +14,4 @@ const RecordPage = () => {
     )
 }
 
-export default RecordPage
+export default withAuthenticationRequired(RecordPage)
