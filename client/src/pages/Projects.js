@@ -7,8 +7,6 @@ import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 const Projects = () => {
 
-
-
         //Setting component's initial state
         const [projects, setProjects] = useState()
 
@@ -21,12 +19,33 @@ const Projects = () => {
         function loadProjects(){
             API.getProjects()
                 .then(res => {
+                    //set state for page display
                     setProjects(res.data)
+
+                    //open indexedDB
+                    const request = window.indexedDB.open("point-intercept", 1);
+                    //create schema for indexedDB
+                    request.onupgradeneeded = event => {
+                        const db = event.target.result;
+                        //create object store for projects with a projectID keypath that can be used to query on
+                        const projectsStore = db.createObjectStore("projects", {keyPath: "_id"});
+                    }
+                    //send the project data to the indexedDB database
+                    request.onsuccess = () => {
+                        const db = request.result
+                        const transaction = db.transaction(["projects"], "readwrite")
+                        const projectsStore = transaction.objectStore("projects")        
+                        const projectData = res.data
+                        projectData.map(projectDatum => projectsStore.add({ _id: projectDatum._id, project: projectDatum.project}))         
+                    }
+                    if (navigator.onLine){
+                        console.log("You are connected, project data will be submitted to the browser's database")   
+                    } else{
+                        console.log("You are offline, data cannot be accessed from the server's database")
+                    }
                 })
                 .catch(err => console.log(err))
         }
-
-
 
     return (
         <>
@@ -42,7 +61,6 @@ const Projects = () => {
                 projects={projects}
                 /> 
                 : ""}
-
             </div>
         </div>
         </>
