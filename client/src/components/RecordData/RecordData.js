@@ -142,14 +142,31 @@ const RecordData = () => {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //use the species list for the dropdowns and display the transectName on the page once the component mounts 
+    //display the transectName on the page once the component mounts 
     useEffect(() => {
-        //GET Method for pulling transect name
-        API.getTransectById(_id)
-        .then(res => {
-            setTransect(res.data)
-        })
-        .catch(err => console.log(err))
+        if (navigator.onLine){
+            //GET Method for pulling transect name
+            API.getTransectById(_id)
+            .then(res => {
+                setTransect(res.data)
+            })
+            .catch(err => console.log(err))
+        } else{
+            //method for pulling transect name from indexedDB
+            const request = window.indexedDB.open("point-intercept", 1);
+            //get the transect name from the indexedDB database, based on the "_id" in the params
+            request.onsuccess = () => {
+                const db = request.result
+                const transaction = db.transaction(["transects"], "readwrite")
+                const transectsStore = transaction.objectStore("transects")
+                const getRequest = transectsStore.get(_id);
+                getRequest.onsuccess = () => {
+                    console.log(getRequest.result.transect);
+                    const transect = getRequest.result
+                    setTransect(transect)
+                };      
+            }
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

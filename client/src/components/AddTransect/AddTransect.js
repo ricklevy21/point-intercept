@@ -43,12 +43,12 @@ const AddTransect = () => {
             //method for pulling project name from indexedDB
             const request = window.indexedDB.open("point-intercept", 1);
             //create schema for indexedDB
-            request.onupgradeneeded = event => {
-                const db = event.target.result;
-                //create object store for projects with a projectID keypath that can be used to query on
-                const projectsStore = db.createObjectStore("projects", {keyPath: "_id"})
-                console.log(projectsStore)
-            }
+            // request.onupgradeneeded = event => {
+            //     const db = event.target.result;
+            //     //create object store for projects with a projectID keypath that can be used to query on
+            //     // const projectsStore = db.createObjectStore("projects", {keyPath: "_id"})
+            //     // console.log(projectsStore)
+            // }
             //get the project name from the indexedDB database, based on the "_id" in the params
             request.onsuccess = () => {
                 const db = request.result
