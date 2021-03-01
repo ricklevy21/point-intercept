@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import {useHistory, useParams } from 'react-router-dom'
 import ResumeProjectName from './ResumeProjectName.js'
+import { v4 as uuidv4 } from 'uuid';
 
 
 const AddTransect = () => {
@@ -74,6 +75,8 @@ const AddTransect = () => {
     //then navigate to the projects page and load all of the projects
     function handleTransectFormSubmit(event) {
         event.preventDefault()
+        //send transect data to mongodb database, if online
+        if (navigator.onLine){
             API.addTransect({
                 transect: transectFormObject.transect,
                 latitude: transectFormObject.latitude,
@@ -92,6 +95,38 @@ const AddTransect = () => {
                 history.push(`/record/${transectId}`)
             })
                 .catch(err => console.log(err))
+        //send transect data to indexedDB database, if offline
+        } else {
+            //open the point-intercept indexedDB database
+            const request = window.indexedDB.open("point-intercept", 1);
+            //create schema for transects within indexedDB --have this happening in Projects Page
+            // request.onupgradeneeded = event => {
+            //     const db = event.target.result;
+            //     //create object store for transects with a transectID keypath that can be used to query on
+            //     const transectsStore = db.createObjectStore("transects", {keyPath: "transect"})
+            //     console.log(transectsStore)
+            // }
+            //send the transect form data to the indexedDB transectsStore object store
+
+            request.onsuccess = () => {
+               const db = request.result
+               const transaction = db.transaction(["transects"], "readwrite")
+               const transectsStore = transaction.objectStore("transects")
+               const transectObject = {
+                transect: transectFormObject.transect,
+                latitude: transectFormObject.latitude,
+                longitude: transectFormObject.longitude,
+                elevation: transectFormObject.elevation,
+                date: transectFormObject.date,
+                crew: transectFormObject.crew,
+                projectID: _id,
+                _id: uuidv4()
+               }
+               console.log(transectObject)
+               transectsStore.add(transectObject)
+               history.push(`/record/${transectObject._id}`)
+            }
+        }
         
     };
 

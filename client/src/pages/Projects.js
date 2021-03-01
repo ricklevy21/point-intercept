@@ -29,6 +29,9 @@ const Projects = () => {
                         const db = event.target.result;
                         //create object store for projects with a projectID keypath that can be used to query on
                         const projectsStore = db.createObjectStore("projects", {keyPath: "_id"});
+                        const transectsStore = db.createObjectStore("transects", {keyPath: "_id"})
+                        const pointsStore = db.createObjectStore("points", {keyPath: "_id"})
+
                     }
                     //send the project data to the indexedDB database
                     request.onsuccess = () => {
