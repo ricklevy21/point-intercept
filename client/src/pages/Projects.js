@@ -36,7 +36,8 @@ const Projects = () => {
                         const transaction = db.transaction(["projects"], "readwrite")
                         const projectsStore = transaction.objectStore("projects")        
                         const projectData = res.data
-                        projectData.map(projectDatum => projectsStore.add({ _id: projectDatum._id, project: projectDatum.project}))         
+                        console.log(projectData)
+                        projectData.map(projectDatum => projectsStore.put({ _id: projectDatum._id, project: projectDatum.project}))
                     }
                     if (navigator.onLine){
                         console.log("You are connected, project data will be submitted to the browser's database")   
