@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
+import { v4 as uuidv4 } from 'uuid';
+import {useHistory, useParams } from 'react-router-dom'
 
 
 const CreateNew = () => {
+
+    const history = useHistory()
+
     //setting component's initial state
     // const [projects, setProjects] = useState([])
     const [projectFormObject, setProjectFormObject] = useState({
@@ -20,16 +25,32 @@ const CreateNew = () => {
     //then navigate to the projects page and load all of the projects
     function handleProjectFormSubmit(event) {
         event.preventDefault()
-
-            API.addProject({
-                project: projectFormObject.project
-            })
-                .then(() => setProjectFormObject({
-                    project: ""
-                }))
-                .then(window.location.href='/projects')
-                .catch(err => console.log(err))
-        
+            if (navigator.onLine){
+                API.addProject({
+                    project: projectFormObject.project
+                })
+                    .then(() => setProjectFormObject({
+                        project: ""
+                    }))
+                    .then(window.location.href='/projects')
+                    .catch(err => console.log(err))
+            } else {
+                //open the point-intercept indexedDB database
+                const request = window.indexedDB.open("point-intercept", 1);
+                //send the transect form data to the indexedDB transectsStore object store
+                request.onsuccess = () => {
+                const db = request.result
+                const transaction = db.transaction(["projects"], "readwrite")
+                const projectsStore = transaction.objectStore("projects")
+                const projectObject = {
+                    project: projectFormObject.project,
+                    _id: uuidv4()
+                }
+                console.log(projectObject)
+                projectsStore.add(projectObject)
+                history.push('/projects')
+                }
+            }
     };
 
     return (

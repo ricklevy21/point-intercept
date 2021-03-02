@@ -17,38 +17,41 @@ const Projects = () => {
         
         //Loads all projects and sets them to projects
         function loadProjects(){
-            API.getProjects()
-                .then(res => {
-                    //set state for page display
-                    setProjects(res.data)
-
-                    //open indexedDB
-                    const request = window.indexedDB.open("point-intercept", 1);
-                    //create schema for indexedDB
-                    request.onupgradeneeded = event => {
-                        const db = event.target.result;
-                        //create object store for projects with a projectID keypath that can be used to query on
-                        const projectsStore = db.createObjectStore("projects", {keyPath: "_id"});
-                        const transectsStore = db.createObjectStore("transects", {keyPath: "_id"})
-                        const pointsStore = db.createObjectStore("points", {keyPath: "_id"})
-
-                    }
-                    //send the project data to the indexedDB database
-                    request.onsuccess = () => {
-                        const db = request.result
-                        const transaction = db.transaction(["projects"], "readwrite")
-                        const projectsStore = transaction.objectStore("projects")        
-                        const projectData = res.data
-                        console.log(projectData)
-                        projectData.map(projectDatum => projectsStore.put({ _id: projectDatum._id, project: projectDatum.project}))
-                    }
-                    if (navigator.onLine){
-                        console.log("You are connected, project data will be submitted to the browser's database")   
-                    } else{
-                        console.log("You are offline, data cannot be accessed from the server's database")
-                    }
-                })
-                .catch(err => console.log(err))
+            //get projects from mongo db database (and send them to indexedDB) if there is a network connection
+            if (navigator.onLine){
+                API.getProjects()
+                    .then(res => {
+                        //set state for page display
+                        setProjects(res.data)
+                        //send the project data to the indexedDB database so it can be accesses when offline
+                        const request = window.indexedDB.open("point-intercept", 1);
+                        request.onsuccess = () => {
+                            const db = request.result
+                            const transaction = db.transaction(["projects"], "readwrite")
+                            const projectsStore = transaction.objectStore("projects")        
+                            const projectData = res.data
+                            console.log(projectData)
+                            projectData.map(projectDatum => projectsStore.put({ _id: projectDatum._id, project: projectDatum.project}))
+                        }
+                    })
+                    .catch(err => console.log(err))
+            //get projects from indexedDB database if there is no network conneciton
+            } else {
+                //method for pulling project name from indexedDB
+                const request = window.indexedDB.open("point-intercept", 1);
+                //get the project name from the indexedDB database, based on the "_id" in the params
+                request.onsuccess = () => {
+                    const db = request.result
+                    const transaction = db.transaction(["projects"], "readwrite")
+                    const projectsStore = transaction.objectStore("projects")
+                    const getAllRequest = projectsStore.getAll()
+                    getAllRequest.onsuccess = () => {
+                        console.log(getAllRequest.result);
+                        const project = getAllRequest.result
+                        setProjects(project)
+                      };                     
+                }
+            }
         }
 
     return (

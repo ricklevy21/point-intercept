@@ -42,13 +42,6 @@ const AddTransect = () => {
         else {
             //method for pulling project name from indexedDB
             const request = window.indexedDB.open("point-intercept", 1);
-            //create schema for indexedDB
-            // request.onupgradeneeded = event => {
-            //     const db = event.target.result;
-            //     //create object store for projects with a projectID keypath that can be used to query on
-            //     // const projectsStore = db.createObjectStore("projects", {keyPath: "_id"})
-            //     // console.log(projectsStore)
-            // }
             //get the project name from the indexedDB database, based on the "_id" in the params
             request.onsuccess = () => {
                 const db = request.result
@@ -99,15 +92,7 @@ const AddTransect = () => {
         } else {
             //open the point-intercept indexedDB database
             const request = window.indexedDB.open("point-intercept", 1);
-            //create schema for transects within indexedDB --have this happening in Projects Page
-            // request.onupgradeneeded = event => {
-            //     const db = event.target.result;
-            //     //create object store for transects with a transectID keypath that can be used to query on
-            //     const transectsStore = db.createObjectStore("transects", {keyPath: "transect"})
-            //     console.log(transectsStore)
-            // }
             //send the transect form data to the indexedDB transectsStore object store
-
             request.onsuccess = () => {
                const db = request.result
                const transaction = db.transaction(["transects"], "readwrite")

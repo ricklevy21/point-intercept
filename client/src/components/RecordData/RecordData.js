@@ -8,6 +8,7 @@ import { HitInputSelect } from "./HitInputSelect"
 import { GroundInputSelect } from "./GroundInputSelect"
 import PointInput from "./PointInput"
 import { WoodyInputSelect } from "./WoodyInputSelect"
+import { v4 as uuidv4 } from 'uuid';
 
 const RecordData = () => {
 
@@ -144,6 +145,7 @@ const RecordData = () => {
 
     //display the transectName on the page once the component mounts 
     useEffect(() => {
+        //get the transect name from the mongo db database if there is a network connection
         if (navigator.onLine){
             //GET Method for pulling transect name
             API.getTransectById(_id)
@@ -151,6 +153,7 @@ const RecordData = () => {
                 setTransect(res.data)
             })
             .catch(err => console.log(err))
+        //get the transect name from indexedDB if there is no network connection
         } else{
             //method for pulling transect name from indexedDB
             const request = window.indexedDB.open("point-intercept", 1);
@@ -180,6 +183,7 @@ const RecordData = () => {
     //then navigate to a new Point Data Record page, with point incremented by 0.25
     function handlePointFormSubmitNext(event) {
         event.preventDefault(pointFormObject.firstHit)
+        if (navigator.onLine){
             API.addPoint({
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
@@ -208,6 +212,41 @@ const RecordData = () => {
                 //setTotalStemCount(0)
             })
                 .catch(err => console.log(err))
+        } else {
+            //open the point-intercept indexedDB database
+            const request = window.indexedDB.open("point-intercept", 1);
+            //send the point form data to the indexedDB pointsStore object store
+            request.onsuccess = () => {
+                const db = request.result
+                const transaction = db.transaction(["points"], "readwrite")
+                const pointsStore = transaction.objectStore("points")
+                const pointsObject = {
+                    point: pointFormObject.point,
+                    ground_surface: pointFormObject.groundSurface,
+                    soil_moisture_percentage: pointFormObject.soilMoisture,
+                    shrub_density_detail: JSON.stringify(shrubDensityArr),
+                    canopy_score: pointFormObject.canopyScore,
+                    canopy_taxa: canopyTaxa,
+                    hit_one: pointFormObject.firstHit,
+                    hit_two: secondHits,
+                    transectID: _id, //this is the transect that I am adding the point to
+                    _id: uuidv4()
+                }
+                console.log(pointsObject)
+                pointsStore.add(pointsObject)
+                const newPoint = parseFloat(pointFormObject.point) + 0.25
+                setPointFormObject({
+                    point: newPoint,
+                    groundSurface: "",
+                    soilMoisture: "",
+                    canopyScore: "",
+                    firstHit: "",
+                })
+                setSecondHits([])
+                setCanopyTaxa([])
+                setShrubDensityArr([])
+            }
+        }
         
     };
 
@@ -216,7 +255,7 @@ const RecordData = () => {
     //then navigate to the projects page
     function handlePointFormSubmitEnd(event) {
         event.preventDefault()
-
+        if (navigator.onLine){
             API.addPoint({
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
@@ -234,6 +273,31 @@ const RecordData = () => {
                 history.push(`/additional/${_id}`)
             })
                 .catch(err => console.log(err))
+        } else {
+            //open the point-intercept indexedDB database
+            const request = window.indexedDB.open("point-intercept", 1);
+            //send the point form data to the indexedDB pointsStore object store
+            request.onsuccess = () => {
+                const db = request.result
+                const transaction = db.transaction(["points"], "readwrite")
+                const pointsStore = transaction.objectStore("points")
+                const pointsObject = {
+                    point: pointFormObject.point,
+                    ground_surface: pointFormObject.groundSurface,
+                    soil_moisture_percentage: pointFormObject.soilMoisture,
+                    shrub_density_detail: JSON.stringify(shrubDensityArr),
+                    canopy_score: pointFormObject.canopyScore,
+                    canopy_taxa: canopyTaxa,
+                    hit_one: pointFormObject.firstHit,
+                    hit_two: secondHits,
+                    transectID: _id, //this is the transect that I am adding the point to
+                    _id: uuidv4()
+                }
+                console.log(pointsObject)
+                pointsStore.add(pointsObject)
+                history.push(`/additional/${_id}`)
+            }
+        }
         
     };
 

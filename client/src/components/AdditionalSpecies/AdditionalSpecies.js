@@ -18,12 +18,30 @@ const AdditionalSpecies = () => {
 
         //use the species list for the dropdowns and display the transectName on the page once the component mounts 
         useEffect(() => {
-            //GET Method for pulling transect name
-            API.getTransectById(_id)
-            .then(res => {
-                setTransect(res.data)
-            })
-            .catch(err => console.log(err))
+            if (navigator.onLine) {
+                //GET Method for pulling transect name
+                API.getTransectById(_id)
+                .then(res => {
+                    setTransect(res.data)
+                })
+                .catch(err => console.log(err))
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+            } else {
+                //method for pulling transect name from indexedDB
+                const request = window.indexedDB.open("point-intercept", 1);
+                //get the transect name from the indexedDB database, based on the "_id" in the params
+                request.onsuccess = () => {
+                    const db = request.result
+                    const transaction = db.transaction(["transects"], "readwrite")
+                    const transectsStore = transaction.objectStore("transects")
+                    const getRequest = transectsStore.get(_id);
+                    getRequest.onsuccess = () => {
+                        //console.log(getRequest.result);
+                        const transect = getRequest.result
+                        setTransect(transect)
+                    };      
+                }
+            }
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
         
@@ -67,7 +85,8 @@ const AdditionalSpecies = () => {
         //then navigate to the projects page
         function handleAdditionalTaxaSubmitEnd(event) {
             event.preventDefault()
-                console.log(additionalTaxa)
+            //send the additional taxa data to mongo db database if there is a network connection
+            if (navigator.onLine){
                 API.updateTransectById({
                     additionalSpecies: additionalTaxa,
                     transectID: _id
@@ -77,6 +96,35 @@ const AdditionalSpecies = () => {
                     history.push(`/projects`)
                 })
                     .catch(err => console.log(err))
+            //send the additional taxa data to indexedDB database if there is no network connection
+            } else {
+                            //open the point-intercept indexedDB database
+            const request = window.indexedDB.open("point-intercept", 1);
+            //send the transect form data to the indexedDB transectsStore object store
+            request.onsuccess = () => {
+               const db = request.result
+               const transaction = db.transaction(["transects"], "readwrite")
+               const transectsStore = transaction.objectStore("transects")
+               const getRequest = transectsStore.get(_id);
+               getRequest.onsuccess = () => {
+                   const transectData = getRequest.result
+                   const additionalTaxaObject = {
+                    transect: transectData.transect,
+                    projectID: transectData.projectID,
+                    longitude: transectData.longitude,
+                    latitude: transectData.latitude,
+                    elevation: transectData.elevation,
+                    date: transectData.date,
+                    crew: transectData.crew,
+                    additionalSpecies: additionalTaxa,
+                    _id: _id
+                   }
+                   console.log(additionalTaxaObject)
+                   transectsStore.put(additionalTaxaObject)
+                   history.push(`/projects`)
+               }
+            }
+            }
         
     };
 
