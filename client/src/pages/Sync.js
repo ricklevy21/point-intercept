@@ -8,7 +8,7 @@ const Sync = () => {
 
     return (
         <>
-        <h6>Data recorded while offline is cached in the browser. Once back online, click the button below to send data to the databse and clear the browser's cache.</h6>
+        <h6>Data recorded while offline is cached in the browser. Once back online with a stable connection, click the button below to send data to the databse and clear the browser's cache.</h6>
         <br></br>
         <SyncBtn />
         </>

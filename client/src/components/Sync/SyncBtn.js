@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import API from "../../utils/API";
 import mongoose from "mongoose"
+import {useHistory } from 'react-router-dom'
+
 
 //for alert
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+
 const SyncBtn = () => {
 
+    const history = useHistory()
 
     //alert state
     const [open, setOpen] = React.useState(false);
@@ -65,7 +69,6 @@ const SyncBtn = () => {
                         });
                     })
                     .then(() => {
-                        console.log(missingProjects)
                         missingProjects.forEach(missingProject => {
                             API.addProject({
                                 _id: mongoose.Types.ObjectId(missingProject._id),
@@ -75,7 +78,16 @@ const SyncBtn = () => {
                         })
                     }
                     )
-
+                    .then(() => {
+                        //CLEAR THE IDB PROJECTS STORE
+                        const db = request.result
+                        const transaction = db.transaction(["projects"], "readwrite")
+                        const projectsStore = transaction.objectStore("projects")
+                        const projectClearRequest = projectsStore.clear()
+                        projectClearRequest.onsuccess = () => {
+                            console.log("projects store cleared")
+                        }
+                    })
                 };
                 //TRANSECTS
                 transectsRequest.onsuccess = () => {
@@ -89,17 +101,55 @@ const SyncBtn = () => {
                             elevation: idbTransect.elevation,
                             date: idbTransect.date,
                             crew: idbTransect.crew,
-                            projectID: idbTransect.projectID //this is the project that I am adding the transect to
+                            additionalSpecies: idbTransect.additionalSpecies,
+                            projectID: mongoose.Types.ObjectId(idbTransect.projectID) //this is the project that I am adding the transect to
+                        })
+                        .then(() => {
+                            //CLEAR THE IDB TRANSECTS STORE
+                            const db = request.result
+                            const transaction = db.transaction(["transects"], "readwrite")
+                            const transectsStore = transaction.objectStore("transects")
+                            const transectClearRequest = transectsStore.clear()
+                            transectClearRequest.onsuccess = () => {
+                                console.log("transect store cleared")
+                            }
+                        })
+                        .catch(err => console.log(err))
+                    })
+                };
+                //POINTS
+                pointsRequest.onsuccess = () => {
+                    const idbPointsData = pointsRequest.result
+                    idbPointsData.forEach(idbPoint => {
+                        API.addPoint({
+                            point: idbPoint.point,
+                            ground_surface: idbPoint.ground_surface,
+                            soil_moisture_percentage: idbPoint.soil_moisture_percentage,
+                            shrub_density_detail: idbPoint.shrub_density_detail,
+                            canopy_score: idbPoint.canopy_score,
+                            canopy_taxa: idbPoint.canopy_taxa,
+                            hit_one: idbPoint.hit_one,
+                            hit_two: idbPoint.hit_two,
+                            transectID: mongoose.Types.ObjectId(idbPoint.transectID), //this is the transect that I am adding the point to
+                            _id: mongoose.Types.ObjectId(idbPoint._id)
+                        })
+                        .then(() => {
+                            //CLEAR THE IDB POINTS STORE
+                            const db = request.result
+                            const transaction = db.transaction(["points"], "readwrite")
+                            const pointsStore = transaction.objectStore("points")
+                            const pointClearRequest = pointsStore.clear()
+                            pointClearRequest.onsuccess = () => {
+                                console.log("points store cleared")
+                            }
+                        })
+                        .then(() => {
+                            history.push('/projects')
                         })
                         .catch(err => console.log(err))
                     })
                 }; 
-                pointsRequest.onsuccess = () => {
-                    const idbPointsData = pointsRequest.result
-                }; 
             }
-
-
 
         //if there is no internet connection, send an alert and do nothing
         } else {

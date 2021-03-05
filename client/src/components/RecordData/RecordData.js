@@ -8,7 +8,7 @@ import { HitInputSelect } from "./HitInputSelect"
 import { GroundInputSelect } from "./GroundInputSelect"
 import PointInput from "./PointInput"
 import { WoodyInputSelect } from "./WoodyInputSelect"
-import { v4 as uuidv4 } from 'uuid';
+import cryptoRandomString from 'crypto-random-string'
 
 const RecordData = () => {
 
@@ -230,7 +230,7 @@ const RecordData = () => {
                     hit_one: pointFormObject.firstHit,
                     hit_two: secondHits,
                     transectID: _id, //this is the transect that I am adding the point to
-                    _id: uuidv4()
+                    _id: cryptoRandomString({length: 24})
                 }
                 console.log(pointsObject)
                 pointsStore.add(pointsObject)
@@ -291,7 +291,7 @@ const RecordData = () => {
                     hit_one: pointFormObject.firstHit,
                     hit_two: secondHits,
                     transectID: _id, //this is the transect that I am adding the point to
-                    _id: uuidv4()
+                    _id: cryptoRandomString({length: 24})
                 }
                 console.log(pointsObject)
                 pointsStore.add(pointsObject)
