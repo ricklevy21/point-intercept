@@ -5,9 +5,6 @@ import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 
 const Sync = () => {
-    //open indexedDB to create stores fro offline data
-    const request = window.indexedDB.open("point-intercept", 1);
-    //create schema for indexedDB
 
     return (
         <>

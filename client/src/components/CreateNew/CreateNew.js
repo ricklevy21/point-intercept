@@ -3,7 +3,7 @@ import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
 import { v4 as uuidv4 } from 'uuid';
 import {useHistory, useParams } from 'react-router-dom'
-
+import cryptoRandomString from 'crypto-random-string'
 
 const CreateNew = () => {
 
@@ -44,7 +44,7 @@ const CreateNew = () => {
                 const projectsStore = transaction.objectStore("projects")
                 const projectObject = {
                     project: projectFormObject.project,
-                    _id: uuidv4()
+                    _id: cryptoRandomString({length: 24})
                 }
                 console.log(projectObject)
                 projectsStore.add(projectObject)

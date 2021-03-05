@@ -31,7 +31,7 @@ const Projects = () => {
                             const projectsStore = transaction.objectStore("projects")        
                             const projectData = res.data
                             console.log(projectData)
-                            projectData.map(projectDatum => projectsStore.put({ _id: projectDatum._id, project: projectDatum.project}))
+                            projectData.map(projectDatum => projectsStore.put({ _id: projectDatum._id, project: projectDatum.project, transects: projectDatum.transects}))
                         }
                     })
                     .catch(err => console.log(err))

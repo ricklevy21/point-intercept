@@ -1,7 +1,7 @@
 //dependencies
 const db = require("../models");
 
-//Method to update all records within a proejct, using incoming data from client when submitting edits. Does not target fields/records that have been changed, but rather overwrites everything.
+//Method to update all records within a project, using incoming data from client when submitting edits. Does not target fields/records that have been changed, but rather overwrites everything.
 module.exports ={
     update: async function(req, res) {
         const newData = req.body.updatedData
