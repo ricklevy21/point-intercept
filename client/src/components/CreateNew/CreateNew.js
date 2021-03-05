@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import API from "../../utils/API";
 import { Input, SubmitBtn } from "../../components/Form";
-import { v4 as uuidv4 } from 'uuid';
 import {useHistory, useParams } from 'react-router-dom'
 import cryptoRandomString from 'crypto-random-string'
 

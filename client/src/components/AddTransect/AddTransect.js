@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import {useHistory, useParams } from 'react-router-dom'
 import ResumeProjectName from './ResumeProjectName.js'
-import { v4 as uuidv4 } from 'uuid';
+import cryptoRandomString from 'crypto-random-string'
 
 
 const AddTransect = () => {
@@ -105,7 +105,7 @@ const AddTransect = () => {
                 date: transectFormObject.date,
                 crew: transectFormObject.crew,
                 projectID: _id,
-                _id: uuidv4()
+                _id: cryptoRandomString({length: 24})
                }
                console.log(transectObject)
                transectsStore.add(transectObject)

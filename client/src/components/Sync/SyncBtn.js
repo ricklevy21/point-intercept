@@ -71,15 +71,28 @@ const SyncBtn = () => {
                                 _id: mongoose.Types.ObjectId(missingProject._id),
                                 project: missingProject.project
                             })
-                            .then(window.location.href='/projects')
                             .catch(err => console.log(err))
                         })
                     }
                     )
 
                 };
+                //TRANSECTS
                 transectsRequest.onsuccess = () => {
                     const idbTransectsData = transectsRequest.result
+                    idbTransectsData.forEach(idbTransect => {
+                        API.addTransect({
+                            _id: mongoose.Types.ObjectId(idbTransect._id),
+                            transect: idbTransect.transect,
+                            latitude: idbTransect.latitude,
+                            longitude: idbTransect.longitude,
+                            elevation: idbTransect.elevation,
+                            date: idbTransect.date,
+                            crew: idbTransect.crew,
+                            projectID: idbTransect.projectID //this is the project that I am adding the transect to
+                        })
+                        .catch(err => console.log(err))
+                    })
                 }; 
                 pointsRequest.onsuccess = () => {
                     const idbPointsData = pointsRequest.result
