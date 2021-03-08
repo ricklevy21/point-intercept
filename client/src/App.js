@@ -17,6 +17,7 @@ import NotFound from './pages/NotFound'
 import About from './pages/About'
 import AdditionalSpeciesPage from './pages/AdditionalSpecies'
 import Edit from './pages/Edit'
+import Sync from './pages/Sync'
 
 
 //components
@@ -73,6 +74,9 @@ function App() {
       </Route>
       <Route exact path="/about">
         {<About />}
+      </Route>
+      <Route exact path="/sync">
+        {<Sync />}
       </Route>
       <Route path="/*">
         {<NotFound />}

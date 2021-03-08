@@ -13,6 +13,9 @@ const About = () => {
             This application relies on three tiers of data: project, transect, and point. Point data belong to their parent transect and transect data belong to their parent project. Create a project to begin. In the field, the user can add a transect and record data at points along the transect. The point data collection form is set to increment by 0.25, allowing the field crew to take measurements every quarter meter. When the end of the transect has been reached, the user can enter the final point’s data and select “end transect”.
             <br/>
             <br/>
+            This application has been developed to allow for offline data colleciton, however a project must be created while connected to the internet. Once the user returns to a stable internet connection they must <a href="/sync">sync</a> their data. 
+            <br/>
+            <br/>
             A complete dataset for a project can be downloaded as a CSV file.
             <br/>
             <br/>
