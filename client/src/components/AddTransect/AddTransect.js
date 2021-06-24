@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import API from "../../utils/API";
 import {useHistory, useParams } from 'react-router-dom'
 import ResumeProjectName from './ResumeProjectName.js'
+import cryptoRandomString from 'crypto-random-string'
 
 
 const AddTransect = () => {
@@ -29,12 +30,32 @@ const AddTransect = () => {
 
     //display the project title once the component mounts
     useEffect(() => {
-        //GET Method for pulling project name
-        API.getProjectByID(_id)
-        .then(res => {
-            setProject(res.data)
-        })
-        .catch(err => console.log(err))
+        if (navigator.onLine){
+            //GET Method for pulling project name from mongoDB
+            API.getProjectByID(_id)
+            .then(res => {
+                setProject(res.data)
+            })
+            .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }
+        else {
+            //method for pulling project name from indexedDB
+            const request = window.indexedDB.open("point-intercept", 1);
+            //get the project name from the indexedDB database, based on the "_id" in the params
+            request.onsuccess = () => {
+                const db = request.result
+                const transaction = db.transaction(["projects"], "readwrite")
+                const projectsStore = transaction.objectStore("projects")
+                const getRequest = projectsStore.get(_id);
+                getRequest.onsuccess = () => {
+                  console.log(getRequest.result.project);
+                  const project = getRequest.result
+                  setProject(project)
+                };      
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //handles updating component state when user types into the input field
@@ -47,6 +68,8 @@ const AddTransect = () => {
     //then navigate to the projects page and load all of the projects
     function handleTransectFormSubmit(event) {
         event.preventDefault()
+        //send transect data to mongodb database, if online
+        if (navigator.onLine){
             API.addTransect({
                 transect: transectFormObject.transect,
                 latitude: transectFormObject.latitude,
@@ -65,6 +88,30 @@ const AddTransect = () => {
                 history.push(`/record/${transectId}`)
             })
                 .catch(err => console.log(err))
+        //send transect data to indexedDB database, if offline
+        } else {
+            //open the point-intercept indexedDB database
+            const request = window.indexedDB.open("point-intercept", 1);
+            //send the transect form data to the indexedDB transectsStore object store
+            request.onsuccess = () => {
+               const db = request.result
+               const transaction = db.transaction(["transects"], "readwrite")
+               const transectsStore = transaction.objectStore("transects")
+               const transectObject = {
+                transect: transectFormObject.transect,
+                latitude: transectFormObject.latitude,
+                longitude: transectFormObject.longitude,
+                elevation: transectFormObject.elevation,
+                date: transectFormObject.date,
+                crew: transectFormObject.crew,
+                projectID: _id,
+                _id: cryptoRandomString({length: 24})
+               }
+               console.log(transectObject)
+               transectsStore.add(transectObject)
+               history.push(`/record/${transectObject._id}`)
+            }
+        }
         
     };
 

@@ -21,6 +21,7 @@ const TransectSchema = new Schema({
         type: Number
     },
     crew: [String],
+    additionalSpecies: [String],
     points: [
     {
         type: Schema.Types.ObjectId,

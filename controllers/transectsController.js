@@ -14,7 +14,7 @@ module.exports = {
             })
             .catch(err => res.status(422).json(err));
     },
-//Method to add a transect, which also adds the transect ID to the specified project via projectID
+    //Method to add a transect, which also adds the transect ID to the specified project via projectID
     create: function(req, res) {
         const projectID = req.body.projectID
 
@@ -28,10 +28,23 @@ module.exports = {
             })
             .catch(err => res.status(400).json(err));
     },
+    //Method to retrieve data for 1 transect, used to display transect name on points and additionalSpecies pages
     findById: function(req, res) {
         db.Transect
             .findById(req.params.id)
             .then(transect => res.status(200).json(transect))
             .catch(err => res.status(404).json(err));
+    },
+    //Method to find a transect by ID and update by adding additionalSpecies [String] data
+    findOneAndUpdate: function(req, res) {
+        const transectID = req.body.transectID
+        console.log("inside findOneandUpdate",transectID)
+        console.log(req.body.additionalSpecies)
+        db.Transect
+            .findByIdAndUpdate(transectID, {additionalSpecies: req.body.additionalSpecies})
+            .then(function(transects){
+                res.json(transects)
+            })
+            .catch(err => res.status(422).json(err));
     }
 }

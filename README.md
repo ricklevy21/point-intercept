@@ -21,6 +21,7 @@ Then, from the root of the application (server.js) run `npm start`
 axios  
 dotenv  
 express  
+material-table  
 mongoose  
 moment  
 moment-timezone  
@@ -30,6 +31,10 @@ react-dom
 react-router-dom  
 react-scripts  
 recharts  
+@auth0/auth0-react  
+@material-ui/core  
+@material-ui/icons  
+
 
 ## Usage 
 

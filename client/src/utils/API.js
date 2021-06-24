@@ -26,8 +26,16 @@ export default {
         return axios.post("/api/transects", transectData)
     },
 
+    //Get a transect by the transect's ID
+    //method: GET
     getTransectById: function(transectData) {
         return axios.get("/api/transects/" + transectData, transectData)
+    },
+
+    //Find a transect based on ID and update
+    //method: PUT
+    updateTransectById: function(transectData) {
+        return axios.put("/api/transects/" + transectData, transectData)
     },
 
     //Create a point and add it to a transect
@@ -52,5 +60,11 @@ export default {
     //method: GET
     loginUser: function(loginInfo){
         return axios.post("/api/login", loginInfo)
+    },
+
+    //edit a point's data
+    //method: PUT
+    updateProjectData: function(updatedData){
+        return axios.put("/api/edit", updatedData)
     }
 }

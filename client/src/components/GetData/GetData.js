@@ -35,6 +35,7 @@ const GetData = () => {
                 setProject(res.data)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //run the function that calls tha API and creates the formatted data for csv download
@@ -42,7 +43,7 @@ const GetData = () => {
         API.getProjectData(_id)
             .then(res => {
                 let csvData = []
-                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "elevationInMeters", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "canopyScore", "canopyTaxa", "shrubDetails", "totalShrubStemCount"])
+                csvData.push(["transectName", "eventDate", "decimalLatitude", "decimalLongitude", "elevationInMeters", "point", "groundSurface", "soilMoisturePercentage", "firstHit", "secondHit", "canopyScore", "canopyTaxa", "shrubDetails", "totalShrubStemCount", "additionalTaxaOutsideTransect"])
                 let transects = res.data.transects
                 transects.forEach(function(transect) {
                     for (var j = 0; j < transect.points.length; j++){
@@ -65,14 +66,16 @@ const GetData = () => {
                         arr.push(transect.points[j].hit_two)
                         arr.push(transect.points[j].canopy_score)
                         arr.push(transect.points[j].canopy_taxa)
-                        arr.push(transect.points[j].shrub_density_detail.toString().replaceAll(',', ' '))
+                        arr.push(transect.points[j].shrub_density_detail.toString().replaceAll(',', '-'))
                         arr.push(totalShrubStemCount)
+                        arr.push(transect.additionalSpecies)
                         csvData.push(arr)
                     }
                 })
                 setData(csvData)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //run the function that calls the API and formats the mean value data for charts
@@ -151,6 +154,7 @@ const GetData = () => {
                 setChartData(dataVisArr)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //run the function that calls the API and formats the data for the taxa chart
@@ -186,11 +190,12 @@ const GetData = () => {
                 setLowerCanopy(secondHits)
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     //function to count the instances of a taxon (first hit) found within a project (count occurrences of a string within an array)
     const hitOneCounter = function (array) {
-        "use strict";
+        //"use strict";
         const result = {};
         if (array instanceof Array) { // Check if input is array.
             array.forEach(function (v, i) {
@@ -207,7 +212,7 @@ const GetData = () => {
 
     //function to count the instances of a taxon (second hit) found within a project (count occurrences of a string within an array)
     const hitTwoCounter = function (array) {
-        "use strict";
+        //"use strict";
         const result = {};
         if (array instanceof Array) { // Check if input is array.
             array.forEach(function (v, i) {

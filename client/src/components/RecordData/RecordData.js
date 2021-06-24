@@ -8,6 +8,7 @@ import { HitInputSelect } from "./HitInputSelect"
 import { GroundInputSelect } from "./GroundInputSelect"
 import PointInput from "./PointInput"
 import { WoodyInputSelect } from "./WoodyInputSelect"
+import cryptoRandomString from 'crypto-random-string'
 
 const RecordData = () => {
 
@@ -77,7 +78,6 @@ const RecordData = () => {
         if (canopyTaxaInput.length > 0) {
             setCanopyTaxa(canopyTaxa => [...canopyTaxa, canopyTaxaInput])
             //setCanopyTaxa(canopyTaxa => canopyTaxa.concat(canopyTaxaInput))
-            console.log("inside handleCanopyTaxaSumbit")
             setCanopyTaxaInput("")
         }
     }
@@ -112,7 +112,7 @@ const RecordData = () => {
     //hook for state of shrub count input field
     const [shrubCountInput, setShrubCountInput] = useState("")
     //hook for total shrub density stem count
-    const [totalStemCount, setTotalStemCount] = useState(0)
+    //const [totalStemCount, setTotalStemCount] = useState(0)
 
     //function to add the values in the input fields to the to the array of shrub objects
     const handleShrubSumbit = () => {
@@ -143,20 +143,38 @@ const RecordData = () => {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //use the species list for the dropdowns and display the transectName on the page once the component mounts 
+    //display the transectName on the page once the component mounts 
     useEffect(() => {
- 
-        //GET Method for pulling transect name
-        API.getTransectById(_id)
-        .then(res => {
-            setTransect(res.data)
-        })
-        .catch(err => console.log(err))
+        //get the transect name from the mongo db database if there is a network connection
+        if (navigator.onLine){
+            //GET Method for pulling transect name
+            API.getTransectById(_id)
+            .then(res => {
+                setTransect(res.data)
+            })
+            .catch(err => console.log(err))
+        //get the transect name from indexedDB if there is no network connection
+        } else{
+            //method for pulling transect name from indexedDB
+            const request = window.indexedDB.open("point-intercept", 1);
+            //get the transect name from the indexedDB database, based on the "_id" in the params
+            request.onsuccess = () => {
+                const db = request.result
+                const transaction = db.transaction(["transects"], "readwrite")
+                const transectsStore = transaction.objectStore("transects")
+                const getRequest = transectsStore.get(_id);
+                getRequest.onsuccess = () => {
+                    console.log(getRequest.result.transect);
+                    const transect = getRequest.result
+                    setTransect(transect)
+                };      
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     //handles updating component state when user types into the input field
     function handleInputChange(event){
-        console.log("inside handleinput", event.target.name, event.target.value)
         const { name, value } = event.target;
         setPointFormObject({...pointFormObject, [name]: value})
     };
@@ -165,6 +183,7 @@ const RecordData = () => {
     //then navigate to a new Point Data Record page, with point incremented by 0.25
     function handlePointFormSubmitNext(event) {
         event.preventDefault(pointFormObject.firstHit)
+        if (navigator.onLine){
             API.addPoint({
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
@@ -190,9 +209,44 @@ const RecordData = () => {
                 setSecondHits([])
                 setCanopyTaxa([])
                 setShrubDensityArr([])
-                setTotalStemCount(0)
+                //setTotalStemCount(0)
             })
                 .catch(err => console.log(err))
+        } else {
+            //open the point-intercept indexedDB database
+            const request = window.indexedDB.open("point-intercept", 1);
+            //send the point form data to the indexedDB pointsStore object store
+            request.onsuccess = () => {
+                const db = request.result
+                const transaction = db.transaction(["points"], "readwrite")
+                const pointsStore = transaction.objectStore("points")
+                const pointsObject = {
+                    point: pointFormObject.point,
+                    ground_surface: pointFormObject.groundSurface,
+                    soil_moisture_percentage: pointFormObject.soilMoisture,
+                    shrub_density_detail: JSON.stringify(shrubDensityArr),
+                    canopy_score: pointFormObject.canopyScore,
+                    canopy_taxa: canopyTaxa,
+                    hit_one: pointFormObject.firstHit,
+                    hit_two: secondHits,
+                    transectID: _id, //this is the transect that I am adding the point to
+                    _id: cryptoRandomString({length: 24})
+                }
+                console.log(pointsObject)
+                pointsStore.add(pointsObject)
+                const newPoint = parseFloat(pointFormObject.point) + 0.25
+                setPointFormObject({
+                    point: newPoint,
+                    groundSurface: "",
+                    soilMoisture: "",
+                    canopyScore: "",
+                    firstHit: "",
+                })
+                setSecondHits([])
+                setCanopyTaxa([])
+                setShrubDensityArr([])
+            }
+        }
         
     };
 
@@ -201,7 +255,7 @@ const RecordData = () => {
     //then navigate to the projects page
     function handlePointFormSubmitEnd(event) {
         event.preventDefault()
-
+        if (navigator.onLine){
             API.addPoint({
                 point: pointFormObject.point,
                 ground_surface: pointFormObject.groundSurface,
@@ -213,8 +267,37 @@ const RecordData = () => {
                 hit_two: secondHits,
                 transectID: _id //this is the transect that I am adding the point to
             })
-                .then(history.push('/projects'))
+            .then(res => {
+                //add the desired route that I want to naviagte to to the end of the history array, thus making it the current page
+                //send user to the page to add additional species for the transect (transect level data)
+                history.push(`/additional/${_id}`)
+            })
                 .catch(err => console.log(err))
+        } else {
+            //open the point-intercept indexedDB database
+            const request = window.indexedDB.open("point-intercept", 1);
+            //send the point form data to the indexedDB pointsStore object store
+            request.onsuccess = () => {
+                const db = request.result
+                const transaction = db.transaction(["points"], "readwrite")
+                const pointsStore = transaction.objectStore("points")
+                const pointsObject = {
+                    point: pointFormObject.point,
+                    ground_surface: pointFormObject.groundSurface,
+                    soil_moisture_percentage: pointFormObject.soilMoisture,
+                    shrub_density_detail: JSON.stringify(shrubDensityArr),
+                    canopy_score: pointFormObject.canopyScore,
+                    canopy_taxa: canopyTaxa,
+                    hit_one: pointFormObject.firstHit,
+                    hit_two: secondHits,
+                    transectID: _id, //this is the transect that I am adding the point to
+                    _id: cryptoRandomString({length: 24})
+                }
+                console.log(pointsObject)
+                pointsStore.add(pointsObject)
+                history.push(`/additional/${_id}`)
+            }
+        }
         
     };
 

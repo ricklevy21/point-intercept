@@ -2,19 +2,17 @@
 import React from 'react'
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 
-
 //components
-import CreateNew from '../components/CreateNew/CreateNew'
+import AdditionalSpecies from '../components/AdditionalSpecies/AdditionalSpecies'
 
-const CreateProject = () => {
+const AdditionalSpeciesPage = () => {
     return (
         <div className="row">
             <div className="col s12">
-                <h1>create a new project</h1>
-                <CreateNew />
+                <AdditionalSpecies/>
             </div>
         </div>
     )
 }
 
-export default withAuthenticationRequired(CreateProject)
+export default withAuthenticationRequired(AdditionalSpeciesPage)

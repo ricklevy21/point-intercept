@@ -1,7 +1,6 @@
 import React from "react";
-import { ResumeBtn, ViewDataBtn, ProjectName } from "../../components/ProjectsList";
+import { ResumeBtn, ViewDataBtn, ProjectName, EditDataBtn } from "../../components/ProjectsList";
 
-//GETTING projects.map is not a function error here
 
 export function ProjectListItem({ projects }) {
     //destructure projects
@@ -19,6 +18,12 @@ export function ProjectListItem({ projects }) {
                     </td>
                 <td>
                     <ResumeBtn
+                        id={project._id}
+                        project={project.project}
+                    />
+                </td>
+                <td>
+                    <EditDataBtn
                         id={project._id}
                         project={project.project}
                     />
